@@ -38,7 +38,7 @@ setup(
             ],
 
             include_dirs=[
-            '/Users/vavius/moai/moai-dev/src/'
+            '/Users/vavius/moai/moai-new/src/'
             ])
     ]
 )

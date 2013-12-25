@@ -1,5 +1,72 @@
 cimport cmoai
 
+# callback management
+# here we use global python functions as callbacks
+
+# ctypedef void ( *AKUEnterFullscreenModeFunc )    ()
+# ctypedef void ( *AKUExitFullscreenModeFunc )     ()
+# ctypedef void ( *AKUOpenWindowFunc )             ( char* title, int width, int height )
+# ctypedef void ( *AKUSetSimStepFunc )             ( double step )
+
+cdef void cAKUSetFunc_OpenWindow ( cmoai.AKUOpenWindowFunc func ):
+    cmoai.AKUSetFunc_OpenWindow (func)
+
+cdef void cAKUSetFunc_SetSimStep ( cmoai.AKUSetSimStepFunc func ):
+    cmoai.AKUSetFunc_SetSimStep (func)
+
+cdef void cAKUSetFunc_EnterFullscreenMode ( cmoai.AKUEnterFullscreenModeFunc func ):
+    cmoai.AKUSetFunc_EnterFullscreenMode (func)
+
+cdef void cAKUSetFunc_ExitFullscreenMode ( cmoai.AKUExitFullscreenModeFunc func ):
+    cmoai.AKUSetFunc_ExitFullscreenMode (func)
+
+
+cdef void callAKUSetFunc_OpenWindow ( const char* title, int width, int height ):
+    global callback_OpenWindow
+    if callback_OpenWindow:
+        callback_OpenWindow(title, width, height)
+
+cdef void callAKUSetFunc_SetSimStep ( double step ):
+    global callback_SetSimStep
+    if callback_SetSimStep:
+        callback_SetSimStep(step)
+
+cdef void callAKUSetFunc_EnterFullscreenMode ():
+    global callback_EnterFullscreenMode
+    if callback_EnterFullscreenMode:
+        callback_EnterFullscreenMode()
+
+cdef void callAKUSetFunc_ExitFullscreenMode ():
+    global callback_ExitFullscreenMode
+    if callback_ExitFullscreenMode:
+        callback_ExitFullscreenMode()
+
+def AKULoadLuaHeaders():
+    cmoai.AKURunData ( cmoai.moai_lua, cmoai.moai_lua_SIZE, cmoai.AKU_DATA_STRING, cmoai.AKU_DATA_ZIPPED )
+
+def AKUInitializeCallbacks():
+    cAKUSetFunc_OpenWindow ( callAKUSetFunc_OpenWindow )
+    cAKUSetFunc_SetSimStep ( callAKUSetFunc_SetSimStep )
+    cAKUSetFunc_EnterFullscreenMode ( callAKUSetFunc_EnterFullscreenMode )
+    cAKUSetFunc_ExitFullscreenMode ( callAKUSetFunc_ExitFullscreenMode )
+
+def AKUSetFunc_OpenWindow(callbackFunc):
+    global callback_OpenWindow
+    callback_OpenWindow = callbackFunc
+
+def AKUSetFunc_SetSimStep(callbackFunc):
+    global callback_SetSimStep
+    callback_SetSimStep = callbackFunc
+
+def AKUSetFunc_EnterFullscreenMode(callbackFunc):
+    global callback_EnterFullscreenMode
+    callback_EnterFullscreenMode = callbackFunc
+
+def AKUSetFunc_ExitFullscreenMode(callbackFunc):
+    global callback_ExitFullscreenMode
+    callback_ExitFullscreenMode = callbackFunc
+
+
 def AKUCreateContext():
     return cmoai.AKUCreateContext()
 
@@ -165,3 +232,13 @@ def AKUEnqueueTouchEventCancel(deviceID, sensorID):
 
 def AKUEnqueueWheelEvent(deviceID, sensorID, value):
     cmoai.AKUEnqueueWheelEvent(deviceID, sensorID, value)
+
+
+# util host.h
+
+def AKUInitializeUtil():
+    cmoai.AKUInitializeUtil()
+
+def AKUFinalizeUtil():
+    cmoai.AKUFinalizeUtil()
+

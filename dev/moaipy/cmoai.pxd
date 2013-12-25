@@ -24,6 +24,18 @@ cdef extern from "moai-core/host.h":
     int             AKUSetWorkingDirectory          ( char* path )
     void            AKUSetArgv                      ( char **argv )
 
+cdef extern from "moai-util/host.h":
+    void    AKUFinalizeUtil         ()
+    void    AKUInitializeUtil       ()
+
+cdef extern from "lua-headers/moai_lua.h":
+    cdef int moai_lua_SIZE
+    cdef unsigned char moai_lua[]
+    cdef int AKU_DATA_BYTECODE
+    cdef int AKU_DATA_STRING
+    cdef int AKU_DATA_ZIPPED
+    cdef int AKU_DATA_UNCOMPRESSED
+
 cdef extern from "moai-sim/host.h":
     # setup
     void            AKUFinalizeSim              ()
@@ -43,10 +55,15 @@ cdef extern from "moai-sim/host.h":
     void            AKUUpdate                       ()
 
     # callback management
-    #void            AKUSetFunc_EnterFullscreenMode  ( AKUEnterFullscreenModeFunc func );
-    #void            AKUSetFunc_ExitFullscreenMode   ( AKUExitFullscreenModeFunc func );
-    #void            AKUSetFunc_OpenWindow           ( AKUOpenWindowFunc func );
-    #void            AKUSetFunc_SetSimStep           ( AKUSetSimStepFunc func );
+    ctypedef void ( *AKUEnterFullscreenModeFunc )    ()
+    ctypedef void ( *AKUExitFullscreenModeFunc )     ()
+    ctypedef void ( *AKUOpenWindowFunc )             ( const char* title, int width, int height )
+    ctypedef void ( *AKUSetSimStepFunc )             ( double step )
+
+    void        AKUSetFunc_OpenWindow           ( AKUOpenWindowFunc func )
+    void        AKUSetFunc_SetSimStep           ( AKUSetSimStepFunc func )
+    void        AKUSetFunc_EnterFullscreenMode  ( AKUEnterFullscreenModeFunc func )
+    void        AKUSetFunc_ExitFullscreenMode   ( AKUExitFullscreenModeFunc func )
 
     # input device api
     void            AKUReserveInputDevices          ( int total )
