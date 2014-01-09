@@ -2,15 +2,13 @@
 
 import sys
 import platform
-
-import qdarkstyle
 import PySide
+
+from PySide import QtCore, QtGui, QtOpenGL
 from PySide.QtGui import QApplication, QMainWindow
-from PySide import QtCore, QtGui
 
 from ui_mainWindow import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
-
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -20,20 +18,13 @@ class MainWindow(QMainWindow):
         self.ui =  ui
         self.ui.setupUi(self)
 
-        # Scroll view for moai gl widget
-        # ui.scrollArea = QtGui.QScrollArea(ui.centralwidget)
-        # sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
-        # sizePolicy.setHorizontalStretch(0)
-        # sizePolicy.setVerticalStretch(0)
-        # sizePolicy.setHeightForWidth(ui.scrollArea.sizePolicy().hasHeightForWidth())
-        # ui.scrollArea.setSizePolicy(sizePolicy)
-        # ui.scrollArea.setMinimumSize(QtCore.QSize(200, 200))
-        # ui.scrollArea.setWidgetResizable(True)
-        # ui.scrollArea.setObjectName("scrollArea")
-        # ui.horizontalLayout.addWidget(ui.scrollArea)
+        self.moaiWidget = MOAIWidget()
 
-        self.glWidget = MOAIWidget(ui.centralwidget)
-        # ui.scrollArea.setWidget(self.glWidget)
+        self.scrollArea = QtGui.QScrollArea()
+        self.scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
+        self.scrollArea.setWidget(self.moaiWidget)
+        self.setCentralWidget(self.scrollArea)
+        self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
 
         actionPropertyEditor = ui.propertyEditor.toggleViewAction()
         actionObjectPallete = ui.objectPallete.toggleViewAction()
@@ -48,25 +39,60 @@ class MainWindow(QMainWindow):
         ui.widthEdit.textEdited.connect(self.viewSizeEditingFinished)
         ui.heightEdit.textEdited.connect(self.viewSizeEditingFinished)
 
-        glSize = self.glWidget.sizeHint()
+        glSize = self.moaiWidget.sizeHint()
         ui.widthEdit.setText(str(glSize.width()))
         ui.heightEdit.setText(str(glSize.height()))
+
+        self.moaiWidget.contextInitialized.connect(self.onContextInitialized)
     
+    def onContextInitialized(self):
+        self.runSample()
+
     def viewSizeEditingFinished(self):
         width = int(self.ui.widthEdit.text())
         height = int(self.ui.heightEdit.text())
-        
+
         self.resizeMoaiView(width, height)
 
     def resizeMoaiView(self, width, height):
-        self.glWidget.resize(QtCore.QSize(width, height))
+        # self.graphicsView.resize(width, height)
+        self.moaiWidget.resize(width, height)
+
+    def runSample(self):
+        self.moaiWidget.runString("""
+            function onResize(width, height)
+                viewport:setSize(width, height)
+                viewport:setScale(width, height)
+            end
+            MOAIGfxDevice.setListener(MOAIGfxDevice.EVENT_RESIZE, onResize)
+
+            viewport = MOAIViewport.new ()
+            viewport:setSize ( 640, 480 )
+            viewport:setScale ( 640, 480 )
+
+            layer = MOAILayer.new ()
+            layer:setViewport ( viewport )
+            -- MOAIGfxDevice.getFrameBuffer ():setRenderTable( {layer} )
+            MOAIRenderMgr.setRenderTable( {layer} )
+
+            gfxQuad = MOAIGfxQuad2D.new ()
+            gfxQuad:setTexture ( "moai.png" )
+            gfxQuad:setRect ( -128, -128, 128, 128 )
+            gfxQuad:setUVRect ( 0, 1, 1, 0 )
+
+            prop = MOAIProp.new ()
+            prop:setDeck ( gfxQuad )
+            layer:insertProp ( prop )
+
+            prop:moveRot ( 0, 0, 360, 1.5 )
+        """)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     frame = MainWindow()
 
-    app.setStyleSheet(qdarkstyle.load_stylesheet())
+    # app.setStyleSheet(qdarkstyle.load_stylesheet())
 
     frame.show()
     app.exec_()
