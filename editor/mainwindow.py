@@ -11,6 +11,8 @@ from ui_mainWindow import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
 
 class MainWindow(QMainWindow):
+    luaRuntime = None
+
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         # Store Ui() as class variable self.ui
@@ -46,6 +48,8 @@ class MainWindow(QMainWindow):
         self.moaiWidget.contextInitialized.connect(self.onContextInitialized)
     
     def onContextInitialized(self):
+        self.luaRuntime = self.moaiWidget.getLuaRuntime()
+        self.loadLuaFramework()
         self.runSample()
 
     def viewSizeEditingFinished(self):
@@ -55,8 +59,18 @@ class MainWindow(QMainWindow):
         self.resizeMoaiView(width, height)
 
     def resizeMoaiView(self, width, height):
-        # self.graphicsView.resize(width, height)
         self.moaiWidget.resize(width, height)
+
+    # live reload
+    def getRemoteDeviceList(self):
+        self.luaRuntime.eval()
+
+    def reloadFile(self, file):
+        pass
+
+    def loadLuaFramework(self):
+        self.moaiWidget.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
+        self.moaiWidget.runScript("lua/moai-framework/src/include.lua")
 
     def runSample(self):
         self.moaiWidget.runString("""
