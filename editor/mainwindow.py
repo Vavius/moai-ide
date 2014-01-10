@@ -30,9 +30,13 @@ class MainWindow(QMainWindow):
 
         actionPropertyEditor = ui.propertyEditor.toggleViewAction()
         actionObjectPallete = ui.objectPallete.toggleViewAction()
-        
+        actionEnvironmentSettings = ui.environmentSettings.toggleViewAction()
+        ui.propertyEditor.hide()
+        ui.objectPallete.hide()
+
         ui.menuWindow.addAction(actionPropertyEditor)
         ui.menuWindow.addAction(actionObjectPallete)
+        ui.menuWindow.addAction(actionEnvironmentSettings)
 
         intValidator = PySide.QtGui.QIntValidator()
         intValidator.setRange(128, 4096)
@@ -61,6 +65,12 @@ class MainWindow(QMainWindow):
     def resizeMoaiView(self, width, height):
         self.moaiWidget.resize(width, height)
 
+    @QtCore.Slot()
+    def showOpenFileDialog(self):
+        fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
+        if fileName:
+            self.openFile(fileName)
+
     # live reload
     def getRemoteDeviceList(self):
         self.luaRuntime.eval()
@@ -68,9 +78,14 @@ class MainWindow(QMainWindow):
     def reloadFile(self, file):
         pass
 
+
+    # lua 
     def loadLuaFramework(self):
         self.moaiWidget.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
         self.moaiWidget.runScript("lua/moai-framework/src/include.lua")
+
+    def openFile(self, fileName):
+        print("running file", fileName)
 
     def runSample(self):
         self.moaiWidget.runString("""
@@ -100,6 +115,7 @@ class MainWindow(QMainWindow):
 
             prop:moveRot ( 0, 0, 360, 1.5 )
         """)
+
 
 
 if __name__ == '__main__':

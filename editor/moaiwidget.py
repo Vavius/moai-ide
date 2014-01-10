@@ -21,6 +21,8 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def __init__(self, parent=None):
         QtOpenGL.QGLWidget.__init__(self, parent)
         self.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
+        self.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.setMouseTracking(True)
 
         AKUCreateContext()
         AKUInitializeUtil()
@@ -81,7 +83,6 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     # Input
     def mouseMoveEvent(self, event):
         x, y = event.x(), event.y()
-        print(x, y)
         AKUEnqueuePointerEvent ( 0, POINTER, x, y )
 
     def mousePressEvent(self, event):
@@ -109,10 +110,35 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             AKUEnqueueButtonEvent ( 0, MOUSE_MIDDLE, False)
 
     def keyPressEvent(self, event):
-        pass
+        key = event.key()
+
+        if key == QtCore.Qt.Key_Shift:
+            AKUEnqueueKeyboardShiftEvent(0, KEYBOARD, True)
+
+        elif key == QtCore.Qt.Key_Control:
+            AKUEnqueueKeyboardControlEvent(0, KEYBOARD, True)
+
+        elif key == QtCore.Qt.Key_Alt:
+            AKUEnqueueKeyboardAltEvent(0, KEYBOARD, True)
+
+        else:
+            AKUEnqueueKeyboardEvent(0, KEYBOARD, key, True)
+
 
     def keyReleaseEvent(self, event):
-        pass
+        key = event.key()
+
+        if key == QtCore.Qt.Key_Shift:
+            AKUEnqueueKeyboardShiftEvent(0, KEYBOARD, False)
+
+        elif key == QtCore.Qt.Key_Control:
+            AKUEnqueueKeyboardControlEvent(0, KEYBOARD, False)
+
+        elif key == QtCore.Qt.Key_Alt:
+            AKUEnqueueKeyboardAltEvent(0, KEYBOARD, False)
+
+        else:
+            AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
 
     # Game Management API
     def runScript(self, fileName):
