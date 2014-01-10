@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Tue Jan  7 21:01:25 2014
+# Created: Fri Jan 10 14:36:41 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,6 +14,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.resize(918, 692)
+        MainWindow.setMouseTracking(True)
         MainWindow.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -98,12 +99,13 @@ class Ui_MainWindow(object):
         self.label_4 = QtGui.QLabel(self.dockWidgetContents_5)
         self.label_4.setObjectName("label_4")
         self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.label_4)
-        self.reloadBtn = QtGui.QPushButton(self.dockWidgetContents_5)
-        self.reloadBtn.setObjectName("reloadBtn")
-        self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.reloadBtn)
         self.availablleDevicesList = QtGui.QComboBox(self.dockWidgetContents_5)
         self.availablleDevicesList.setObjectName("availablleDevicesList")
         self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.availablleDevicesList)
+        self.reloadBtn = QtGui.QPushButton(self.dockWidgetContents_5)
+        self.reloadBtn.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.reloadBtn.setObjectName("reloadBtn")
+        self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.reloadBtn)
         self.environmentSettings.setWidget(self.dockWidgetContents_5)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.environmentSettings)
         self.actionOpen_project = QtGui.QAction(MainWindow)
