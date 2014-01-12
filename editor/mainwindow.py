@@ -3,15 +3,21 @@
 import sys
 import platform
 import PySide
+import os
+import errno
 
-from PySide import QtCore, QtGui, QtOpenGL
+from PySide import QtCore, QtGui
 from PySide.QtGui import QApplication, QMainWindow
+from PySide.QtCore import QSettings
 
 from ui_mainWindow import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
+from livereload import LiveReload
+
+import luainterface
 
 class MainWindow(QMainWindow):
-    luaRuntime = None
+    runningFile = None
 
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
@@ -31,104 +37,160 @@ class MainWindow(QMainWindow):
         actionPropertyEditor = ui.propertyEditor.toggleViewAction()
         actionObjectPallete = ui.objectPallete.toggleViewAction()
         actionEnvironmentSettings = ui.environmentSettings.toggleViewAction()
+        actionConsole = ui.consoleOutput.toggleViewAction()
         ui.propertyEditor.hide()
         ui.objectPallete.hide()
+        ui.consoleOutput.hide()
 
         ui.menuWindow.addAction(actionPropertyEditor)
         ui.menuWindow.addAction(actionObjectPallete)
         ui.menuWindow.addAction(actionEnvironmentSettings)
+        ui.menuWindow.addAction(actionConsole)
 
         intValidator = PySide.QtGui.QIntValidator()
         intValidator.setRange(128, 4096)
         ui.widthEdit.setValidator(intValidator)
         ui.heightEdit.setValidator(intValidator)
-        ui.widthEdit.textEdited.connect(self.viewSizeEditingFinished)
-        ui.heightEdit.textEdited.connect(self.viewSizeEditingFinished)
+        ui.widthEdit.textChanged.connect(self.viewSizeEditingFinished)
+        ui.heightEdit.textChanged.connect(self.viewSizeEditingFinished)
+
+        self.livereload = LiveReload()
+        self.livereload.fullReloadFunc = self.reloadMoai
+
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.updateLiveReload)
+        self.timer.start(1000)
+
+        self.readSettings()
+
+    def closeEvent(self, event):
+        settings = QSettings("DigitalClick", "MoaiEditor")
+
+        settings.setValue("geometry", self.saveGeometry())
+        settings.setValue("windowState", self.saveState())
+        settings.setValue("width", self.ui.widthEdit.text())
+        settings.setValue("height", self.ui.heightEdit.text())
+        settings.setValue("currentFile", self.runningFile)
+        settings.setValue("autoreloadDevice", self.ui.deviceAutoreload.isChecked())
+        settings.setValue("autoreloadHost", self.ui.localAutoreload.isChecked())
+        settings.setValue("autoreloadFull", self.ui.fullAutoreload.isChecked())
+        QMainWindow.closeEvent(self, event)
+
+    def readSettings(self):
+        settings = QSettings("DigitalClick", "MoaiEditor")
 
         glSize = self.moaiWidget.sizeHint()
-        ui.widthEdit.setText(str(glSize.width()))
-        ui.heightEdit.setText(str(glSize.height()))
+        
+        self.restoreGeometry(settings.value("geometry"))
+        self.restoreState(settings.value("windowState"))
+        self.ui.widthEdit.setText( settings.value("width", str(glSize.width())) )
+        self.ui.heightEdit.setText( settings.value("height", str(glSize.height())) )
+        self.ui.deviceAutoreload.setChecked( settings.value("autoreloadDevice", False) )
+        self.ui.localAutoreload.setChecked( settings.value("autoreloadHost", False) )
+        self.ui.fullAutoreload.setChecked( settings.value("autoreloadFull", False) )
 
-        self.moaiWidget.contextInitialized.connect(self.onContextInitialized)
-    
-    def onContextInitialized(self):
-        self.luaRuntime = self.moaiWidget.getLuaRuntime()
-        self.loadLuaFramework()
-        self.runSample()
+        self.livereload.setAutoreloadDevice(self.ui.deviceAutoreload.isChecked())
+        self.livereload.setAutoreloadHost(self.ui.localAutoreload.isChecked())
+        self.livereload.setAutoreloadFull(self.ui.fullAutoreload.isChecked())
 
-    def viewSizeEditingFinished(self):
-        width = int(self.ui.widthEdit.text())
-        height = int(self.ui.heightEdit.text())
-
-        self.resizeMoaiView(width, height)
-
-    def resizeMoaiView(self, width, height):
-        self.moaiWidget.resize(width, height)
-
+        if not self.runningFile:
+            self.runningFile = settings.value("currentFile")
+            QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
+        
     @QtCore.Slot()
     def showOpenFileDialog(self):
         fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
         if fileName:
             self.openFile(fileName)
 
-    # live reload
-    def getRemoteDeviceList(self):
-        self.luaRuntime.eval()
+    @QtCore.Slot()
+    def reloadMoai(self):
+        if self.runningFile:
+            self.openFile(self.runningFile)
 
-    def reloadFile(self, file):
-        pass
+    @QtCore.Slot(bool)
+    def setAutoreloadDevice(self, flag):
+        self.livereload.setAutoreloadDevice(flag)
 
+    @QtCore.Slot(bool)
+    def setAutoreloadHost(self, flag):
+        self.livereload.setAutoreloadHost(flag)
+
+    @QtCore.Slot(bool)
+    def setAutoreloadFull(self, flag):
+        self.livereload.setAutoreloadFull(flag)
+
+    @QtCore.Slot()
+    def updateLiveReload(self):
+        self.livereload.update()
+
+    @QtCore.Slot(str)
+    def onMessage(self, message):
+        self.ui.consoleTextBox.moveCursor(QtGui.QTextCursor.End)
+        self.ui.consoleTextBox.insertPlainText(message)
+
+    @QtCore.Slot(int)
+    def setCurrentDevice(self, index):
+        currentDeviceIP = self.deviceList[index]['ip']
+        self.livereload.setCurrentDeviceIP(currentDeviceIP)
+
+    @QtCore.Slot()
+    def updateDeviceList(self):
+        self.deviceList = luainterface.search(self.moaiWidget.lua)
+        print(self.deviceList)
+        self.ui.availableDevicesList.clear()
+        for d in self.deviceList:
+            self.ui.availableDevicesList.addItem("%s [%s]" % (d['name'], d['ip']))
+
+    def viewSizeEditingFinished(self):
+        try:
+            width = int(self.ui.widthEdit.text())
+        except ValueError:
+            width = 640
+
+        try:
+            height = int(self.ui.heightEdit.text())
+        except ValueError:
+            height = 480
+
+        self.resizeMoaiView(width, height)
+
+    def resizeMoaiView(self, width, height):
+        self.moaiWidget.resize(width, height)
 
     # lua 
-    def loadLuaFramework(self):
-        self.moaiWidget.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
-        self.moaiWidget.runScript("lua/moai-framework/src/include.lua")
-
     def openFile(self, fileName):
-        print("running file", fileName)
+        workingDir = os.path.dirname(fileName)
+        luaFile = os.path.basename(fileName)
 
-    def runSample(self):
-        self.moaiWidget.runString("""
-            function onResize(width, height)
-                viewport:setSize(width, height)
-                viewport:setScale(width, height)
-            end
-            MOAIGfxDevice.setListener(MOAIGfxDevice.EVENT_RESIZE, onResize)
+        self.moaiWidget.refreshContext()
+        self.moaiWidget.setWorkingDirectory(workingDir)
+        self.moaiWidget.runScript(luaFile)
+        self.runningFile = fileName
 
-            viewport = MOAIViewport.new ()
-            viewport:setSize ( 640, 480 )
-            viewport:setScale ( 640, 480 )
-
-            layer = MOAILayer.new ()
-            layer:setViewport ( viewport )
-            -- MOAIGfxDevice.getFrameBuffer ():setRenderTable( {layer} )
-            MOAIRenderMgr.setRenderTable( {layer} )
-
-            gfxQuad = MOAIGfxQuad2D.new ()
-            gfxQuad:setTexture ( "moai.png" )
-            gfxQuad:setRect ( -128, -128, 128, 128 )
-            gfxQuad:setUVRect ( 0, 1, 1, 0 )
-
-            prop = MOAIProp.new ()
-            prop:setDeck ( gfxQuad )
-            layer:insertProp ( prop )
-
-            prop:moveRot ( 0, 0, 360, 1.5 )
-        """)
+        self.livereload.lua = self.moaiWidget.lua
+        self.livereload.watchDirectory(workingDir)
 
 
+class ConsoleStream(QtCore.QObject):
+    message = QtCore.Signal(str)
+    def __init__(self, parent=None):
+        super(ConsoleStream, self).__init__(parent)
+
+    def write(self, message):
+        self.message.emit(str(message))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    frame = MainWindow()
+
+    mainWindow = MainWindow()
+
+    stream = ConsoleStream()
+    stream.message.connect(mainWindow.onMessage)
+    # sys.stdout = stream
 
     # app.setStyleSheet(qdarkstyle.load_stylesheet())
+    
 
-    frame.show()
+    mainWindow.show()
     app.exec_()
-
-
-
-
-# print(lua.eval('python.eval(" 2 ** 2 ")') == 4)
-# print(lua.eval('python.builtins.str(4)') == '4')

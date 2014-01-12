@@ -84,7 +84,7 @@ def find_luajit_build():
             filepath = os_path.join(basedir, filename, 'src')
             if os_path.isdir(filepath):
                 # libfile = os_path.join(filepath, 'libluajit.a')
-                libfile = os_path.join(os.path.join(basedir, filename), 'libmoai-osx-lua.a')
+                libfile = os_path.join(os.path.join(basedir, filename), 'libthird-party.a')
                 if os_path.isfile(libfile):
                     print("found LuaJIT build in %s" % filepath)
                     print("building statically")

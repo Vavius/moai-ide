@@ -5,15 +5,14 @@ from Cython.Distutils import build_ext
 setup(
     cmdclass = {'build_ext': build_ext},
     ext_modules = [
-        Extension("moaipy", ["moaipy.pyx"], 
+        Extension("moaipy", ["moaipy.pyx", "lock.pxi"], 
             language="c++",
             extra_objects=[
             'libmoai-box2d.a',
-            'libmoai-box2d.a',
             'libmoai-chipmunk.a',
             'libmoai-core.a',
-            'libmoai-luaext.a',
             'libmoai-sim.a',
+            'libmoai-spine.a',
             'libmoai-test.a',
             'libmoai-util.a',
             'libthird-party.a',
@@ -38,7 +37,8 @@ setup(
             ],
 
             include_dirs=[
-            '/Users/vavius/moai/moai-new/src/'
+            '/Users/vavius/moai/moai-dev/src/',
+            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.3src/'
             ])
     ]
 )

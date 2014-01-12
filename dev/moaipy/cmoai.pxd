@@ -1,3 +1,17 @@
+################################################
+##                                            ##
+##                                            ##
+##    8888ba.88ba   .88888.   .d888888  dP    ##
+##    88  `8b  `8b d8'   `8b d8'    88  88    ##
+##    88   88   88 88     88 88aaaaa88a 88    ##
+##    88   88   88 88     88 88     88  88    ##
+##    88   88   88 Y8.   .8P 88     88  88    ##
+##    dP   dP   dP  `8888P'  88     88  dP    ##
+##                                            ##
+##                                            ##
+################################################
+
+
 cdef extern from "moai-core/host.h":
     ctypedef struct lua_State:
         pass
@@ -35,6 +49,11 @@ cdef extern from "lua-headers/moai_lua.h":
     cdef int AKU_DATA_STRING
     cdef int AKU_DATA_ZIPPED
     cdef int AKU_DATA_UNCOMPRESSED
+
+cdef extern from "moai-luaext/host.h":
+    void            AKUExtLoadLuafilesystem   ()
+    void            AKUExtLoadLuasocket       ()
+    void            AKUExtLoadLuasql          ()
 
 cdef extern from "moai-sim/host.h":
     # setup
@@ -93,3 +112,7 @@ cdef extern from "moai-sim/host.h":
     void            AKUEnqueueTouchEvent            ( int deviceID, int sensorID, int touchID, bint down, float x, float y )
     void            AKUEnqueueTouchEventCancel      ( int deviceID, int sensorID )
     void            AKUEnqueueWheelEvent            ( int deviceID, int sensorID, float value )
+
+
+
+

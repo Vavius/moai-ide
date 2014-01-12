@@ -2,21 +2,21 @@
 # MOAI OpenGL qt widget
 #
 
-import sys
-import lupa
+import os, sys
 import moaipy
 
 from PySide import QtCore, QtGui, QtOpenGL
-from lupa import LuaRuntime
 from moaipy import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
+import luainterface
 
 # input sensors IDs
 KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, TOTAL = range(0, 6)
 
 class MOAIWidget(QtOpenGL.QGLWidget):
-    contextInitialized = QtCore.Signal()
+    windowReady = False
 
     def __init__(self, parent=None):
         QtOpenGL.QGLWidget.__init__(self, parent)
@@ -24,23 +24,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         self.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.setMouseTracking(True)
 
-        AKUCreateContext()
-        AKUInitializeUtil()
-        AKUInitializeSim()
-        AKUInitializeCallbacks()
-        AKULoadLuaHeaders()
-
-        AKUSetInputConfigurationName ( "AKUQtEditor" );
-
-        AKUReserveInputDevices          ( 1 );
-        AKUSetInputDevice               ( 0, "device" );
-        
-        AKUReserveInputDeviceSensors    ( 0, TOTAL );
-        AKUSetInputDeviceKeyboard       ( 0, KEYBOARD,     "keyboard" );
-        AKUSetInputDevicePointer        ( 0, POINTER,      "pointer" );
-        AKUSetInputDeviceButton         ( 0, MOUSE_LEFT,   "mouseLeft" );
-        AKUSetInputDeviceButton         ( 0, MOUSE_MIDDLE, "mouseMiddle" );
-        AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
+        self.refreshContext()
 
         timer = QtCore.QTimer(self)
         timer.timeout.connect(self.updateGL)
@@ -48,37 +32,30 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         timer.start(1000 * AKUGetSimStep())
         self.timer = timer
 
-        moaipy.callback_SetSimStep = self.setSimStep
 
     # Qt callbacks and overrides
     def sizeHint(self):
         return QtCore.QSize(640, 480)
 
     def resizeGL(self, w, h):
-        AKUSetScreenSize(w, h)
-        AKUSetViewSize(w, h)
+        if self.windowReady:
+            AKUSetScreenSize(w, h)
+            AKUSetViewSize(w, h)
 
     def initializeGL(self):
-        AKUDetectGfxContext()
-
-        w = self.size().width()
-        h = self.size().height()
-        AKUSetScreenSize(w, h)
-        AKUSetViewSize(w, h)
-
-        self.contextInitialized.emit()
+        glReady = True
+        glClearColor(0, 0, 0, 1)
+        
 
     def paintGL(self):
-        AKURender()
+        if self.windowReady:
+            AKURender()
+        else:
+            glClear(GL_COLOR_BUFFER_BIT)
 
     def simStep(self):
-        AKUUpdate()
-
-    def setSimStep(self, step):
-        timer.setInterval(step * 1000)
-
-    def getLuaRuntime(self):
-        return LuaRuntime(luastate = AKUGetLuaState())
+        if self.windowReady:
+            AKUUpdate()
 
     # Input
     def mouseMoveEvent(self, event):
@@ -141,6 +118,61 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
 
     # Game Management API
+    def refreshContext(self):
+        context = AKUGetContext ()
+        if context:
+            AKUDeleteContext ( context )
+
+        AKUCreateContext ()
+
+        AKUCreateContext()
+        AKUInitializeUtil()
+        AKUInitializeSim()
+        AKUInitializeCallbacks()
+
+        AKUSetInputConfigurationName ( "AKUQtEditor" );
+
+        AKUReserveInputDevices          ( 1 );
+        AKUSetInputDevice               ( 0, "device" );
+        
+        AKUReserveInputDeviceSensors    ( 0, TOTAL );
+        AKUSetInputDeviceKeyboard       ( 0, KEYBOARD,     "keyboard" );
+        AKUSetInputDevicePointer        ( 0, POINTER,      "pointer" );
+        AKUSetInputDeviceButton         ( 0, MOUSE_LEFT,   "mouseLeft" );
+        AKUSetInputDeviceButton         ( 0, MOUSE_MIDDLE, "mouseMiddle" );
+        AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
+
+        AKUExtLoadLuafilesystem()
+        AKUExtLoadLuasocket()
+        AKULoadLuaHeaders()
+        AKUSetWorkingDirectory(os.path.dirname(os.path.realpath(__file__)))
+        self.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
+        self.runScript("lua/moai-framework/src/include.lua")
+
+        self.lua = LuaRuntime()
+        self.lua.init()
+        
+        moaipy.callback_SetSimStep = self.setSimStep
+        moaipy.callback_OpenWindow = self.openWindow
+
+        self.windowReady = False
+
+    def openWindow(self, title, width, height):
+        AKUDetectGfxContext()
+
+        w = self.size().width()
+        h = self.size().height()
+        AKUSetScreenSize(w, h)
+        AKUSetViewSize(w, h)
+
+        self.windowReady = True
+
+    def setSimStep(self, step):
+        timer.setInterval(step * 1000)
+
+    def setWorkingDirectory(self, path):
+        AKUSetWorkingDirectory(path)
+
     def runScript(self, fileName):
         AKURunScript(fileName)
 

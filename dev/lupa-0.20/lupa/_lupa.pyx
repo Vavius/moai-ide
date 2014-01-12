@@ -116,7 +116,7 @@ cdef class LuaRuntime:
         cdef lua_State* L = NULL
         if luastate != 0:
             L = <lua_State*> luastate
-            self._owns_state = False
+            self._owns_state = False            
         else:
             L = lua.lua_open()
             self._owns_state = True
@@ -129,10 +129,16 @@ cdef class LuaRuntime:
         self._source_encoding = source_encoding or self._encoding or b'UTF-8'
         self._attribute_filter = attribute_filter
 
-        lua.luaL_openlibs(L)
-        self.init_python_lib(register_eval)
-        lua.lua_settop(L, 0)
-        lua.lua_atpanic(L, <lua.lua_CFunction>1)
+        if self._owns_state:
+            lua.luaL_openlibs(L)
+            self.init_python_lib(register_eval)
+            lua.lua_settop(L, 0)
+            lua.lua_atpanic(L, <lua.lua_CFunction>1)
+        else:
+            # pass
+            self.init_python_lib(register_eval)
+            lua.lua_settop(L, 0)
+
 
     def __dealloc__(self):
         if self._state is not NULL:

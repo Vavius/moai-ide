@@ -1,3 +1,20 @@
+# cython: embedsignature=True
+
+################################################
+##                                            ##
+##                                            ##
+##    8888ba.88ba   .88888.   .d888888  dP    ##
+##    88  `8b  `8b d8'   `8b d8'    88  88    ##
+##    88   88   88 88     88 88aaaaa88a 88    ##
+##    88   88   88 88     88 88     88  88    ##
+##    88   88   88 Y8.   .8P 88     88  88    ##
+##    dP   dP   dP  `8888P'  88     88  dP    ##
+##                                            ##
+##                                            ##
+################################################
+
+include '_lupa.pyx'
+
 cimport cmoai
 
 # callback management
@@ -85,9 +102,9 @@ def AKUFinalize():
 def AKUSetContext(context):
     cmoai.AKUSetContext(context)
 
-def AKUGetLuaState():
-    cdef long pointer = <long> cmoai.AKUGetLuaState()
-    return pointer
+# def AKUGetLuaState():
+#     cdef long pointer = <long> cmoai.AKUGetLuaState()
+#     return pointer
 
 # char*           AKUGetMoaiVersion               ( char* buffer, size_t length )
 # char*           AKUGetWorkingDirectory          ( char* buffer, size_t length )
@@ -103,7 +120,9 @@ def AKURunString(script):
     # cmoai.AKUSetArgv(argv)
 
 # void            AKURunData                      ( void* data, size_t size, int dataType, int compressed )
-# int             AKUSetWorkingDirectory          ( char* path )
+def AKUSetWorkingDirectory(path):
+    cmoai.AKUSetWorkingDirectory(path)
+
 # void            AKUSetArgv                      ( char **argv )
 
 
@@ -241,4 +260,81 @@ def AKUInitializeUtil():
 
 def AKUFinalizeUtil():
     cmoai.AKUFinalizeUtil()
+
+# Lua extensions host.h    
+def AKUExtLoadLuafilesystem ():
+    cmoai.AKUExtLoadLuafilesystem()
+    
+def AKUExtLoadLuasocket ():
+    cmoai.AKUExtLoadLuasocket()
+    
+def AKUExtLoadLuasql ():
+    cmoai.AKUExtLoadLuasql()
+    
+
+
+__all_moai__ = [
+"AKULoadLuaHeaders",
+"AKUInitializeCallbacks",
+"AKUSetFunc_OpenWindow",
+"AKUSetFunc_SetSimStep",
+"AKUSetFunc_EnterFullscreenMode",
+"AKUSetFunc_ExitFullscreenMode",
+"AKUCreateContext",
+"AKUDeleteContext",
+"AKUGetContext",
+"AKUCreateContext",
+"AKUFinalize",
+"AKUSetContext",
+"AKURunScript",
+"AKURunString",
+"AKUSetWorkingDirectory",
+"AKUFinalizeSim",
+"AKUInitializeSim",
+"AKUDetectGfxContext",
+"AKUGetSimStep",
+"AKUPause",
+"AKUReleaseGfxContext",
+"AKURender",
+"AKUSetOrientation",
+"AKUSetScreenDpi",
+"AKUSetScreenSize",
+"AKUSetViewSize",
+"AKUSoftReleaseGfxResources",
+"AKUUpdate",
+"AKUReserveInputDevices",
+"AKUReserveInputDeviceSensors",
+"AKUSetInputConfigurationName",
+"AKUSetInputDevice",
+"AKUSetInputDeviceActive",
+"AKUSetInputDeviceButton",
+"AKUSetInputDeviceCompass",
+"AKUSetInputDeviceKeyboard",
+"AKUSetInputDeviceLevel",
+"AKUSetInputDeviceLocation",
+"AKUSetInputDevicePointer",
+"AKUSetInputDeviceTouch",
+"AKUSetInputDeviceWheel",
+"AKUEnqueueButtonEvent",
+"AKUEnqueueCompassEvent",
+"AKUEnqueueKeyboardAltEvent",
+"AKUEnqueueKeyboardControlEvent",
+"AKUEnqueueKeyboardEvent",
+"AKUEnqueueKeyboardShiftEvent",
+"AKUEnqueueLevelEvent",
+"AKUEnqueueLocationEvent",
+"AKUEnqueuePointerEvent",
+"AKUEnqueueTouchEvent",
+"AKUEnqueueTouchEventCancel",
+"AKUEnqueueWheelEvent",
+"AKUInitializeUtil",
+"AKUFinalizeUtil",
+"AKUExtLoadLuafilesystem",
+"AKUExtLoadLuasocket",
+"AKUExtLoadLuasql",
+'LuaRuntime', 
+'LuaError', 
+'as_itemgetter', 
+'as_attrgetter',
+]
 

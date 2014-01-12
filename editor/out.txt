@@ -1,0 +1,8 @@
+('running file', u'/Users/vavius/moai/projects/custom-framework/main.lua')
+onWillEnter
+onEnter
+TEXTURE: '/Users/vavius/moai/projects/custom-framework/assets/hd/bg.png' is not a power of two (w:1286, h:1140)
+TEXTURE: '+'    5864160 =   5.59MB < /Users/vavius/moai/projects/custom-framework/assets/hd/bg.png
+TEXTURE: '/Users/vavius/moai/projects/custom-framework/assets/hd/interface.png' is not a power of two (w:1012, h:1066)
+TEXTURE: '+'    4315168 =   9.71MB < /Users/vavius/moai/projects/custom-framework/assets/hd/interface.png
+TEXTURE: '+'      65536 =   9.77MB < /Users/vavius/moai/projects/custom-framework/assets/font/Verdana.ttf

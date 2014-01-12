@@ -53,6 +53,8 @@
     </property>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
+    <addaction name="separator"/>
+    <addaction name="actionReload_Project"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -120,8 +122,8 @@
   <widget class="QDockWidget" name="environmentSettings">
    <property name="minimumSize">
     <size>
-     <width>260</width>
-     <height>241</height>
+     <width>276</width>
+     <height>270</height>
     </size>
    </property>
    <property name="focusPolicy">
@@ -141,57 +143,33 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QComboBox" name="resolutionPresetsList">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item row="2" column="0">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="editable">
-        <bool>false</bool>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
-     <item row="5" column="1">
-      <widget class="QCheckBox" name="deviceAutoreload">
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
+     <item row="2" column="4">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="text">
-        <string>Device</string>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Device</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QCheckBox" name="localAutoreload">
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="text">
-        <string>Local</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="widthEdit">
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="availableDevicesList"/>
-     </item>
-     <item row="2" column="1">
+     <item row="1" column="2" colspan="2">
       <widget class="QLineEdit" name="heightEdit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -210,35 +188,81 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
+     <item row="2" column="1">
+      <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Preset</string>
+        <string>Device</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
+     <item row="2" column="2">
+      <widget class="QComboBox" name="availableDevicesList"/>
+     </item>
+     <item row="2" column="3">
+      <widget class="QToolButton" name="updateDevicesBtn">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Width</string>
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icon/resources/reload.png</normalon>
+        </iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="autoRaise">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Height</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
+     <item row="3" column="1">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>AutoReload</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="3" column="2">
+      <widget class="QCheckBox" name="localAutoreload">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Local</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QCheckBox" name="deviceAutoreload">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Device</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QPushButton" name="reloadNowBtn">
+       <property name="text">
+        <string>Reload now</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -250,6 +274,67 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Width</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" colspan="2">
+      <widget class="QLineEdit" name="widthEdit">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Height</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QCheckBox" name="fullAutoreload">
+       <property name="text">
+        <string>Full reload</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+    <zorder>deviceAutoreload</zorder>
+    <zorder>localAutoreload</zorder>
+    <zorder>heightEdit</zorder>
+    <zorder>label_2</zorder>
+    <zorder>label_3</zorder>
+    <zorder>label_5</zorder>
+    <zorder>widthEdit</zorder>
+    <zorder>reloadNowBtn</zorder>
+    <zorder>label_4</zorder>
+    <zorder>availableDevicesList</zorder>
+    <zorder>fullAutoreload</zorder>
+    <zorder>updateDevicesBtn</zorder>
+    <zorder>horizontalSpacer</zorder>
+    <zorder>horizontalSpacer_2</zorder>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="consoleOutput">
+   <property name="windowTitle">
+    <string>console</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTextEdit" name="consoleTextBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -294,8 +379,24 @@
     <string>Ctrl+N</string>
    </property>
   </action>
+  <action name="actionReload_Project">
+   <property name="text">
+    <string>Reload Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>widthEdit</tabstop>
+  <tabstop>heightEdit</tabstop>
+  <tabstop>localAutoreload</tabstop>
+  <tabstop>deviceAutoreload</tabstop>
+ </tabstops>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionOpen_project</sender>
@@ -313,8 +414,126 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>reloadNowBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>actionReload_Project</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionReload_Project</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reloadMoai()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>localAutoreload</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setAutoreloadHost(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>458</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deviceAutoreload</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setAutoreloadDevice(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>483</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>updateDevicesBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateDeviceList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>240</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>availableDevicesList</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setCurrentDevice(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fullAutoreload</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setAutoreloadFull(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>506</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>472</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showOpenFileDialog()</slot>
+  <slot>reloadMoai()</slot>
+  <slot>setAutoreloadHost(bool)</slot>
+  <slot>setAutoreloadDevice(bool)</slot>
+  <slot>setAutoreloadFull(bool)</slot>
+  <slot>updateDeviceList()</slot>
+  <slot>setCurrentDevice(int)</slot>
  </slots>
 </ui>
