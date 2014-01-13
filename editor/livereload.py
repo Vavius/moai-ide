@@ -32,6 +32,7 @@ class LiveReload:
     lua = None
     fullReloadFunc = None
     directory = None
+    deviceIP = None
     changedFiles = set()
 
     def __init__(self):
@@ -83,11 +84,13 @@ class LiveReload:
                 luainterface.reloadLocalFile(self.lua, localPath)
 
     def reloadRemote(self):
-        if not self.lua:
+        if not self.lua or not self.deviceIP:
             return
 
         for f in self.changedFiles:
-            luainterface.reloadFile(self.lua, f, self.deviceIP)
+            wDir = os.path.join(self.directory, '')
+            localPath = f[len(wDir):]
+            luainterface.reloadFile(self.lua, wDir, localPath, self.deviceIP)
 
 
     def setCurrentDeviceIP(self, deviceIP):

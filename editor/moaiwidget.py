@@ -147,7 +147,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKULoadLuaHeaders()
         AKUSetWorkingDirectory(os.path.dirname(os.path.realpath(__file__)))
         self.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
-        self.runScript("lua/moai-framework/src/include.lua")
+        self.runScript("include.lua")
 
         self.lua = LuaRuntime()
         self.lua.init()

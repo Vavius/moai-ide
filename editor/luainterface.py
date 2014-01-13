@@ -10,9 +10,9 @@ def search(lua):
 
     return pyDevices
 
-def reloadFile(lua, path, deviceIP):
+def reloadFile(lua, workingDir, path, deviceIP):
     liveReloadServer = lua.require("util.LiveReloadServer")
-    liveReloadServer.onFileChanged(liveReloadServer, workingDir, path, deviceIP)
+    liveReloadServer.onFileChanged(workingDir, path, deviceIP)
 
 def reloadLocalFile(lua, path):
     liveReloadClient = lua.require("util.LiveReloadClient")
