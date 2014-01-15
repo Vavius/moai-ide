@@ -8,15 +8,16 @@ setup(
         Extension("moaipy", ["moaipy.pyx", "lock.pxi"], 
             language="c++",
             extra_objects=[
-            'libmoai-box2d.a',
-            'libmoai-chipmunk.a',
-            'libmoai-core.a',
-            'libmoai-sim.a',
-            'libmoai-spine.a',
-            'libmoai-test.a',
-            'libmoai-util.a',
-            'libthird-party.a',
-            'libzlcore.a',
+                'libmoai-box2d.a',
+                'libmoai-chipmunk.a',
+                'libmoai-core.a',
+                'libmoai-luaext.a',
+                'libmoai-sim.a',
+                'libmoai-test.a',
+                'libmoai-util.a',
+                'libthird-party.a',
+                'libzlcore.a',
+                'libluasocket.a',
             ],
 
             extra_link_args=[
@@ -37,8 +38,8 @@ setup(
             ],
 
             include_dirs=[
-            '/Users/vavius/moai/moai-dev/src/',
-            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.3src/'
+            '/Users/vavius/moai/moai-new/src/',
+            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3src/'
             ])
     ]
 )

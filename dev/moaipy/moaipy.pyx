@@ -84,6 +84,9 @@ def AKUSetFunc_ExitFullscreenMode(callbackFunc):
     callback_ExitFullscreenMode = callbackFunc
 
 
+def AKUAppInitialize():
+    cmoai.AKUAppInitialize()
+
 def AKUCreateContext():
     return cmoai.AKUCreateContext()
 
@@ -96,8 +99,8 @@ def AKUGetContext():
 def AKUCreateContext():
     cmoai.AKUCreateContext()
 
-def AKUFinalize():
-    cmoai.AKUFinalize()
+def AKUAppFinalize():
+    cmoai.AKUAppFinalize()
 
 def AKUSetContext(context):
     cmoai.AKUSetContext(context)
@@ -125,14 +128,6 @@ def AKUSetWorkingDirectory(path):
 
 # void            AKUSetArgv                      ( char **argv )
 
-
-
-# setup
-def AKUFinalizeSim():
-    cmoai.AKUFinalizeSim()
-
-def AKUInitializeSim():
-    cmoai.AKUInitializeSim()
 
 # management api
 def AKUDetectGfxContext():
@@ -253,88 +248,51 @@ def AKUEnqueueWheelEvent(deviceID, sensorID, value):
     cmoai.AKUEnqueueWheelEvent(deviceID, sensorID, value)
 
 
+# Modules
+
+def AKUModulesAppInitialize():
+    cmoai.AKUUtilAppInitialize()
+    cmoai.AKUSimAppInitialize()
+    cmoai.AKULuaExtAppInitialize()
+
+def AKUModulesAppFinalize():
+    cmoai.AKUUtilAppFinalize()
+    cmoai.AKUSimAppFinalize()
+    cmoai.AKULuaExtAppFinalize()
+
+def AKUModulesContextInitialize():
+    cmoai.AKUUtilContextInitialize()
+    cmoai.AKUSimContextInitialize()
+    cmoai.AKULuaExtContextInitialize()
+
 # util host.h
+# def AKUUtilAppFinalize ():
+#     cmoai.AKUUtilAppFinalize()
 
-def AKUInitializeUtil():
-    cmoai.AKUInitializeUtil()
+# def AKUUtilAppInitialize ():
+#     cmoai.AKUUtilAppInitialize()
 
-def AKUFinalizeUtil():
-    cmoai.AKUFinalizeUtil()
+# def AKUUtilContextInitialize ():
+#     cmoai.AKUUtilContextInitialize()
 
-# Lua extensions host.h    
-def AKUExtLoadLuafilesystem ():
-    cmoai.AKUExtLoadLuafilesystem()
-    
-def AKUExtLoadLuasocket ():
-    cmoai.AKUExtLoadLuasocket()
-    
-def AKUExtLoadLuasql ():
-    cmoai.AKUExtLoadLuasql()
-    
+# setup
+# def AKUSimAppFinalize():
+#     cmoai.AKUSimAppFinalize()
 
+# def AKUSimAppInitialize():
+#     cmoai.AKUSimAppInitialize()
 
-__all_moai__ = [
-"AKULoadLuaHeaders",
-"AKUInitializeCallbacks",
-"AKUSetFunc_OpenWindow",
-"AKUSetFunc_SetSimStep",
-"AKUSetFunc_EnterFullscreenMode",
-"AKUSetFunc_ExitFullscreenMode",
-"AKUCreateContext",
-"AKUDeleteContext",
-"AKUGetContext",
-"AKUCreateContext",
-"AKUFinalize",
-"AKUSetContext",
-"AKURunScript",
-"AKURunString",
-"AKUSetWorkingDirectory",
-"AKUFinalizeSim",
-"AKUInitializeSim",
-"AKUDetectGfxContext",
-"AKUGetSimStep",
-"AKUPause",
-"AKUReleaseGfxContext",
-"AKURender",
-"AKUSetOrientation",
-"AKUSetScreenDpi",
-"AKUSetScreenSize",
-"AKUSetViewSize",
-"AKUSoftReleaseGfxResources",
-"AKUUpdate",
-"AKUReserveInputDevices",
-"AKUReserveInputDeviceSensors",
-"AKUSetInputConfigurationName",
-"AKUSetInputDevice",
-"AKUSetInputDeviceActive",
-"AKUSetInputDeviceButton",
-"AKUSetInputDeviceCompass",
-"AKUSetInputDeviceKeyboard",
-"AKUSetInputDeviceLevel",
-"AKUSetInputDeviceLocation",
-"AKUSetInputDevicePointer",
-"AKUSetInputDeviceTouch",
-"AKUSetInputDeviceWheel",
-"AKUEnqueueButtonEvent",
-"AKUEnqueueCompassEvent",
-"AKUEnqueueKeyboardAltEvent",
-"AKUEnqueueKeyboardControlEvent",
-"AKUEnqueueKeyboardEvent",
-"AKUEnqueueKeyboardShiftEvent",
-"AKUEnqueueLevelEvent",
-"AKUEnqueueLocationEvent",
-"AKUEnqueuePointerEvent",
-"AKUEnqueueTouchEvent",
-"AKUEnqueueTouchEventCancel",
-"AKUEnqueueWheelEvent",
-"AKUInitializeUtil",
-"AKUFinalizeUtil",
-"AKUExtLoadLuafilesystem",
-"AKUExtLoadLuasocket",
-"AKUExtLoadLuasql",
-'LuaRuntime', 
-'LuaError', 
-'as_itemgetter', 
-'as_attrgetter',
-]
+# def AKUSimContextInitialize():
+#     cmoai.AKUSimContextInitialize()
+
+# Lua extensions host.h
+# def AKULuaExtAppFinalize():
+#     cmoai.AKULuaExtAppFinalize()
+
+# def AKULuaExtAppInitialize():
+#     cmoai.AKULuaExtAppInitialize()
+
+# def AKULuaExtContextInitialize():
+#     cmoai.AKULuaExtContextInitialize()
+
 

@@ -57,6 +57,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         if self.windowReady:
             AKUUpdate()
 
+
     # Input
     def mouseMoveEvent(self, event):
         x, y = event.x(), event.y()
@@ -123,12 +124,13 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         if context:
             AKUDeleteContext ( context )
 
-        AKUCreateContext ()
+        AKUAppInitialize ()
+        AKUModulesAppInitialize ()
 
-        AKUCreateContext()
-        AKUInitializeUtil()
-        AKUInitializeSim()
-        AKUInitializeCallbacks()
+        AKUCreateContext ()
+        AKUModulesContextInitialize ()
+
+        AKUInitializeCallbacks ()
 
         AKUSetInputConfigurationName ( "AKUQtEditor" );
 
@@ -142,9 +144,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUSetInputDeviceButton         ( 0, MOUSE_MIDDLE, "mouseMiddle" );
         AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
 
-        AKUExtLoadLuafilesystem()
-        AKUExtLoadLuasocket()
-        AKULoadLuaHeaders()
+        AKULoadLuaHeaders ()
         AKUSetWorkingDirectory(os.path.dirname(os.path.realpath(__file__)))
         self.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
         self.runScript("include.lua")

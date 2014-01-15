@@ -17,12 +17,14 @@ cdef extern from "moai-core/host.h":
         pass
     ctypedef int AKUContextID
 
+    void            AKUAppFinalize                  ()
+    void            AKUAppInitialize                ()
     void            AKUClearMemPool                 ()
     AKUContextID    AKUCreateContext                ()
     void            AKUDeleteContext                ( AKUContextID context )
     AKUContextID    AKUGetContext                   ()
     void*           AKUGetUserdata                  ()
-    void            AKUFinalize                     ()
+
     void            AKUInitMemPool                  ( size_t sizeInBytes )
     void            AKUSetContext                   ( AKUContextID context )
     void            AKUSetUserdata                  ( void* user )
@@ -39,8 +41,9 @@ cdef extern from "moai-core/host.h":
     void            AKUSetArgv                      ( char **argv )
 
 cdef extern from "moai-util/host.h":
-    void    AKUFinalizeUtil         ()
-    void    AKUInitializeUtil       ()
+    void            AKUUtilAppFinalize          ()
+    void            AKUUtilAppInitialize        ()
+    void            AKUUtilContextInitialize    ()
 
 cdef extern from "lua-headers/moai_lua.h":
     cdef int moai_lua_SIZE
@@ -51,14 +54,15 @@ cdef extern from "lua-headers/moai_lua.h":
     cdef int AKU_DATA_UNCOMPRESSED
 
 cdef extern from "moai-luaext/host.h":
-    void            AKUExtLoadLuafilesystem   ()
-    void            AKUExtLoadLuasocket       ()
-    void            AKUExtLoadLuasql          ()
+    void            AKULuaExtAppFinalize      ()
+    void            AKULuaExtAppInitialize    ()
+    void            AKULuaExtContextInitialize()
 
 cdef extern from "moai-sim/host.h":
     # setup
-    void            AKUFinalizeSim              ()
-    void            AKUInitializeSim            ()
+    void            AKUSimAppFinalize              ()
+    void            AKUSimAppInitialize            ()
+    void            AKUSimContextInitialize        ()
 
     # management api
     void            AKUDetectGfxContext             ()
