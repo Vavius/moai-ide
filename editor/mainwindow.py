@@ -96,7 +96,7 @@ class MainWindow(QMainWindow):
         if not self.runningFile:
             self.runningFile = settings.value("currentFile")
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
-        
+
     @QtCore.Slot()
     def showOpenFileDialog(self):
         fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
@@ -126,8 +126,11 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot(str)
     def onMessage(self, message):
-        self.ui.consoleTextBox.moveCursor(QtGui.QTextCursor.End)
-        self.ui.consoleTextBox.insertPlainText(message)
+        pass
+        # self.ui.localConsoleTextBox.moveCursor(QtGui.QTextCursor.End)
+        # self.ui.localConsoleTextBox.insertPlainText(message)
+        # self.ui.deviceConsoleTextBox.moveCursor(QtGui.QTextCursor.End)
+        # self.ui.deviceConsoleTextBox.insertPlainText(message)
 
     @QtCore.Slot(int)
     def setCurrentDevice(self, index):
