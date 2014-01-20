@@ -15,6 +15,7 @@ import luainterface
 # input sensors IDs
 KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, TOTAL = range(0, 6)
 
+
 class MOAIWidget(QtOpenGL.QGLWidget):
     windowReady = False
 
@@ -151,7 +152,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
         self.lua = LuaRuntime()
         self.lua.init()
-        
+
         moaipy.callback_SetSimStep = self.setSimStep
         moaipy.callback_OpenWindow = self.openWindow
 
@@ -179,6 +180,9 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def runString(self, luaStr):
         AKURunString(luaStr)
 
-
+    def setTraceback(self, func):
+        setFunc = self.lua.eval("function(func) _G.pythonLogFunc = func end")
+        setFunc(func)
+        self.lua.execute("MOAISim.setTraceback(function(err) _G.pythonLogFunc(debug.traceback(err, 2)) end)")
 
 

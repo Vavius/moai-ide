@@ -16,6 +16,13 @@ from livereload import LiveReload
 
 import luainterface
 
+def tracebackFunc(textBox):
+    def printToConsole(trace):
+        textBox.moveCursor(QtGui.QTextCursor.End)
+        textBox.insertPlainText(trace)
+        textBox.insertPlainText('\n')
+    return printToConsole
+
 class MainWindow(QMainWindow):
     runningFile = None
 
@@ -106,6 +113,8 @@ class MainWindow(QMainWindow):
     @QtCore.Slot()
     def reloadMoai(self):
         if self.runningFile:
+            self.ui.localConsoleTextBox.clear()
+            self.ui.deviceConsoleTextBox.clear()
             self.openFile(self.runningFile)
 
     @QtCore.Slot(bool)
@@ -167,6 +176,11 @@ class MainWindow(QMainWindow):
         luaFile = os.path.basename(fileName)
 
         self.moaiWidget.refreshContext()
+
+        def traceback(err):
+            print(traceback)
+        self.moaiWidget.setTraceback(traceback)
+        # self.moaiWidget.setTraceback(tracebackFunc(self.ui.localConsoleTextBox))
         self.moaiWidget.setWorkingDirectory(workingDir)
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
@@ -187,10 +201,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     mainWindow = MainWindow()
-
-    stream = ConsoleStream()
-    stream.message.connect(mainWindow.onMessage)
-    # sys.stdout = stream
 
     # app.setStyleSheet(qdarkstyle.load_stylesheet())
     

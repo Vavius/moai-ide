@@ -40,6 +40,9 @@ cdef extern from "moai-core/host.h":
     int             AKUSetWorkingDirectory          ( char* path )
     void            AKUSetArgv                      ( char **argv )
 
+    # ctypedef void ( *AKUErrorTracebackFunc )        ( char* message, lua_State* L, int level )
+    # void            AKUSetFunc_ErrorTraceback       ( AKUErrorTracebackFunc func )
+
 cdef extern from "moai-util/host.h":
     void            AKUUtilAppFinalize          ()
     void            AKUUtilAppInitialize        ()
