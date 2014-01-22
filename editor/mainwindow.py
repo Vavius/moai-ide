@@ -143,8 +143,9 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot(int)
     def setCurrentDevice(self, index):
-        currentDeviceIP = self.deviceList[index]['ip']
-        self.livereload.setCurrentDeviceIP(currentDeviceIP)
+        if self.deviceList:
+            currentDeviceIP = self.deviceList[index]['ip']
+            self.livereload.setCurrentDeviceIP(currentDeviceIP)
 
     @QtCore.Slot()
     def updateDeviceList(self):
