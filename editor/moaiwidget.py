@@ -146,9 +146,11 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
 
         AKULoadLuaHeaders ()
-        AKUSetWorkingDirectory(os.path.dirname(os.path.realpath(__file__)))
-        self.runString("package.path = 'lua/moai-framework/src/?.lua;' .. package.path")
-        self.runScript("include.lua")
+        # AKUSetWorkingDirectory()
+        luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
+        self.runString("package.path = '%s;' .. package.path" % luaFrameworkPath)
+        self.runString("require('include')")
+        # self.runString("print(class)")
 
         self.lua = LuaRuntime()
         self.lua.init()
