@@ -14,14 +14,23 @@ from ui_mainWindow import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
 from livereload import LiveReload
 
+from colorama import Fore, Back, Style
+from time import strftime
+
 import luainterface
 
-def tracebackFunc(textBox):
-    def printToConsole(trace):
-        textBox.moveCursor(QtGui.QTextCursor.End)
-        textBox.insertPlainText(trace)
-        textBox.insertPlainText('\n')
-    return printToConsole
+def tracebackFunc(trace):
+    print(Style.RESET_ALL + Fore.RED + Style.BRIGHT + trace + Style.RESET_ALL + Style.DIM)
+
+def userPrintFunc(text):
+    print(Style.RESET_ALL + Style.NORMAL + strftime('%H:%M:%S') + "  " + text + Style.RESET_ALL + Style.DIM)
+
+def printSeparator(runningFile):
+    print(Style.RESET_ALL + Style.NORMAL + Fore.GREEN)
+    print(5 * '\n' + 30 * '%%%')
+    print('\t' + strftime('%H:%M:%S') + '\t' + runningFile)
+    print(30 * '%%%')
+    print(Style.RESET_ALL + Style.DIM)
 
 class MainWindow(QMainWindow):
     runningFile = None
@@ -115,6 +124,7 @@ class MainWindow(QMainWindow):
         if self.runningFile:
             self.ui.localConsoleTextBox.clear()
             self.ui.deviceConsoleTextBox.clear()
+            printSeparator(self.runningFile)
             self.openFile(self.runningFile)
 
     @QtCore.Slot(bool)
@@ -175,17 +185,15 @@ class MainWindow(QMainWindow):
     def openFile(self, fileName):
         workingDir = os.path.dirname(fileName)
         luaFile = os.path.basename(fileName)
-
+        
         self.moaiWidget.refreshContext()
-
-        def traceback(err):
-            print(traceback)
-        self.moaiWidget.setTraceback(traceback)
-        # self.moaiWidget.setTraceback(tracebackFunc(self.ui.localConsoleTextBox))
+        
+        self.moaiWidget.setTraceback(tracebackFunc)
+        self.moaiWidget.setPrint(userPrintFunc)
         self.moaiWidget.setWorkingDirectory(workingDir)
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
-
+        
         self.livereload.lua = self.moaiWidget.lua
         self.livereload.watchDirectory(workingDir)
 
@@ -200,11 +208,10 @@ class ConsoleStream(QtCore.QObject):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
     mainWindow = MainWindow()
 
-    # app.setStyleSheet(qdarkstyle.load_stylesheet())
-    
-
+    # all output except traceback and user prints is DIM
+    print(Style.DIM)
     mainWindow.show()
     app.exec_()
+    print(Style.RESET_ALL)
