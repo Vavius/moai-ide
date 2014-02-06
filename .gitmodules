@@ -1,6 +1,0 @@
-[submodule "editor/lua/moai-framework"]
-	path = editor/lua/moai-framework
-	url = git@git.cloudteam.pro:moai/lua_framework.git
-[submodule "dev/lunatic"]
-	path = dev/lunatic
-	url = https://github.com/Vavius/lunatic-python.git
