@@ -22,8 +22,13 @@ import luainterface
 def tracebackFunc(trace):
     print(Style.RESET_ALL + Fore.RED + Style.BRIGHT + trace + Style.RESET_ALL + Style.DIM)
 
-def userPrintFunc(text):
-    print(Style.RESET_ALL + Style.NORMAL + strftime('%H:%M:%S') + "  " + text + Style.RESET_ALL + Style.DIM)
+def luaBeforePrint():
+    style = strftime("%H:%M:%S") + Style.RESET_ALL + Style.NORMAL + '  '
+    print style,
+    
+def luaAfterPrint():
+    style = Style.RESET_ALL + Style.DIM
+    sys.stdout.write(style)
 
 def printSeparator(runningFile):
     print(Style.RESET_ALL + Style.NORMAL + Fore.GREEN)
@@ -185,15 +190,15 @@ class MainWindow(QMainWindow):
     def openFile(self, fileName):
         workingDir = os.path.dirname(fileName)
         luaFile = os.path.basename(fileName)
-        
+
         self.moaiWidget.refreshContext()
-        
+
         self.moaiWidget.setTraceback(tracebackFunc)
-        self.moaiWidget.setPrint(userPrintFunc)
+        self.moaiWidget.setPrint(luaBeforePrint, luaAfterPrint)
         self.moaiWidget.setWorkingDirectory(workingDir)
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
-        
+
         self.livereload.lua = self.moaiWidget.lua
         self.livereload.watchDirectory(workingDir)
 
