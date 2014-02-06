@@ -2,3 +2,4 @@ Thumbs.db
 .DS_Store
 
 *.pyc
+editor/lua/moai-framework/
