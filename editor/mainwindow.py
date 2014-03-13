@@ -68,10 +68,10 @@ class MainWindow(QMainWindow):
         ui.menuWindow.addAction(actionEnvironmentSettings)
         ui.menuWindow.addAction(actionConsole)
 
-        intValidator = PySide.QtGui.QIntValidator()
-        intValidator.setRange(128, 4096)
-        ui.widthEdit.setValidator(intValidator)
-        ui.heightEdit.setValidator(intValidator)
+        floatValidator = PySide.QtGui.QDoubleValidator()
+        floatValidator.setRange(128, 4096)
+        ui.widthEdit.setValidator(floatValidator)
+        ui.heightEdit.setValidator(floatValidator)
         ui.widthEdit.textChanged.connect(self.viewSizeEditingFinished)
         ui.heightEdit.textChanged.connect(self.viewSizeEditingFinished)
 
@@ -172,12 +172,12 @@ class MainWindow(QMainWindow):
 
     def viewSizeEditingFinished(self):
         try:
-            width = int(self.ui.widthEdit.text())
+            width = float(self.ui.widthEdit.text())
         except ValueError:
             width = 640
 
         try:
-            height = int(self.ui.heightEdit.text())
+            height = float(self.ui.heightEdit.text())
         except ValueError:
             height = 480
 

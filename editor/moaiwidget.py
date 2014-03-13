@@ -146,6 +146,8 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
 
         AKULoadLuaHeaders ()
+        self.runString("MOAIEnvironment.setValue('horizontalResolution', %d) MOAIEnvironment.setValue('verticalResolution', %d)" %
+            ( int ( self.size().width() ), int ( self.size().height()) ) )
         # AKUSetWorkingDirectory()
         luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
         self.runString("package.path = '%s;' .. package.path" % luaFrameworkPath)
