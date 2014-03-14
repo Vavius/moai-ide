@@ -38,8 +38,8 @@ setup(
             ],
 
             include_dirs=[
-            '/Users/vavius/moai/moai-new/src/',
-            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3src/'
+            '/Users/vavius/moai/moai-dev/src/',
+            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.3src/'
             ])
     ]
 )
