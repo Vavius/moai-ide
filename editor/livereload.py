@@ -65,8 +65,8 @@ class LiveReload:
             if self.local:
                 if self.full:
                     self.fullReloadFunc()
-                else:
-                    self.reloadLocal()
+                # else:
+                    # self.reloadLocal()
             if self.remote:
                 self.reloadRemote()
 
