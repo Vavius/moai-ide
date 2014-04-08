@@ -187,7 +187,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def setTraceback(self, func):
         setFunc = self.lua.eval("function(func) _G.pythonLogFunc = func end")
         setFunc(func)
-        self.lua.execute("MOAISim.setTraceback(function(err) _G.pythonLogFunc(debug.traceback(err, 2)) end)")
+        self.lua.execute("MOAISim.setTraceback(function(err) _G.pythonLogFunc(debug.traceback(err, 2)) return 'hello from python' end)")
 
     def setPrint(self, before, after):
         setFunc = self.lua.eval("""function(before, after) 
