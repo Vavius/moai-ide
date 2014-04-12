@@ -17,3 +17,4 @@ def reloadFile(lua, workingDir, path, deviceIP):
 def reloadLocalFile(lua, path):
     liveReloadClient = lua.require("util.LiveReloadClient")
     liveReloadClient.updateFile(liveReloadClient, path)
+

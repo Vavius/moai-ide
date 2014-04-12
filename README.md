@@ -14,6 +14,10 @@ The main idea behind all this is pretty easy:
 * Color console output with timestamps
 * Limited modules support - no sound, box2d, http-task. I'll be adding those soon
 
+### Roadmap
+What is missing:
+* Hmm, the Editor itself is pretty missing. Currently, this is just a Python-Qt MOAI Host
+* 
 
 ### Setup
 Since all used technologies are cross platform in nature this thing should work on Windows, Linux, OS X without problems. 
