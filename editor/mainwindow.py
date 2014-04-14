@@ -21,6 +21,7 @@ from outlinerdock import OutlinerDock
 from consoledock import ConsoleDock
 from environmentdock import EnvironmentDock
 from debugdock import DebugDock
+from profilerdock import ProfilerDock
 
 from colorama import Fore, Back, Style
 from time import strftime
@@ -42,7 +43,7 @@ def luaAfterPrint():
 class MainWindow(QMainWindow):
     runningFile = None
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, script=None):
         super(MainWindow, self).__init__(parent)
         # Store Ui() as class variable self.ui
         ui = Ui()
@@ -60,26 +61,31 @@ class MainWindow(QMainWindow):
         self.outlinerDock = OutlinerDock(self)
         self.consoleDock = ConsoleDock(self)
         self.debugDock = DebugDock(self)
+        self.profilerDock = ProfilerDock(self)
         self.environmentDock = EnvironmentDock(self)
 
         self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.environmentDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.debugDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.profilerDock)
 
         actionOutliner = self.outlinerDock.toggleViewAction()
         actionConsole = self.consoleDock.toggleViewAction()
         actionEnvironment = self.environmentDock.toggleViewAction()
         actionDebug = self.debugDock.toggleViewAction()
+        actionProfiler = self.profilerDock.toggleViewAction()
 
         self.outlinerDock.hide()
         self.consoleDock.hide()
         self.debugDock.hide()
+        self.profilerDock.hide()
         
         ui.menuWindow.addAction(actionOutliner)
         ui.menuWindow.addAction(actionEnvironment)
         ui.menuWindow.addAction(actionConsole)
         ui.menuWindow.addAction(actionDebug)
+        ui.menuWindow.addAction(actionProfiler)
         
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
@@ -88,7 +94,10 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.updateLiveReload)
         self.timer.start(1000)
 
+        # self.runningFile = script
         self.readSettings()
+        # if script:
+            # QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
 
     def closeEvent(self, event):
         self.writeSettings()
@@ -151,6 +160,7 @@ class MainWindow(QMainWindow):
         self.moaiWidget.setWorkingDirectory(self.workingDir)
         self.debugDock.updateAllDebugValues()
         self.environmentDock.applyEnvironmentSettings()
+        self.profilerDock.applyProfilingSettings()
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
 
@@ -172,7 +182,11 @@ if __name__ == '__main__':
     QCoreApplication.setApplicationName("Moai Editor")
 
     app = QApplication(sys.argv)
-    mainWindow = MainWindow()
+
+    script = None
+    if len(sys.argv) > 1:
+        script = sys.argv[1]
+    mainWindow = MainWindow(script = script)
 
     # all output except traceback and user prints is DIM
     print(Style.DIM)
