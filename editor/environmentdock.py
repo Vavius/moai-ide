@@ -159,6 +159,34 @@ class EnvironmentDock(QDockWidget):
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.screenDpi, %f)" % dpi )
 
 
+    @QtCore.Slot()
+    def onStartSession(self):
+        self.startSession(self.ui.sessionResume.isChecked())
+
+    @QtCore.Slot()
+    def onEndSession(self):
+        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.SESSION_END)" )
+
+    @QtCore.Slot()
+    def onOpenedFromUrl(self):
+        url = self.ui.urlEdit.text()
+        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.APP_OPENED_FROM_URL, '%s')" % url )
+
+    @QtCore.Slot()
+    def sendNotification(self):
+        userInfo = self.ui.pushUserInfo.document().toPlainText()
+        event = 'MOAINotifications.LOCAL_NOTIFICATION_MESSAGE_RECEIVED'
+        if self.ui.pushLocal.isChecked():
+            event = 'MOAINotifications.REMOTE_NOTIFICATION_MESSAGE_RECEIVED'
+
+        self.mainWindow.moaiWidget.runString ( "MOAINotifications.dispatchEvent (%s, %s)" % (event, userInfo) )
+
+
+    def startSession(self, resume):
+        flag = 'true' if resume else 'false'
+        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s)" % flag )
+
+
     def applyEnvironmentSettings(self):
         lang = Languages[self.ui.languageBox.currentIndex()]
         country = QLocale.Country(self.ui.countryBox.itemData(self.ui.countryBox.currentIndex()))
@@ -174,4 +202,3 @@ class EnvironmentDock(QDockWidget):
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.countryCode, '%s')" % codes[1])
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.screenDpi, %f)" % dpi )
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.documentDirectory, '%s')" % relPath )
-

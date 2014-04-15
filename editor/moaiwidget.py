@@ -150,9 +150,12 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             ( int ( self.size().width() ), int ( self.size().height()) ) )
         # AKUSetWorkingDirectory()
         luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
-        self.runString("package.path = '%s;' .. package.path" % luaFrameworkPath)
-        self.runString("require('include')")
-        # self.runString("print(class)")
+        luaEditorFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/editor-framework/?.lua")
+        self.runString("package.path = '%s;%s;' .. package.path" % (luaFrameworkPath, luaEditorFrameworkPath))
+        self.runString("""  MOAIApp = MOAIApp or require ('MOAIApp')
+                            MOAINotifications = MOAINotifications or require('MOAINotifications')
+                            require ('include')""" )
+
 
         self.lua = LuaRuntime()
         self.lua.init()

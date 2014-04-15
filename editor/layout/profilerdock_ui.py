@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'profilerdock.ui'
 #
-# Created: Sun Apr 13 01:06:34 2014
+# Created: Tue Apr 15 09:53:13 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,6 +18,7 @@ class Ui_profilerdock(object):
         self.gridLayout = QtGui.QGridLayout(self.dockWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
         self.groupBox = QtGui.QGroupBox(self.dockWidgetContents)
+        self.groupBox.setEnabled(False)
         self.groupBox.setObjectName("groupBox")
         self.verticalLayout = QtGui.QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName("verticalLayout")

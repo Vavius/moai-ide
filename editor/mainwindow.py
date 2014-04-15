@@ -163,6 +163,8 @@ class MainWindow(QMainWindow):
         self.profilerDock.applyProfilingSettings()
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
+        
+        self.environmentDock.startSession(False)
 
         self.livereload.lua = self.moaiWidget.lua
         self.livereload.watchDirectory(self.workingDir)
