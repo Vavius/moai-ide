@@ -5,7 +5,7 @@ import os
 from PySide import QtCore, QtGui
 from PySide.QtGui import QDockWidget
 
-from outlinerdock_ui import Ui_outlinerdock as Ui
+from layout.outlinerdock_ui import Ui_outlinerdock as Ui
 
 import luainterface
 

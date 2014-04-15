@@ -4,7 +4,7 @@ import PySide
 from PySide import QtCore, QtGui
 from PySide.QtGui import QDockWidget
 
-from profilerdock_ui import Ui_profilerdock as Ui
+from layout.profilerdock_ui import Ui_profilerdock as Ui
 
 
 class ProfilerDock(QDockWidget):

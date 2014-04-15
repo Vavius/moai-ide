@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import sys
-sys.path.append("layout")
 
 import platform
 import PySide
@@ -12,7 +11,7 @@ from PySide import QtCore, QtGui
 from PySide.QtGui import QApplication, QMainWindow
 from PySide.QtCore import QSettings, QCoreApplication
 
-from mainwindow_ui import Ui_MainWindow as Ui
+from layout.mainwindow_ui import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
 from livereload import LiveReload
 
@@ -163,7 +162,7 @@ class MainWindow(QMainWindow):
         self.profilerDock.applyProfilingSettings()
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
-        
+
         self.environmentDock.startSession(False)
 
         self.livereload.lua = self.moaiWidget.lua

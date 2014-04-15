@@ -6,7 +6,7 @@ from PySide.QtGui import QDockWidget
 from PySide.QtCore import QSettings, QLocale
 from locales import Languages
 
-from environmentdock_ui import Ui_environmentdock as Ui
+from layout.environmentdock_ui import Ui_environmentdock as Ui
 
 import luainterface
 

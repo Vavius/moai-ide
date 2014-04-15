@@ -8,7 +8,7 @@ from PySide.QtGui import QDockWidget
 from colorama import Fore, Back, Style
 from time import strftime
 
-from consoledock_ui import Ui_consoledock as Ui
+from layout.consoledock_ui import Ui_consoledock as Ui
 
 
 

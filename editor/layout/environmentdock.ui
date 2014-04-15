@@ -6,143 +6,365 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>885</height>
+    <width>360</width>
+    <height>856</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Environment</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="10" column="2">
-     <widget class="QLineEdit" name="widthEdit">
-      <property name="focusPolicy">
-       <enum>Qt::StrongFocus</enum>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBoxCollapsible" name="reloadGroup">
+      <property name="title">
+       <string>Live Reload</string>
       </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="4" column="1">
+        <widget class="QPushButton" name="reloadNowBtn">
+         <property name="maximumSize">
+          <size>
+           <width>160</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Reload now</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="availableDevicesList">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QToolButton" name="updateDevicesBtn">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icon/resources/reload.png</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="fullAutoreload">
+         <property name="text">
+          <string>Full reload</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="localAutoreload">
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Local</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="deviceAutoreload">
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Device</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Remote Device</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Auro Reload</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item row="15" column="1">
-     <widget class="QLabel" name="label_6">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>26</height>
-       </size>
+    <item>
+     <widget class="QGroupBoxCollapsible" name="environmentGroup">
+      <property name="title">
+       <string>MOAIEnvironment</string>
       </property>
-      <property name="text">
-       <string>Documents</string>
+      <property name="flat">
+       <bool>true</bool>
       </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Documents</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>DPI</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Country Code</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Language Code</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="widthEdit">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="heightEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="dpiEdit"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="documentsBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
+         </property>
+         <property name="text">
+          <string>docs/</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="languageBox"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="countryBox"/>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item row="9" column="2">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item>
+     <widget class="QGroupBoxCollapsible" name="notificationsGroup">
+      <property name="title">
+       <string>Notifications</string>
       </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
+      <property name="flat">
+       <bool>true</bool>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
-     </spacer>
-    </item>
-    <item row="16" column="1">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Language Code</string>
+      <property name="checked">
+       <bool>true</bool>
       </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>UserInfo 
+(Lua table)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPlainTextEdit" name="pushUserInfo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>130</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushSend">
+         <property name="text">
+          <string>Send</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="pushLocal">
+         <property name="text">
+          <string>Local</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item row="19" column="3">
-     <widget class="QCheckBox" name="sessionResume">
-      <property name="text">
-       <string>resume</string>
+    <item>
+     <widget class="QGroupBoxCollapsible" name="seesionGroup">
+      <property name="title">
+       <string>Session</string>
       </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="sessionStartBtn">
+         <property name="text">
+          <string>Start Session</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="sessionResume">
+         <property name="text">
+          <string>resume</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="sessionEndBtn">
+         <property name="text">
+          <string>End Session</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="urlBtn">
+         <property name="text">
+          <string>Open Url</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="urlEdit"/>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item row="7" column="2">
-     <widget class="QCheckBox" name="fullAutoreload">
-      <property name="text">
-       <string>Full reload</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="2">
-     <widget class="QPushButton" name="reloadNowBtn">
-      <property name="text">
-       <string>Reload now</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QComboBox" name="availableDevicesList"/>
-    </item>
-    <item row="6" column="2">
-     <widget class="QCheckBox" name="deviceAutoreload">
-      <property name="focusPolicy">
-       <enum>Qt::TabFocus</enum>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>Device</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Auto Reload</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <widget class="QCheckBox" name="localAutoreload">
-      <property name="focusPolicy">
-       <enum>Qt::TabFocus</enum>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>Local</string>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="1">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>DPI</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="1">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Height</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="4">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>44</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="25" column="2">
+    <item>
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -150,226 +372,47 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>426</height>
+        <height>40</height>
        </size>
       </property>
      </spacer>
-    </item>
-    <item row="23" column="1" rowspan="2" colspan="3">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Notifications</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="pushLocal">
-         <property name="text">
-          <string>Local</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPlainTextEdit" name="pushUserInfo"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pushSend">
-         <property name="text">
-          <string>Send</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>UserInfo
-Lua table</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="10" column="1">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Width</string>
-      </property>
-     </widget>
-    </item>
-    <item row="18" column="2">
-     <spacer name="verticalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="17" column="1">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Country Code</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="2">
-     <widget class="QComboBox" name="countryBox"/>
-    </item>
-    <item row="13" column="2">
-     <widget class="QLineEdit" name="heightEdit">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::StrongFocus</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="2">
-     <widget class="QLineEdit" name="dpiEdit"/>
-    </item>
-    <item row="15" column="2">
-     <widget class="QPushButton" name="documentsBtn">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>26</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>docs/</string>
-      </property>
-      <property name="autoRepeat">
-       <bool>false</bool>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="22" column="3">
-     <widget class="QPushButton" name="urlBtn">
-      <property name="text">
-       <string>Url</string>
-      </property>
-     </widget>
-    </item>
-    <item row="20" column="1" colspan="2">
-     <widget class="QPushButton" name="sessionEndBtn">
-      <property name="text">
-       <string>End Session</string>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="2">
-     <widget class="QComboBox" name="languageBox"/>
-    </item>
-    <item row="4" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>45</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="19" column="1" colspan="2">
-     <widget class="QPushButton" name="sessionStartBtn">
-      <property name="text">
-       <string>Start Session</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <widget class="QToolButton" name="updateDevicesBtn">
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>...</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normalon>:/icon/resources/reload.png</normalon>
-       </iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>16</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="autoRaise">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Remote Device</string>
-      </property>
-     </widget>
-    </item>
-    <item row="22" column="1" colspan="2">
-     <widget class="QLineEdit" name="urlEdit"/>
     </item>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QGroupBoxCollapsible</class>
+   <extends>QGroupBox</extends>
+   <header>widgets/qgroupboxcollapsible</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
+  <tabstop>reloadGroup</tabstop>
   <tabstop>availableDevicesList</tabstop>
   <tabstop>updateDevicesBtn</tabstop>
   <tabstop>localAutoreload</tabstop>
   <tabstop>deviceAutoreload</tabstop>
   <tabstop>fullAutoreload</tabstop>
   <tabstop>reloadNowBtn</tabstop>
+  <tabstop>environmentGroup</tabstop>
   <tabstop>widthEdit</tabstop>
   <tabstop>heightEdit</tabstop>
   <tabstop>dpiEdit</tabstop>
   <tabstop>documentsBtn</tabstop>
   <tabstop>languageBox</tabstop>
   <tabstop>countryBox</tabstop>
+  <tabstop>notificationsGroup</tabstop>
+  <tabstop>pushUserInfo</tabstop>
+  <tabstop>pushLocal</tabstop>
+  <tabstop>pushSend</tabstop>
+  <tabstop>seesionGroup</tabstop>
   <tabstop>sessionStartBtn</tabstop>
   <tabstop>sessionResume</tabstop>
   <tabstop>sessionEndBtn</tabstop>
-  <tabstop>urlEdit</tabstop>
   <tabstop>urlBtn</tabstop>
-  <tabstop>pushLocal</tabstop>
-  <tabstop>pushUserInfo</tabstop>
-  <tabstop>pushSend</tabstop>
+  <tabstop>urlEdit</tabstop>
  </tabstops>
  <resources>
   <include location="../resources.qrc"/>

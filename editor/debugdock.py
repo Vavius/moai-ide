@@ -6,7 +6,7 @@ from PySide.QtCore import QSettings
 from PySide import QtCore, QtGui
 from PySide.QtGui import QDockWidget, QColor, QColorDialog, QPixmap
 
-from debugdock_ui import Ui_debugdock as Ui
+from layout.debugdock_ui import Ui_debugdock as Ui
 
 import luainterface
 
