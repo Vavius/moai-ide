@@ -108,8 +108,8 @@ class EnvironmentDock(QDockWidget):
             locale = QLocale(Languages[self.ui.languageBox.currentIndex()], QLocale.Country(country))
             name = locale.name()
             codes = name.split('_')
-            self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.languageCode, '%s')" % codes[0])
-            self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.countryCode, '%s')" % codes[1])
+            self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('languageCode', '%s')" % codes[0])
+            self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('countryCode', '%s')" % codes[1])
 
 
     @QtCore.Slot(int)
@@ -133,7 +133,7 @@ class EnvironmentDock(QDockWidget):
         if docsDir:
             relPath = os.path.relpath(docsDir, projectDir)
             self.ui.documentsBtn.setText(relPath)
-            self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.documentDirectory, '%s')" % relPath )
+            self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('documentDirectory', '%s')" % relPath )
 
 
     def viewSizeEditingFinished(self):
@@ -156,7 +156,7 @@ class EnvironmentDock(QDockWidget):
         except ValueError:
             dpi = 132
 
-        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.screenDpi, %f)" % dpi )
+        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('screenDpi', %f)" % dpi )
 
 
     @QtCore.Slot()
@@ -198,7 +198,7 @@ class EnvironmentDock(QDockWidget):
         relPath = self.ui.documentsBtn.text()
         dpi = float(self.ui.dpiEdit.text())
 
-        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.languageCode, '%s')" % codes[0])
-        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.countryCode, '%s')" % codes[1])
-        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.screenDpi, %f)" % dpi )
-        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue(MOAIEnvironment.documentDirectory, '%s')" % relPath )
+        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('languageCode', '%s')" % codes[0])
+        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('countryCode', '%s')" % codes[1])
+        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('screenDpi', %f)" % dpi )
+        self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('documentDirectory', '%s')" % relPath )

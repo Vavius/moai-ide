@@ -112,6 +112,7 @@ class MainWindow(QMainWindow):
         self.debugDock.readSettings()
         if not self.runningFile:
             self.runningFile = settings.value("main/currentFile")
+            print(self.runningFile)
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
         
 
@@ -153,13 +154,16 @@ class MainWindow(QMainWindow):
         luaFile = os.path.basename(fileName)
 
         self.moaiWidget.refreshContext()
-
+        self.moaiWidget.setWorkingDirectory(self.workingDir)
         self.moaiWidget.setTraceback(tracebackFunc)
         self.moaiWidget.setPrint(luaBeforePrint, luaAfterPrint)
-        self.moaiWidget.setWorkingDirectory(self.workingDir)
+        
         self.debugDock.updateAllDebugValues()
         self.environmentDock.applyEnvironmentSettings()
         self.profilerDock.applyProfilingSettings()
+        
+        self.moaiWidget.loadLuaFramework()
+        
         self.moaiWidget.runScript(luaFile)
         self.runningFile = fileName
 
@@ -179,7 +183,7 @@ class ConsoleStream(QtCore.QObject):
 
 if __name__ == '__main__':
     QCoreApplication.setOrganizationName("DigitalClick")
-    QCoreApplication.setOrganizationDomain("cloudteam.com")
+    QCoreApplication.setOrganizationDomain("cloudteam.pro")
     QCoreApplication.setApplicationName("Moai Editor")
 
     app = QApplication(sys.argv)

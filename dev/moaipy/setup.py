@@ -13,7 +13,7 @@ setup(
                 'libmoai-core.a',
                 'libmoai-luaext.a',
                 'libmoai-sim.a',
-                'libmoai-test.a',
+                # 'libmoai-test.a',
                 'libmoai-util.a',
                 'libthird-party.a',
                 'libzlcore.a',
@@ -38,8 +38,8 @@ setup(
             ],
 
             include_dirs=[
-            '/Users/vavius/moai/moai-new/src/',
-            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/'
+            '/Users/vavius/moai/moai-dev/src/',
+            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.3/src/'
             ])
     ]
 )

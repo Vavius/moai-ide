@@ -38,26 +38,31 @@ class ProfilerDock(QDockWidget):
 
     @QtCore.Slot(bool)
     def toggleShiny(self, flag):
-        if flag:
-            self.mainWindow.moaiWidget.runString(self.shinyCmd['start'])
-        else:
-            self.mainWindow.moaiWidget.runString(self.shinyCmd['stop'])
+        pass
+        # if flag:
+        #     self.mainWindow.moaiWidget.runString(self.shinyCmd['start'])
+        # else:
+        #     self.mainWindow.moaiWidget.runString(self.shinyCmd['stop'])
 
     @QtCore.Slot()
     def shinyUpdate(self):
-        self.mainWindow.moaiWidget.runString(self.shinyCmd['update'])
+        pass
+        # self.mainWindow.moaiWidget.runString(self.shinyCmd['update'])
 
     @QtCore.Slot()
     def shinyClear(self):
-        self.mainWindow.moaiWidget.runString(self.shinyCmd['clear'])
+        pass
+        # self.mainWindow.moaiWidget.runString(self.shinyCmd['clear'])
 
     @QtCore.Slot()
     def shinyFlatReport(self):
-        self.mainWindow.moaiWidget.runString(self.shinyCmd['flat'])
+        pass
+        # self.mainWindow.moaiWidget.runString(self.shinyCmd['flat'])
 
     @QtCore.Slot()
     def shinyTreeReport(self):
-        self.mainWindow.moaiWidget.runString(self.shinyCmd['tree'])
+        pass
+        # self.mainWindow.moaiWidget.runString(self.shinyCmd['tree'])
 
     def applyProfilingSettings(self):
         self.toggleActionProfiling(self.ui.actionProfiler.isChecked())
