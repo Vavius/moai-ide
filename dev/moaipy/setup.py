@@ -13,7 +13,7 @@ setup(
                 'libmoai-core.a',
                 'libmoai-luaext.a',
                 'libmoai-sim.a',
-                # 'libmoai-test.a',
+                'libmoai-untz.a',
                 'libmoai-util.a',
                 'libthird-party.a',
                 'libzlcore.a',
