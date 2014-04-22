@@ -139,6 +139,10 @@ class DebugDock(QDockWidget):
     def reportHistogram(self):
         self.mainWindow.moaiWidget.runString("MOAISim.reportHistogram()")
 
+    @QtCore.Slot()
+    def runString(self):
+        luaStr = self.ui.luaStringEdit.document().toPlainText()
+        self.mainWindow.livereload.runStringRemote(luaStr)
 
     def toggleStyle(self, styleName, flag):
         self.updateDebugDrawValues(styleName)
@@ -191,7 +195,7 @@ class DebugDock(QDockWidget):
 
         luaCmd += "MOAISim.setHistogramEnabled( %s ) \n" % ('true' if ui.histogram.isChecked() else 'false')
         luaCmd += "MOAISim.setLuaAllocLogEnabled( %s ) \n" % ('true' if ui.allocLog.isChecked() else 'false')
-        print(luaCmd)
+        
         self.mainWindow.moaiWidget.runString(luaCmd)
 
 

@@ -7,6 +7,10 @@ class QGroupBoxCollapsible (QGroupBox):
     def __init__(self, parent=None):
         super(QGroupBoxCollapsible, self).__init__(parent)
         self.toggled.connect(self.collapse)
+        self.setStyleSheet("""
+                QGroupBox::indicator::checked { image: url(:/icon/resources/arrow_on.png); }
+                QGroupBox::indicator::unchecked { image: url(:/icon/resources/arrow_off.png); }
+            """)
 
     @QtCore.Slot(bool)
     def collapse(self, flag):

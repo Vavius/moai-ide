@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
-    <height>856</height>
+    <width>439</width>
+    <height>836</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,9 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QGroupBoxCollapsible" name="reloadGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
       <property name="title">
        <string>Live Reload</string>
       </property>
@@ -121,11 +124,27 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="clearOverridesBtn">
+         <property name="maximumSize">
+          <size>
+           <width>160</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Clear Overrides</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
     <item>
      <widget class="QGroupBoxCollapsible" name="environmentGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
       <property name="title">
        <string>MOAIEnvironment</string>
       </property>
@@ -133,6 +152,9 @@
        <bool>true</bool>
       </property>
       <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
        <bool>true</bool>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
@@ -255,6 +277,9 @@
     </item>
     <item>
      <widget class="QGroupBoxCollapsible" name="notificationsGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
       <property name="title">
        <string>Notifications</string>
       </property>
@@ -320,6 +345,9 @@
     </item>
     <item>
      <widget class="QGroupBoxCollapsible" name="seesionGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
       <property name="title">
        <string>Session</string>
       </property>
@@ -642,6 +670,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clearOverridesBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>clearRemoteOverrides()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>205</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>427</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>setAutoreloadHost(bool)</slot>
@@ -658,5 +702,6 @@
   <slot>onEndSession()</slot>
   <slot>onOpenedFromUrl()</slot>
   <slot>sendNotification()</slot>
+  <slot>clearRemoteOverrides()</slot>
  </slots>
 </ui>

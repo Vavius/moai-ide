@@ -91,7 +91,7 @@ class EnvironmentDock(QDockWidget):
 
     @QtCore.Slot()
     def updateDeviceList(self):
-        self.deviceList = luainterface.search(self.moaiWidget.lua)
+        self.deviceList = luainterface.search(self.mainWindow.moaiWidget.lua)
         print(self.deviceList)
         self.ui.availableDevicesList.clear()
         for d in self.deviceList:
@@ -100,6 +100,11 @@ class EnvironmentDock(QDockWidget):
     @QtCore.Slot()
     def reloadMoai(self):
         self.mainWindow.reloadMoai()
+
+    @QtCore.Slot()
+    def clearRemoteOverrides(self):
+        self.mainWindow.livereload.clearRemoteOverrides()
+
 
     @QtCore.Slot(int)
     def setCountryCode(self, idx):

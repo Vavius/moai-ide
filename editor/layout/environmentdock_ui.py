@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'environmentdock.ui'
 #
-# Created: Tue Apr 15 11:26:58 2014
+# Created: Wed Apr 23 00:18:46 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,12 +12,13 @@ from PySide import QtCore, QtGui
 class Ui_environmentdock(object):
     def setupUi(self, environmentdock):
         environmentdock.setObjectName("environmentdock")
-        environmentdock.resize(360, 1009)
+        environmentdock.resize(439, 836)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
         self.verticalLayout.setObjectName("verticalLayout")
         self.reloadGroup = QGroupBoxCollapsible(self.dockWidgetContents)
+        self.reloadGroup.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.reloadGroup.setFlat(True)
         self.reloadGroup.setCheckable(True)
         self.reloadGroup.setObjectName("reloadGroup")
@@ -63,10 +64,16 @@ class Ui_environmentdock(object):
         self.label_5 = QtGui.QLabel(self.reloadGroup)
         self.label_5.setObjectName("label_5")
         self.gridLayout_5.addWidget(self.label_5, 1, 0, 1, 1)
+        self.clearOverridesBtn = QtGui.QPushButton(self.reloadGroup)
+        self.clearOverridesBtn.setMaximumSize(QtCore.QSize(160, 16777215))
+        self.clearOverridesBtn.setObjectName("clearOverridesBtn")
+        self.gridLayout_5.addWidget(self.clearOverridesBtn, 5, 1, 1, 1)
         self.verticalLayout.addWidget(self.reloadGroup)
         self.environmentGroup = QGroupBoxCollapsible(self.dockWidgetContents)
+        self.environmentGroup.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.environmentGroup.setFlat(True)
         self.environmentGroup.setCheckable(True)
+        self.environmentGroup.setChecked(True)
         self.environmentGroup.setObjectName("environmentGroup")
         self.gridLayout_4 = QtGui.QGridLayout(self.environmentGroup)
         self.gridLayout_4.setObjectName("gridLayout_4")
@@ -127,6 +134,7 @@ class Ui_environmentdock(object):
         self.gridLayout_4.addWidget(self.countryBox, 5, 1, 1, 1)
         self.verticalLayout.addWidget(self.environmentGroup)
         self.notificationsGroup = QGroupBoxCollapsible(self.dockWidgetContents)
+        self.notificationsGroup.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.notificationsGroup.setFlat(True)
         self.notificationsGroup.setCheckable(True)
         self.notificationsGroup.setChecked(True)
@@ -155,6 +163,7 @@ class Ui_environmentdock(object):
         self.gridLayout_2.addWidget(self.pushLocal, 2, 0, 1, 1)
         self.verticalLayout.addWidget(self.notificationsGroup)
         self.seesionGroup = QGroupBoxCollapsible(self.dockWidgetContents)
+        self.seesionGroup.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.seesionGroup.setFlat(True)
         self.seesionGroup.setCheckable(True)
         self.seesionGroup.setObjectName("seesionGroup")
@@ -195,6 +204,7 @@ class Ui_environmentdock(object):
         QtCore.QObject.connect(self.sessionEndBtn, QtCore.SIGNAL("clicked()"), environmentdock.onEndSession)
         QtCore.QObject.connect(self.urlBtn, QtCore.SIGNAL("clicked()"), environmentdock.onOpenedFromUrl)
         QtCore.QObject.connect(self.pushSend, QtCore.SIGNAL("clicked()"), environmentdock.sendNotification)
+        QtCore.QObject.connect(self.clearOverridesBtn, QtCore.SIGNAL("clicked()"), environmentdock.clearRemoteOverrides)
         QtCore.QMetaObject.connectSlotsByName(environmentdock)
         environmentdock.setTabOrder(self.reloadGroup, self.availableDevicesList)
         environmentdock.setTabOrder(self.availableDevicesList, self.updateDevicesBtn)
@@ -230,6 +240,7 @@ class Ui_environmentdock(object):
         self.deviceAutoreload.setText(QtGui.QApplication.translate("environmentdock", "Device", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("environmentdock", "Remote Device", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("environmentdock", "Auro Reload", None, QtGui.QApplication.UnicodeUTF8))
+        self.clearOverridesBtn.setText(QtGui.QApplication.translate("environmentdock", "Clear Overrides", None, QtGui.QApplication.UnicodeUTF8))
         self.environmentGroup.setTitle(QtGui.QApplication.translate("environmentdock", "MOAIEnvironment", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("environmentdock", "Documents", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("environmentdock", "DPI", None, QtGui.QApplication.UnicodeUTF8))

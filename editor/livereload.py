@@ -92,6 +92,16 @@ class LiveReload:
             localPath = f[len(wDir):]
             luainterface.reloadFile(self.lua, wDir, localPath, self.deviceIP)
 
+    def runStringRemote(self, luaStr):
+        if not self.deviceIP:
+            return
+        luainterface.runStringRemote(self.lua, self.deviceIP, luaStr)
+
+    def clearRemoteOverrides(self):
+        if not self.deviceIP:
+            return
+        luainterface.clearRemoteOverrides(self.lua, self.deviceIP)
+
 
     def setCurrentDeviceIP(self, deviceIP):
         self.deviceIP = deviceIP

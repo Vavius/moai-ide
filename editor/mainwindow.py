@@ -110,7 +110,12 @@ class MainWindow(QMainWindow):
         
         self.environmentDock.readSettings()
         self.debugDock.readSettings()
-        if not self.runningFile:
+
+        self.runAttempts = settings.value("main/openProjectAttempts", 0) + 1
+        settings.setValue("main/openProjectAttempts", self.runAttempts)
+
+        # do not load projects if it crashed last time
+        if not self.runningFile and self.runAttempts < 3:
             self.runningFile = settings.value("main/currentFile")
             print(self.runningFile)
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
@@ -123,7 +128,7 @@ class MainWindow(QMainWindow):
         settings.setValue("main/windowState", self.saveState())
         settings.setValue("main/currentFile", self.runningFile)
         self.environmentDock.writeSettings()
-        self.debugDock.writeSettings()        
+        self.debugDock.writeSettings()
 
     @QtCore.Slot()
     def showOpenFileDialog(self):
@@ -171,6 +176,10 @@ class MainWindow(QMainWindow):
 
         self.livereload.lua = self.moaiWidget.lua
         self.livereload.watchDirectory(self.workingDir)
+
+        self.runAttempts = 0
+        settings = QSettings()
+        settings.setValue("main/openProjectAttempts", self.runAttempts)
 
 
 class ConsoleStream(QtCore.QObject):

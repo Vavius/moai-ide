@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>resources/arrow_off.png</file>
+    <file>resources/arrow_on.png</file>
     <file>resources/reload.png</file>
   </qresource>
 </RCC>

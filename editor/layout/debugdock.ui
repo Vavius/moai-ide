@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>459</width>
-    <height>646</height>
+    <height>735</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,12 +15,61 @@
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="1">
-     <widget class="QCheckBox" name="allocLog">
+    <item row="15" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>124</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="forceGC_btn">
       <property name="text">
-       <string>Lua Alloc Log Enabled</string>
+       <string>Force Garbage Collection</string>
       </property>
      </widget>
+    </item>
+    <item row="4" column="1">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="reportHistogram_btn">
+      <property name="text">
+       <string>Report Histogram</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="2">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>124</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item row="15" column="1">
      <widget class="QGroupBox" name="groupBox">
@@ -262,34 +311,28 @@
       </layout>
      </widget>
     </item>
-    <item row="4" column="1">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item row="1" column="1">
+     <widget class="QCheckBox" name="allocLog">
+      <property name="text">
+       <string>Lua Alloc Log Enabled</string>
       </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
-    <item row="15" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="16" column="1">
+     <widget class="QTextEdit" name="luaStringEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="sizeHint" stdset="0">
+      <property name="maximumSize">
        <size>
-        <width>124</width>
-        <height>20</height>
+        <width>16777215</width>
+        <height>130</height>
        </size>
       </property>
-     </spacer>
+     </widget>
     </item>
     <item row="0" column="1">
      <widget class="QCheckBox" name="histogram">
@@ -298,14 +341,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="reportHistogram_btn">
-      <property name="text">
-       <string>Report Histogram</string>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="1">
+    <item row="18" column="1">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -318,23 +354,10 @@
       </property>
      </spacer>
     </item>
-    <item row="15" column="2">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>124</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="forceGC_btn">
+    <item row="17" column="1">
+     <widget class="QPushButton" name="runStringBtn">
       <property name="text">
-       <string>Force Garbage Collection</string>
+       <string>Run String on Device</string>
       </property>
      </widget>
     </item>
@@ -786,6 +809,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>runStringBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>runString()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>586</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>togglePartitionCells(bool)</slot>
@@ -813,5 +852,6 @@
   <slot>toggleLuaAllocLogEnabled(bool)</slot>
   <slot>reportHistogram()</slot>
   <slot>forceGC()</slot>
+  <slot>runString()</slot>
  </slots>
 </ui>

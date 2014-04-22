@@ -18,3 +18,10 @@ def reloadLocalFile(lua, path):
     liveReloadClient = lua.require("util.LiveReloadClient")
     liveReloadClient.updateFile(liveReloadClient, path)
 
+def clearRemoteOverrides(lua, deviceIP):
+    liveReloadServer = lua.require("util.LiveReloadServer")
+    liveReloadServer.onClearRemoteOverrides(deviceIP)
+
+def runStringRemote(lua, deviceIP, luaStr):
+    liveReloadServer = lua.require("util.LiveReloadServer")
+    liveReloadServer.onRunString(deviceIP, luaStr)
