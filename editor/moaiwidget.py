@@ -161,7 +161,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def loadLuaFramework(self):
         luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
         luaEditorFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/editor-framework/?.lua")
-        print(luaFrameworkPath, luaEditorFrameworkPath)
+        
         self.runString("package.path = '%s;%s;' .. package.path" % (luaFrameworkPath, luaEditorFrameworkPath))
         self.runString("""  MOAIApp = MOAIApp or require ('MOAIApp')
                             MOAINotifications = MOAINotifications or require('MOAINotifications')

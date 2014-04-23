@@ -6,6 +6,7 @@ import platform
 import PySide
 import os
 import errno
+import argparse
 
 from PySide import QtCore, QtGui
 from PySide.QtGui import QApplication, QMainWindow
@@ -27,16 +28,25 @@ from time import strftime
 
 import luainterface
 
+colorPrintEnabled = True
+
 def tracebackFunc(trace):
-    print(Style.RESET_ALL + Fore.RED + Style.BRIGHT + trace + Style.RESET_ALL + Style.DIM)
+    if colorPrintEnabled:
+        print(Style.RESET_ALL + Fore.RED + Style.BRIGHT + trace + Style.RESET_ALL + Style.DIM)
+    else:
+        print(trace)
 
 def luaBeforePrint():
-    style = strftime("%H:%M:%S") + Style.RESET_ALL + Style.NORMAL + '  '
+    style = strftime("%H:%M:%S")
+    if colorPrintEnabled:
+        style = style + Style.RESET_ALL + Style.NORMAL
+    style = style + '  '
     print style,
     
 def luaAfterPrint():
-    style = Style.RESET_ALL + Style.DIM
-    sys.stdout.write(style)
+    if colorPrintEnabled:
+        style = Style.RESET_ALL + Style.DIM
+        sys.stdout.write(style)
 
 
 class MainWindow(QMainWindow):
@@ -93,10 +103,11 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.updateLiveReload)
         self.timer.start(1000)
 
-        # self.runningFile = script
+        self.runningFile = script
+        self.workingDir = ""
         self.readSettings()
-        # if script:
-            # QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
+        if script:
+            QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
 
     def closeEvent(self, event):
         self.writeSettings()
@@ -117,7 +128,7 @@ class MainWindow(QMainWindow):
         # do not load projects if it crashed last time
         if not self.runningFile and self.runAttempts < 3:
             self.runningFile = settings.value("main/currentFile")
-            print(self.runningFile)
+            self.workingDir = settings.value("main/workingDir", "")
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
         
 
@@ -127,6 +138,7 @@ class MainWindow(QMainWindow):
         settings.setValue("main/geometry", self.saveGeometry())
         settings.setValue("main/windowState", self.saveState())
         settings.setValue("main/currentFile", self.runningFile)
+        settings.setValue("main/workingDir", self.workingDir)
         self.environmentDock.writeSettings()
         self.debugDock.writeSettings()
 
@@ -134,13 +146,15 @@ class MainWindow(QMainWindow):
     def showOpenFileDialog(self):
         fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
         if fileName:
-            self.openFile(fileName)
+            workingDir = os.path.dirname(fileName)
+            luaFile = os.path.basename(fileName)
+            self.openFile(luaFile, workingDir)
 
     @QtCore.Slot()
     def reloadMoai(self):
         if self.runningFile:
-            self.consoleDock.onReload(self.runningFile)
-            self.openFile(self.runningFile)
+            self.consoleDock.onReload(os.path.join(self.workingDir, self.runningFile), colorPrintEnabled)
+            self.openFile(self.runningFile, self.workingDir)
 
     @QtCore.Slot()
     def updateLiveReload(self):
@@ -153,13 +167,10 @@ class MainWindow(QMainWindow):
     def resizeMoaiView(self, width, height):
         self.moaiWidget.resize(width, height)
 
-    # lua 
-    def openFile(self, fileName):
-        self.workingDir = os.path.dirname(fileName)
-        luaFile = os.path.basename(fileName)
-
+    # lua
+    def openFile(self, fileName, workingDir = ""):
         self.moaiWidget.refreshContext()
-        self.moaiWidget.setWorkingDirectory(self.workingDir)
+        self.moaiWidget.setWorkingDirectory(workingDir)
         self.moaiWidget.setTraceback(tracebackFunc)
         self.moaiWidget.setPrint(luaBeforePrint, luaAfterPrint)
         
@@ -169,13 +180,14 @@ class MainWindow(QMainWindow):
         
         self.moaiWidget.loadLuaFramework()
         
-        self.moaiWidget.runScript(luaFile)
+        self.moaiWidget.runScript(fileName)
         self.runningFile = fileName
+        self.workingDir = workingDir
 
         self.environmentDock.startSession(False)
 
         self.livereload.lua = self.moaiWidget.lua
-        self.livereload.watchDirectory(self.workingDir)
+        self.livereload.watchDirectory(workingDir)
 
         self.runAttempts = 0
         settings = QSettings()
@@ -197,13 +209,21 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
-    script = None
-    if len(sys.argv) > 1:
-        script = sys.argv[1]
-    mainWindow = MainWindow(script = script)
+    parser = argparse.ArgumentParser(description='PySide Qt MOAI host with some debugging capabilities')
+    parser.add_argument('script', nargs='?', type=str, help='MOAI script to execute')
+    parser.add_argument('--nocolor', action='store_true', help='disable colored terminal output')
+
+    args = parser.parse_args()
+    colorPrintEnabled = not args.nocolor
+
+    mainWindow = MainWindow(script = args.script)
 
     # all output except traceback and user prints is DIM
-    print(Style.DIM)
+    if colorPrintEnabled:
+        print(Style.DIM)
+    
     mainWindow.show()
     app.exec_()
-    print(Style.RESET_ALL)
+    
+    if colorPrintEnabled:
+        print(Style.RESET_ALL)

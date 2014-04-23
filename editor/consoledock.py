@@ -12,12 +12,16 @@ from layout.consoledock_ui import Ui_consoledock as Ui
 
 
 
-def printSeparator(runningFile):
-    print(Style.RESET_ALL + Style.NORMAL + Fore.GREEN)
+def printSeparator(runningFile, colored):
+    if colored:
+        print(Style.RESET_ALL + Style.NORMAL + Fore.GREEN)
+    
     print(5 * '\n' + 30 * '%%%')
     print('\t' + strftime('%H:%M:%S') + '\t' + runningFile)
     print(30 * '%%%')
-    print(Style.RESET_ALL + Style.DIM)
+    
+    if colored:
+        print(Style.RESET_ALL + Style.DIM)
 
 class ConsoleDock(QDockWidget):
     def __init__(self, parent=None):
@@ -29,7 +33,7 @@ class ConsoleDock(QDockWidget):
 
         self.mainWindow = self.parent()
 
-    def onReload(self, runningFile):
+    def onReload(self, runningFile, colored):
         self.ui.localConsoleTextBox.clear()
         self.ui.deviceConsoleTextBox.clear()
-        printSeparator(runningFile)
+        printSeparator(runningFile, colored)
