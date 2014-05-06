@@ -145,15 +145,11 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUSetInputDeviceButton         ( 0, MOUSE_MIDDLE, "mouseMiddle" );
         AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
 
-        AKULoadLuaHeaders ()
+        AKUModulesRunLuaAPIWrapper ()
         self.runString("MOAIEnvironment.setValue('horizontalResolution', %d) MOAIEnvironment.setValue('verticalResolution', %d)" %
             ( int ( self.size().width() ), int ( self.size().height()) ) )
         # AKUSetWorkingDirectory()
-        luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
-        self.runString("package.path = '%s;' .. package.path" % luaFrameworkPath)
-        self.runString("require('include')")
-        # self.runString("print(class)")
-
+        
         self.lua = LuaRuntime()
         self.lua.init()
 
@@ -161,6 +157,16 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         moaipy.callback_OpenWindow = self.openWindow
 
         self.windowReady = False
+
+    def loadLuaFramework(self):
+        luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
+        luaEditorFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/editor-framework/?.lua")
+        
+        self.runString("package.path = '%s;%s;' .. package.path" % (luaFrameworkPath, luaEditorFrameworkPath))
+        self.runString("""  MOAIApp = MOAIApp or require ('MOAIApp')
+                            MOAINotifications = MOAINotifications or require('MOAINotifications')
+                            require ('include')""" )
+
 
     def openWindow(self, title, width, height):
         AKUDetectGfxContext()
@@ -187,7 +193,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def setTraceback(self, func):
         setFunc = self.lua.eval("function(func) _G.pythonLogFunc = func end")
         setFunc(func)
-        self.lua.execute("MOAISim.setTraceback(function(err) _G.pythonLogFunc(debug.traceback(err, 2)) end)")
+        self.lua.execute("MOAISim.setTraceback(function(err) _G.pythonLogFunc(debug.traceback(err, 2)) return 'hello from python' end)")
 
     def setPrint(self, before, after):
         setFunc = self.lua.eval("""function(before, after) 

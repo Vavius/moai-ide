@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>environmentdock</class>
+ <widget class="QDockWidget" name="environmentdock">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>439</width>
+    <height>836</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Environment</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBoxCollapsible" name="reloadGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="title">
+       <string>Live Reload</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="4" column="1">
+        <widget class="QPushButton" name="reloadNowBtn">
+         <property name="maximumSize">
+          <size>
+           <width>160</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Reload now</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="availableDevicesList">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QToolButton" name="updateDevicesBtn">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icon/resources/reload.png</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="fullAutoreload">
+         <property name="text">
+          <string>Full reload</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="localAutoreload">
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Local</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="deviceAutoreload">
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Device</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Remote Device</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Auro Reload</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="clearOverridesBtn">
+         <property name="maximumSize">
+          <size>
+           <width>160</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Clear Overrides</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBoxCollapsible" name="environmentGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="title">
+       <string>MOAIEnvironment</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Documents</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>DPI</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Country Code</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Language Code</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="widthEdit">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="heightEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="dpiEdit"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="documentsBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
+         </property>
+         <property name="text">
+          <string>docs/</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="languageBox"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="countryBox"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBoxCollapsible" name="notificationsGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="title">
+       <string>Notifications</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>UserInfo 
+(Lua table)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPlainTextEdit" name="pushUserInfo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>130</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushSend">
+         <property name="text">
+          <string>Send</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="pushLocal">
+         <property name="text">
+          <string>Local</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBoxCollapsible" name="seesionGroup">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="title">
+       <string>Session</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="sessionStartBtn">
+         <property name="text">
+          <string>Start Session</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="sessionResume">
+         <property name="text">
+          <string>resume</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="sessionEndBtn">
+         <property name="text">
+          <string>End Session</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="urlBtn">
+         <property name="text">
+          <string>Open Url</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="urlEdit"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QGroupBoxCollapsible</class>
+   <extends>QGroupBox</extends>
+   <header>widgets/qgroupboxcollapsible</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>reloadGroup</tabstop>
+  <tabstop>availableDevicesList</tabstop>
+  <tabstop>updateDevicesBtn</tabstop>
+  <tabstop>localAutoreload</tabstop>
+  <tabstop>deviceAutoreload</tabstop>
+  <tabstop>fullAutoreload</tabstop>
+  <tabstop>reloadNowBtn</tabstop>
+  <tabstop>environmentGroup</tabstop>
+  <tabstop>widthEdit</tabstop>
+  <tabstop>heightEdit</tabstop>
+  <tabstop>dpiEdit</tabstop>
+  <tabstop>documentsBtn</tabstop>
+  <tabstop>languageBox</tabstop>
+  <tabstop>countryBox</tabstop>
+  <tabstop>notificationsGroup</tabstop>
+  <tabstop>pushUserInfo</tabstop>
+  <tabstop>pushLocal</tabstop>
+  <tabstop>pushSend</tabstop>
+  <tabstop>seesionGroup</tabstop>
+  <tabstop>sessionStartBtn</tabstop>
+  <tabstop>sessionResume</tabstop>
+  <tabstop>sessionEndBtn</tabstop>
+  <tabstop>urlBtn</tabstop>
+  <tabstop>urlEdit</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>reloadNowBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>reloadMoai()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>localAutoreload</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setAutoreloadHost(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>143</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fullAutoreload</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setAutoreloadFull(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deviceAutoreload</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setAutoreloadDevice(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>168</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>availableDevicesList</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setCurrentDevice(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>updateDevicesBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>updateDeviceList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dpiEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setScreenDpi(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>276</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>countryBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setCountryCode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>340</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>languageBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setLanguageCode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>documentsBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>browseDocuments()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>312</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sessionStartBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>onStartSession()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>452</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sessionEndBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>onEndSession()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>486</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>urlBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>onOpenedFromUrl()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>289</x>
+     <y>526</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushSend</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>sendNotification()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>596</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearOverridesBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>clearRemoteOverrides()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>205</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>427</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>setAutoreloadHost(bool)</slot>
+  <slot>setAutoreloadFull(bool)</slot>
+  <slot>setAutoreloadDevice(bool)</slot>
+  <slot>updateDeviceList()</slot>
+  <slot>setCurrentDevice(int)</slot>
+  <slot>reloadMoai()</slot>
+  <slot>setCountryCode(int)</slot>
+  <slot>setLanguageCode(int)</slot>
+  <slot>browseDocuments()</slot>
+  <slot>setScreenDpi(QString)</slot>
+  <slot>onStartSession()</slot>
+  <slot>onEndSession()</slot>
+  <slot>onOpenedFromUrl()</slot>
+  <slot>sendNotification()</slot>
+  <slot>clearRemoteOverrides()</slot>
+ </slots>
+</ui>

@@ -1,46 +1,58 @@
 #!/usr/bin/python
 
 import sys
+
 import platform
 import PySide
 import os
 import errno
+import argparse
 
 from PySide import QtCore, QtGui
 from PySide.QtGui import QApplication, QMainWindow
-from PySide.QtCore import QSettings
+from PySide.QtCore import QSettings, QCoreApplication
 
-from ui_mainWindow import Ui_MainWindow as Ui
+from layout.mainwindow_ui import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
 from livereload import LiveReload
+
+# dock widgets
+from outlinerdock import OutlinerDock
+from consoledock import ConsoleDock
+from environmentdock import EnvironmentDock
+from debugdock import DebugDock
+from profilerdock import ProfilerDock
 
 from colorama import Fore, Back, Style
 from time import strftime
 
 import luainterface
 
+colorPrintEnabled = True
+
 def tracebackFunc(trace):
-    print(Style.RESET_ALL + Fore.RED + Style.BRIGHT + trace + Style.RESET_ALL + Style.DIM)
+    if colorPrintEnabled:
+        print(Style.RESET_ALL + Fore.RED + Style.BRIGHT + trace + Style.RESET_ALL + Style.DIM)
+    else:
+        print(trace)
 
 def luaBeforePrint():
-    style = strftime("%H:%M:%S") + Style.RESET_ALL + Style.NORMAL + '  '
+    style = strftime("%H:%M:%S")
+    if colorPrintEnabled:
+        style = style + Style.RESET_ALL + Style.NORMAL
+    style = style + '  '
     print style,
     
 def luaAfterPrint():
-    style = Style.RESET_ALL + Style.DIM
-    sys.stdout.write(style)
+    if colorPrintEnabled:
+        style = Style.RESET_ALL + Style.DIM
+        sys.stdout.write(style)
 
-def printSeparator(runningFile):
-    print(Style.RESET_ALL + Style.NORMAL + Fore.GREEN)
-    print(5 * '\n' + 30 * '%%%')
-    print('\t' + strftime('%H:%M:%S') + '\t' + runningFile)
-    print(30 * '%%%')
-    print(Style.RESET_ALL + Style.DIM)
 
 class MainWindow(QMainWindow):
     runningFile = None
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, script=None):
         super(MainWindow, self).__init__(parent)
         # Store Ui() as class variable self.ui
         ui = Ui()
@@ -55,26 +67,35 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.scrollArea)
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
 
-        actionPropertyEditor = ui.propertyEditor.toggleViewAction()
-        actionObjectPallete = ui.objectPallete.toggleViewAction()
-        actionEnvironmentSettings = ui.environmentSettings.toggleViewAction()
-        actionConsole = ui.consoleOutput.toggleViewAction()
-        ui.propertyEditor.hide()
-        ui.objectPallete.hide()
-        ui.consoleOutput.hide()
+        self.outlinerDock = OutlinerDock(self)
+        self.consoleDock = ConsoleDock(self)
+        self.debugDock = DebugDock(self)
+        self.profilerDock = ProfilerDock(self)
+        self.environmentDock = EnvironmentDock(self)
 
-        ui.menuWindow.addAction(actionPropertyEditor)
-        ui.menuWindow.addAction(actionObjectPallete)
-        ui.menuWindow.addAction(actionEnvironmentSettings)
+        self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.environmentDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.debugDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.profilerDock)
+
+        actionOutliner = self.outlinerDock.toggleViewAction()
+        actionConsole = self.consoleDock.toggleViewAction()
+        actionEnvironment = self.environmentDock.toggleViewAction()
+        actionDebug = self.debugDock.toggleViewAction()
+        actionProfiler = self.profilerDock.toggleViewAction()
+
+        self.outlinerDock.hide()
+        self.consoleDock.hide()
+        self.debugDock.hide()
+        self.profilerDock.hide()
+        
+        ui.menuWindow.addAction(actionOutliner)
+        ui.menuWindow.addAction(actionEnvironment)
         ui.menuWindow.addAction(actionConsole)
-
-        floatValidator = PySide.QtGui.QDoubleValidator()
-        floatValidator.setRange(128, 4096)
-        ui.widthEdit.setValidator(floatValidator)
-        ui.heightEdit.setValidator(floatValidator)
-        ui.widthEdit.textChanged.connect(self.viewSizeEditingFinished)
-        ui.heightEdit.textChanged.connect(self.viewSizeEditingFinished)
-
+        ui.menuWindow.addAction(actionDebug)
+        ui.menuWindow.addAction(actionProfiler)
+        
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
 
@@ -82,67 +103,58 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.updateLiveReload)
         self.timer.start(1000)
 
+        self.runningFile = script
+        self.workingDir = ""
         self.readSettings()
+        if script:
+            QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
 
     def closeEvent(self, event):
-        settings = QSettings("DigitalClick", "MoaiEditor")
-
-        settings.setValue("geometry", self.saveGeometry())
-        settings.setValue("windowState", self.saveState())
-        settings.setValue("width", self.ui.widthEdit.text())
-        settings.setValue("height", self.ui.heightEdit.text())
-        settings.setValue("currentFile", self.runningFile)
-        settings.setValue("autoreloadDevice", self.ui.deviceAutoreload.isChecked())
-        settings.setValue("autoreloadHost", self.ui.localAutoreload.isChecked())
-        settings.setValue("autoreloadFull", self.ui.fullAutoreload.isChecked())
+        self.writeSettings()
         QMainWindow.closeEvent(self, event)
 
     def readSettings(self):
-        settings = QSettings("DigitalClick", "MoaiEditor")
+        settings = QSettings()
 
-        glSize = self.moaiWidget.sizeHint()
+        self.restoreGeometry(settings.value("main/geometry"))
+        self.restoreState(settings.value("main/windowState"))
         
-        self.restoreGeometry(settings.value("geometry"))
-        self.restoreState(settings.value("windowState"))
-        self.ui.widthEdit.setText( settings.value("width", str(glSize.width())) )
-        self.ui.heightEdit.setText( settings.value("height", str(glSize.height())) )
-        self.ui.deviceAutoreload.setChecked( settings.value("autoreloadDevice", False) )
-        self.ui.localAutoreload.setChecked( settings.value("autoreloadHost", False) )
-        self.ui.fullAutoreload.setChecked( settings.value("autoreloadFull", False) )
+        self.environmentDock.readSettings()
+        self.debugDock.readSettings()
 
-        self.livereload.setAutoreloadDevice(self.ui.deviceAutoreload.isChecked())
-        self.livereload.setAutoreloadHost(self.ui.localAutoreload.isChecked())
-        self.livereload.setAutoreloadFull(self.ui.fullAutoreload.isChecked())
+        self.runAttempts = settings.value("main/openProjectAttempts", 0) + 1
+        settings.setValue("main/openProjectAttempts", self.runAttempts)
 
-        if not self.runningFile:
-            self.runningFile = settings.value("currentFile")
+        # do not load projects if it crashed last time
+        if not self.runningFile and self.runAttempts < 3:
+            self.runningFile = settings.value("main/currentFile")
+            self.workingDir = settings.value("main/workingDir", "")
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
+        
+
+    def writeSettings(self):
+        settings = QSettings()
+
+        settings.setValue("main/geometry", self.saveGeometry())
+        settings.setValue("main/windowState", self.saveState())
+        settings.setValue("main/currentFile", self.runningFile)
+        settings.setValue("main/workingDir", self.workingDir)
+        self.environmentDock.writeSettings()
+        self.debugDock.writeSettings()
 
     @QtCore.Slot()
     def showOpenFileDialog(self):
         fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
         if fileName:
-            self.openFile(fileName)
+            workingDir = os.path.dirname(fileName)
+            luaFile = os.path.basename(fileName)
+            self.openFile(luaFile, workingDir)
 
     @QtCore.Slot()
     def reloadMoai(self):
         if self.runningFile:
-            self.ui.localConsoleTextBox.clear()
-            self.ui.deviceConsoleTextBox.clear()
-            printSeparator(self.runningFile)
-            self.openFile(self.runningFile)
-
-    @QtCore.Slot(bool)
-    def setAutoreloadDevice(self, flag):
-        self.livereload.setAutoreloadDevice(flag)
-
-    @QtCore.Slot(bool)
-    def setAutoreloadHost(self, flag):
-        self.livereload.setAutoreloadHost(flag)
-
-    @QtCore.Slot(bool)
-    def setAutoreloadFull(self, flag):
-        self.livereload.setAutoreloadFull(flag)
+            self.consoleDock.onReload(os.path.join(self.workingDir, self.runningFile), colorPrintEnabled)
+            self.openFile(self.runningFile, self.workingDir)
 
     @QtCore.Slot()
     def updateLiveReload(self):
@@ -151,56 +163,35 @@ class MainWindow(QMainWindow):
     @QtCore.Slot(str)
     def onMessage(self, message):
         pass
-        # self.ui.localConsoleTextBox.moveCursor(QtGui.QTextCursor.End)
-        # self.ui.localConsoleTextBox.insertPlainText(message)
-        # self.ui.deviceConsoleTextBox.moveCursor(QtGui.QTextCursor.End)
-        # self.ui.deviceConsoleTextBox.insertPlainText(message)
-
-    @QtCore.Slot(int)
-    def setCurrentDevice(self, index):
-        if self.deviceList:
-            currentDeviceIP = self.deviceList[index]['ip']
-            self.livereload.setCurrentDeviceIP(currentDeviceIP)
-
-    @QtCore.Slot()
-    def updateDeviceList(self):
-        self.deviceList = luainterface.search(self.moaiWidget.lua)
-        print(self.deviceList)
-        self.ui.availableDevicesList.clear()
-        for d in self.deviceList:
-            self.ui.availableDevicesList.addItem("%s [%s]" % (d['name'], d['ip']))
-
-    def viewSizeEditingFinished(self):
-        try:
-            width = float(self.ui.widthEdit.text())
-        except ValueError:
-            width = 640
-
-        try:
-            height = float(self.ui.heightEdit.text())
-        except ValueError:
-            height = 480
-
-        self.resizeMoaiView(width, height)
 
     def resizeMoaiView(self, width, height):
         self.moaiWidget.resize(width, height)
 
-    # lua 
-    def openFile(self, fileName):
-        workingDir = os.path.dirname(fileName)
-        luaFile = os.path.basename(fileName)
-
+    # lua
+    def openFile(self, fileName, workingDir = ""):
         self.moaiWidget.refreshContext()
-
+        self.moaiWidget.setWorkingDirectory(workingDir)
         self.moaiWidget.setTraceback(tracebackFunc)
         self.moaiWidget.setPrint(luaBeforePrint, luaAfterPrint)
-        self.moaiWidget.setWorkingDirectory(workingDir)
-        self.moaiWidget.runScript(luaFile)
+        
+        self.debugDock.updateAllDebugValues()
+        self.environmentDock.applyEnvironmentSettings()
+        self.profilerDock.applyProfilingSettings()
+        
+        self.moaiWidget.loadLuaFramework()
+        
+        self.moaiWidget.runScript(fileName)
         self.runningFile = fileName
+        self.workingDir = workingDir
+
+        self.environmentDock.startSession(False)
 
         self.livereload.lua = self.moaiWidget.lua
         self.livereload.watchDirectory(workingDir)
+
+        self.runAttempts = 0
+        settings = QSettings()
+        settings.setValue("main/openProjectAttempts", self.runAttempts)
 
 
 class ConsoleStream(QtCore.QObject):
@@ -212,11 +203,27 @@ class ConsoleStream(QtCore.QObject):
         self.message.emit(str(message))
 
 if __name__ == '__main__':
+    QCoreApplication.setOrganizationName("DigitalClick")
+    QCoreApplication.setOrganizationDomain("cloudteam.pro")
+    QCoreApplication.setApplicationName("Moai Editor")
+
     app = QApplication(sys.argv)
-    mainWindow = MainWindow()
+
+    parser = argparse.ArgumentParser(description='PySide Qt MOAI host with some debugging capabilities')
+    parser.add_argument('script', nargs='?', type=str, help='MOAI script to execute')
+    parser.add_argument('--nocolor', action='store_true', help='disable colored terminal output')
+
+    args = parser.parse_args()
+    colorPrintEnabled = not args.nocolor
+
+    mainWindow = MainWindow(script = args.script)
 
     # all output except traceback and user prints is DIM
-    print(Style.DIM)
+    if colorPrintEnabled:
+        print(Style.DIM)
+    
     mainWindow.show()
     app.exec_()
-    print(Style.RESET_ALL)
+    
+    if colorPrintEnabled:
+        print(Style.RESET_ALL)

@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>debugdock</class>
+ <widget class="QDockWidget" name="debugdock">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>459</width>
+    <height>735</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Debug</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="15" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>124</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="forceGC_btn">
+      <property name="text">
+       <string>Force Garbage Collection</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="reportHistogram_btn">
+      <property name="text">
+       <string>Report Histogram</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="2">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>124</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="15" column="1">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Debug Draw</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="partitionCells">
+         <property name="text">
+          <string>PARTITION_CELLS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="partitionPaddedCells">
+         <property name="text">
+          <string>PARTITION_PADDED_CELLS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="partitionPaddedCellsWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="textBox">
+         <property name="text">
+          <string>TEXT_BOX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="partitionCellsWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QCheckBox" name="textBoxLayout">
+         <property name="text">
+          <string>TEXT_BOX_LAYOUT</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="textBoxBaselines">
+         <property name="text">
+          <string>TEXT_BOX_BASELINES</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QToolButton" name="partitionCellsColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QToolButton" name="partitionPaddedCellsColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="propModelBounds">
+         <property name="text">
+          <string>PROP_MODEL_BOUNDS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="propWorldBounds">
+         <property name="text">
+          <string>PROP_WORLD_BOUNDS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="propModelBoundsWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QToolButton" name="propModelBoundsColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="propWorldBoundsWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QToolButton" name="propWorldBoundsColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="textBoxWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="textBoxBaselinesWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="textBoxLayoutWidth">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>40</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QToolButton" name="textBoxColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QToolButton" name="textBoxBaselinesColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QToolButton" name="textBoxLayoutColor">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QCheckBox" name="allocLog">
+      <property name="text">
+       <string>Lua Alloc Log Enabled</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="QTextEdit" name="luaStringEdit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>130</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QCheckBox" name="histogram">
+      <property name="text">
+       <string>Histogram Enabled</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>319</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="17" column="1">
+     <widget class="QPushButton" name="runStringBtn">
+      <property name="text">
+       <string>Run String on Device</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>histogram</tabstop>
+  <tabstop>allocLog</tabstop>
+  <tabstop>reportHistogram_btn</tabstop>
+  <tabstop>forceGC_btn</tabstop>
+  <tabstop>partitionCells</tabstop>
+  <tabstop>partitionCellsWidth</tabstop>
+  <tabstop>partitionPaddedCells</tabstop>
+  <tabstop>partitionPaddedCellsWidth</tabstop>
+  <tabstop>propModelBounds</tabstop>
+  <tabstop>propModelBoundsWidth</tabstop>
+  <tabstop>propWorldBounds</tabstop>
+  <tabstop>propWorldBoundsWidth</tabstop>
+  <tabstop>textBox</tabstop>
+  <tabstop>textBoxWidth</tabstop>
+  <tabstop>textBoxBaselines</tabstop>
+  <tabstop>textBoxBaselinesWidth</tabstop>
+  <tabstop>textBoxLayout</tabstop>
+  <tabstop>textBoxLayoutWidth</tabstop>
+  <tabstop>propWorldBoundsColor</tabstop>
+  <tabstop>textBoxColor</tabstop>
+  <tabstop>textBoxBaselinesColor</tabstop>
+  <tabstop>textBoxLayoutColor</tabstop>
+  <tabstop>partitionPaddedCellsColor</tabstop>
+  <tabstop>propModelBoundsColor</tabstop>
+  <tabstop>partitionCellsColor</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>partitionCells</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>togglePartitionCells(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>partitionPaddedCells</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>togglePartitionPaddedCells(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>propModelBounds</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>togglePropModelBounds(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>propWorldBounds</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>togglePropWorldBounds(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>toggleTextBox(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxBaselines</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>toggleTextBoxBaselines(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>230</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxLayout</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>toggleTextBoxLayout(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>partitionCellsWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthPartitionCells(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>partitionPaddedCellsWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthPartitionPaddedCells(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>propModelBoundsWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthPropModelBounds(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>propWorldBoundsWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthPropWorldBounds(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthTextBox(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxBaselinesWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthTextBoxBaselines(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>230</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxLayoutWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>debugdock</receiver>
+   <slot>setWidthTextBoxLayout(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>partitionCellsColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorPartitionCells()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>partitionPaddedCellsColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorPartitionPaddedCells()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>propModelBoundsColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorPropModelBounds()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>propWorldBoundsColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorPropWorldBounds()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorTextBox()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxBaselinesColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorTextBoxBaselines()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>230</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textBoxLayoutColor</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>pickColorTextBoxLayout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>allocLog</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>toggleLuaAllocLogEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>histogram</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>debugdock</receiver>
+   <slot>toggleHistogramEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reportHistogram_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>reportHistogram()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>forceGC_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>forceGC()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>histogram</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>reportHistogram_btn</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>99</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>runStringBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>debugdock</receiver>
+   <slot>runString()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>586</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>togglePartitionCells(bool)</slot>
+  <slot>togglePartitionPaddedCells(bool)</slot>
+  <slot>togglePropModelBounds(bool)</slot>
+  <slot>togglePropWorldBounds(bool)</slot>
+  <slot>toggleTextBox(bool)</slot>
+  <slot>toggleTextBoxBaselines(bool)</slot>
+  <slot>toggleTextBoxLayout(bool)</slot>
+  <slot>setWidthPartitionCells(QString)</slot>
+  <slot>setWidthPartitionPaddedCells(QString)</slot>
+  <slot>setWidthPropModelBounds(QString)</slot>
+  <slot>setWidthPropWorldBounds(QString)</slot>
+  <slot>setWidthTextBox(QString)</slot>
+  <slot>setWidthTextBoxBaselines(QString)</slot>
+  <slot>setWidthTextBoxLayout(QString)</slot>
+  <slot>pickColorPartitionCells()</slot>
+  <slot>pickColorPartitionPaddedCells()</slot>
+  <slot>pickColorPropModelBounds()</slot>
+  <slot>pickColorPropWorldBounds()</slot>
+  <slot>pickColorTextBox()</slot>
+  <slot>pickColorTextBoxBaselines()</slot>
+  <slot>pickColorTextBoxLayout()</slot>
+  <slot>toggleHistogramEnabled(bool)</slot>
+  <slot>toggleLuaAllocLogEnabled(bool)</slot>
+  <slot>reportHistogram()</slot>
+  <slot>forceGC()</slot>
+  <slot>runString()</slot>
+ </slots>
+</ui>

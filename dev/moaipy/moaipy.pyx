@@ -58,9 +58,6 @@ cdef void callAKUSetFunc_ExitFullscreenMode ():
     if callback_ExitFullscreenMode:
         callback_ExitFullscreenMode()
 
-def AKULoadLuaHeaders():
-    cmoai.AKURunData ( cmoai.moai_lua, cmoai.moai_lua_SIZE, cmoai.AKU_DATA_STRING, cmoai.AKU_DATA_ZIPPED )
-
 def AKUInitializeCallbacks():
     cAKUSetFunc_OpenWindow ( callAKUSetFunc_OpenWindow )
     cAKUSetFunc_SetSimStep ( callAKUSetFunc_SetSimStep )
@@ -254,16 +251,26 @@ def AKUModulesAppInitialize():
     cmoai.AKUUtilAppInitialize()
     cmoai.AKUSimAppInitialize()
     cmoai.AKULuaExtAppInitialize()
+    cmoai.AKUUntzAppInitialize()
 
 def AKUModulesAppFinalize():
     cmoai.AKUUtilAppFinalize()
     cmoai.AKUSimAppFinalize()
     cmoai.AKULuaExtAppFinalize()
+    cmoai.AKUUntzAppFinalize()
 
 def AKUModulesContextInitialize():
     cmoai.AKUUtilContextInitialize()
     cmoai.AKUSimContextInitialize()
     cmoai.AKULuaExtContextInitialize()
+    cmoai.AKUUntzContextInitialize()
+
+def AKUModulesUpdate():
+    cmoai.AKUUpdate()
+
+def AKUModulesRunLuaAPIWrapper():
+    cmoai.AKURunData ( cmoai.moai_lua, cmoai.moai_lua_SIZE, cmoai.AKU_DATA_STRING, cmoai.AKU_DATA_ZIPPED )
+
 
 # util host.h
 # def AKUUtilAppFinalize ():
