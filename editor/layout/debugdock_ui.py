@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'debugdock.ui'
 #
-# Created: Wed Apr 23 00:18:46 2014
+# Created: Thu May  8 17:04:49 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_debugdock(object):
     def setupUi(self, debugdock):
         debugdock.setObjectName("debugdock")
-        debugdock.resize(459, 735)
+        debugdock.resize(459, 673)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.gridLayout = QtGui.QGridLayout(self.dockWidgetContents)
@@ -163,6 +163,7 @@ class Ui_debugdock(object):
         sizePolicy.setHeightForWidth(self.luaStringEdit.sizePolicy().hasHeightForWidth())
         self.luaStringEdit.setSizePolicy(sizePolicy)
         self.luaStringEdit.setMaximumSize(QtCore.QSize(16777215, 130))
+        self.luaStringEdit.setAcceptRichText(False)
         self.luaStringEdit.setObjectName("luaStringEdit")
         self.gridLayout.addWidget(self.luaStringEdit, 16, 1, 1, 1)
         self.histogram = QtGui.QCheckBox(self.dockWidgetContents)
