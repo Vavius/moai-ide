@@ -140,7 +140,12 @@ class DebugDock(QDockWidget):
         self.mainWindow.moaiWidget.runString("MOAISim.reportHistogram()")
 
     @QtCore.Slot()
-    def runString(self):
+    def runStringLocal(self):
+        luaStr = self.ui.luaStringEdit.document().toPlainText()
+        self.mainWindow.moaiWidget.runString(luaStr)
+
+    @QtCore.Slot()
+    def runStringDevice(self):
         luaStr = self.ui.luaStringEdit.document().toPlainText()
         self.mainWindow.livereload.runStringRemote(luaStr)
 

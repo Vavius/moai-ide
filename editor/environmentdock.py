@@ -10,6 +10,8 @@ from layout.environmentdock_ui import Ui_environmentdock as Ui
 
 import luainterface
 
+DEFAULT_LANGUAGE_CODE = 13
+
 class EnvironmentDock(QDockWidget):
     def __init__(self, parent=None):
         super(EnvironmentDock, self).__init__(parent)
@@ -48,7 +50,7 @@ class EnvironmentDock(QDockWidget):
         self.ui.dpiEdit.setText( settings.value("env/dpi", "132") )
         self.ui.documentsBtn.setText( settings.value("env/documents", "docs/") )
 
-        lang = settings.value("env/languageCode", 29)
+        lang = settings.value("env/languageCode", DEFAULT_LANGUAGE_CODE)
         self.ui.languageBox.setCurrentIndex( lang )
         self.updateCountriesCombobox( lang )
         self.ui.countryBox.setCurrentIndex( settings.value("env/countryCode", 0))
@@ -122,6 +124,9 @@ class EnvironmentDock(QDockWidget):
         self.updateCountriesCombobox(idx)
 
     def updateCountriesCombobox(self, languageIdx):
+        if not languageIdx in Languages:
+            languageIdx = DEFAULT_LANGUAGE_CODE
+
         countries = QLocale.countriesForLanguage(Languages[languageIdx])
         countryBox = self.ui.countryBox
         countryBox.clear()
