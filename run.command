@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # entry point for python app
-cd editor
+
+cd /Users/andreibarkov/Development/Platforms/All/MoaiEditor/editor
 
 # run
 python mainwindow.py
