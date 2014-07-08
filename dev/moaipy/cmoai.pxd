@@ -53,6 +53,12 @@ cdef extern from "moai-untz/host.h":
     void            AKUUntzAppInitialize        ()
     void            AKUUntzContextInitialize    ()
 
+cdef extern from "moai-http-client/host.h":
+    void            AKUHttpClientAppFinalize        ()
+    void            AKUHttpClientAppInitialize      ()
+    void            AKUHttpClientContextInitialize  ()
+
+
 cdef extern from "lua-headers/moai_lua.h":
     cdef int moai_lua_SIZE
     cdef unsigned char moai_lua[]
