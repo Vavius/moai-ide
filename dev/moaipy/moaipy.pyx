@@ -252,18 +252,21 @@ def AKUModulesAppInitialize():
     cmoai.AKUSimAppInitialize()
     cmoai.AKULuaExtAppInitialize()
     cmoai.AKUUntzAppInitialize()
+    cmoai.AKUHttpClientAppInitialize()
 
 def AKUModulesAppFinalize():
     cmoai.AKUUtilAppFinalize()
     cmoai.AKUSimAppFinalize()
     cmoai.AKULuaExtAppFinalize()
     cmoai.AKUUntzAppFinalize()
+    cmoai.AKUHttpClientAppFinalize()
 
 def AKUModulesContextInitialize():
     cmoai.AKUUtilContextInitialize()
     cmoai.AKUSimContextInitialize()
     cmoai.AKULuaExtContextInitialize()
     cmoai.AKUUntzContextInitialize()
+    cmoai.AKUHttpClientContextInitialize()
 
 def AKUModulesUpdate():
     cmoai.AKUUpdate()

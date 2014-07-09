@@ -11,6 +11,7 @@ setup(
                 'libmoai-box2d.a',
                 'libmoai-chipmunk.a',
                 'libmoai-core.a',
+                'libmoai-http-client.a',
                 'libmoai-luaext.a',
                 'libmoai-sim.a',
                 'libmoai-untz.a',
