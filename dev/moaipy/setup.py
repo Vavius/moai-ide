@@ -17,7 +17,9 @@ setup(
                 'libmoai-untz.a',
                 'libmoai-util.a',
                 'libthird-party.a',
+                'libtlsf.a',
                 'libzlcore.a',
+                'libzlvfs.a',
                 'libluasocket.a',
             ],
 
