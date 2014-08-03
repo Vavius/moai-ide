@@ -160,6 +160,13 @@ def AKUSoftReleaseGfxResources(age):
 def AKUUpdate():
     cmoai.AKUUpdate()
 
+def AKUInitMemPool(sizeInBytes):
+    cmoai.AKUInitMemPool(sizeInBytes)
+
+def AKUClearMemPool():
+    cmoai.AKUClearMemPool()
+
+
 # callback management
 #void            AKUSetFunc_EnterFullscreenMode  ( AKUEnterFullscreenModeFunc func );
 #void            AKUSetFunc_ExitFullscreenMode   ( AKUExitFullscreenModeFunc func );

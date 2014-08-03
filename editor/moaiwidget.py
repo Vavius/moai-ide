@@ -18,6 +18,7 @@ KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, TOTAL = range(0, 6)
 
 class MOAIWidget(QtOpenGL.QGLWidget):
     windowReady = False
+    contextReady = False
 
     def __init__(self, parent=None):
         QtOpenGL.QGLWidget.__init__(self, parent)
@@ -44,20 +45,19 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             AKUSetViewSize(w, h)
 
     def initializeGL(self):
-        glReady = True
+        self.glReady = True
         glClearColor(0, 0, 0, 1)
         
 
     def paintGL(self):
         if self.windowReady:
             AKURender()
-        else:
+        elif self.glReady:
             glClear(GL_COLOR_BUFFER_BIT)
 
     def simStep(self):
         if self.windowReady:
             AKUUpdate()
-
 
     # Input
     def mouseMoveEvent(self, event):
@@ -123,6 +123,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def refreshContext(self):
         context = AKUGetContext ()
         if context:
+            AKUReleaseGfxContext ()
             AKUDeleteContext ( context )
 
         AKUAppInitialize ()
@@ -177,6 +178,12 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUSetViewSize(w, h)
 
         self.windowReady = True
+
+    def finalize(self):
+        self.windowReady = False
+        self.glReady = False
+        AKUModulesAppFinalize()
+        AKUAppFinalize()
 
     def setSimStep(self, step):
         timer.setInterval(step * 1000)

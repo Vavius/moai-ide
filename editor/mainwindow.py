@@ -111,7 +111,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         self.writeSettings()
-        QMainWindow.closeEvent(self, event)
+        self.moaiWidget.finalize()
+        event.accept()
 
     def readSettings(self):
         settings = QSettings()
