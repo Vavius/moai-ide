@@ -3,3 +3,4 @@ Thumbs.db
 
 *.pyc
 editor/lua/moai-framework/
+dev/moaipy/build/
