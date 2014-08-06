@@ -117,6 +117,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         self.writeSettings()
+        self.statsDock.stopTimer()
         self.moaiWidget.finalize()
         event.accept()
 
