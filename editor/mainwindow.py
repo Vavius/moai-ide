@@ -22,6 +22,7 @@ from consoledock import ConsoleDock
 from environmentdock import EnvironmentDock
 from debugdock import DebugDock
 from profilerdock import ProfilerDock
+from statsdock import StatsDock
 
 from colorama import Fore, Back, Style
 from time import strftime
@@ -72,29 +73,34 @@ class MainWindow(QMainWindow):
         self.debugDock = DebugDock(self)
         self.profilerDock = ProfilerDock(self)
         self.environmentDock = EnvironmentDock(self)
+        self.statsDock = StatsDock(self)
 
         self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.environmentDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.debugDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.profilerDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.statsDock)
 
         actionOutliner = self.outlinerDock.toggleViewAction()
         actionConsole = self.consoleDock.toggleViewAction()
         actionEnvironment = self.environmentDock.toggleViewAction()
         actionDebug = self.debugDock.toggleViewAction()
         actionProfiler = self.profilerDock.toggleViewAction()
+        actionStats = self.statsDock.toggleViewAction()
 
         self.outlinerDock.hide()
         self.consoleDock.hide()
         self.debugDock.hide()
         self.profilerDock.hide()
+        self.statsDock.hide()
         
         ui.menuWindow.addAction(actionOutliner)
         ui.menuWindow.addAction(actionEnvironment)
         ui.menuWindow.addAction(actionConsole)
         ui.menuWindow.addAction(actionDebug)
         ui.menuWindow.addAction(actionProfiler)
+        ui.menuWindow.addAction(actionStats)
         
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
@@ -170,6 +176,8 @@ class MainWindow(QMainWindow):
 
     # lua
     def openFile(self, fileName, workingDir = ""):
+        self.statsDock.stopTimer()
+
         self.moaiWidget.refreshContext()
         self.moaiWidget.setWorkingDirectory(workingDir)
         self.moaiWidget.setTraceback(tracebackFunc)
@@ -189,6 +197,9 @@ class MainWindow(QMainWindow):
 
         self.livereload.lua = self.moaiWidget.lua
         self.livereload.watchDirectory(workingDir)
+
+        self.statsDock.setLuaState(self.moaiWidget.lua)
+        self.statsDock.startTimer()
 
         self.runAttempts = 0
         settings = QSettings()
