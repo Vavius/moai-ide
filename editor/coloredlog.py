@@ -41,8 +41,8 @@ class ColoredLog():
 
 
     def enableColoredLog(self):
-        self.setColoredPrintFunc('log.__debug',    coloredBeforePrint(Fore.CYAN, Style.NORMAL), afterPrint)
-        self.setColoredPrintFunc('log.__info',     coloredBeforePrint(Fore.WHITE, Style.NORMAL), afterPrint)
+        self.setColoredPrintFunc('log.__debug',    coloredBeforePrint(Fore.WHITE, Style.NORMAL), afterPrint)
+        self.setColoredPrintFunc('log.__info',     coloredBeforePrint(Fore.CYAN, Style.NORMAL), afterPrint)
         self.setColoredPrintFunc('log.__warning',  coloredBeforePrint(Fore.YELLOW, Style.NORMAL), afterPrint)
         self.setColoredPrintFunc('log.__error',    coloredBeforePrint(Fore.RED, Style.NORMAL), afterPrint)
         self.setColoredPrintFunc('log.__critical', coloredBeforePrint(Fore.RED, Style.BRIGHT), afterPrint)
