@@ -68,7 +68,9 @@ lib_nojit = [
     'lib/nojit/libmoai-core.a',
     'lib/nojit/libmoai-http-client.a',
     'lib/nojit/libmoai-luaext.a',
+    'lib/nojit/libmoai-plugins.a',
     'lib/nojit/libmoai-sim.a',
+    'lib/nojit/libmoai-spine.a',
     'lib/nojit/libmoai-untz.a',
     'lib/nojit/libmoai-util.a',
     'lib/nojit/libmongoose.a',
@@ -77,6 +79,7 @@ lib_nojit = [
     'lib/nojit/libSDL2.a',
     'lib/nojit/libSDL2main.a',
     'lib/nojit/libsfmt.a',
+    'lib/nojit/libspine.a',
     'lib/nojit/libsqlite3.a',
     'lib/nojit/libssl.a',
     'lib/nojit/libtinyxml.a',
@@ -114,7 +117,7 @@ setup(
 
             include_dirs=[
             # '/Users/vavius/moai/moai-new/3rdparty/LuaJIT-2.0.3/src/',
-            '/Users/vavius/moai/moai-new/src/'
+            '/Users/vavius/moai/moai-new/src/',
             '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/'
             ])
     ]

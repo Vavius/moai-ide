@@ -58,6 +58,11 @@ cdef extern from "moai-http-client/host.h":
     void            AKUHttpClientAppInitialize      ()
     void            AKUHttpClientContextInitialize  ()
 
+cdef extern from "moai-plugins/host.h":
+    void            AKUPluginsAppFinalize           ()
+    void            AKUPluginsAppInitialize         ()
+    void            AKUPluginsContextInitialize     ()
+    void            AKUPluginsUpdate                ()
 
 cdef extern from "lua-headers/moai_lua.h":
     cdef int moai_lua_SIZE
