@@ -35,7 +35,7 @@ class ColoredLog():
                 %(tmpName)s(...)
                 after()
             end
-            log.setLogLevel(log.WARNING)
+            log.setLogLevel(log.DEBUG)
         end""" % {'name' : name, 'tmpName' : tmpName})
         setFunc(before, after)
 
