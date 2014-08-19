@@ -260,6 +260,7 @@ def AKUModulesAppInitialize():
     cmoai.AKULuaExtAppInitialize()
     cmoai.AKUUntzAppInitialize()
     cmoai.AKUHttpClientAppInitialize()
+    cmoai.AKUPluginsAppInitialize()
 
 def AKUModulesAppFinalize():
     cmoai.AKUUtilAppFinalize()
@@ -267,6 +268,7 @@ def AKUModulesAppFinalize():
     cmoai.AKULuaExtAppFinalize()
     cmoai.AKUUntzAppFinalize()
     cmoai.AKUHttpClientAppFinalize()
+    cmoai.AKUPluginsAppFinalize()
 
 def AKUModulesContextInitialize():
     cmoai.AKUUtilContextInitialize()
@@ -274,8 +276,10 @@ def AKUModulesContextInitialize():
     cmoai.AKULuaExtContextInitialize()
     cmoai.AKUUntzContextInitialize()
     cmoai.AKUHttpClientContextInitialize()
+    cmoai.AKUPluginsContextInitialize()
 
 def AKUModulesUpdate():
+    cmoai.AKUPluginsUpdate()
     cmoai.AKUUpdate()
 
 def AKUModulesRunLuaAPIWrapper():

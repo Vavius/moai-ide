@@ -11,6 +11,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import luainterface
+from coloredlog import ColoredLog
 
 # input sensors IDs
 KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, TOTAL = range(0, 6)
@@ -167,6 +168,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         self.runString("""  MOAIApp = MOAIApp or require ('MOAIApp')
                             MOAINotifications = MOAINotifications or require('MOAINotifications')
                             require ('include')""" )
+        self.coloredlog = ColoredLog(self.lua)
 
 
     def openWindow(self, title, width, height):

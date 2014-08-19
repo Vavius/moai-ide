@@ -27,20 +27,22 @@ class ColoredLog():
         self.enableColoredLog()
 
     def setColoredPrintFunc(self, name, before, after):
+        tmpName = name.replace('.', '')
         setFunc = self.lua.eval("""function(before, after) 
-            _%(name)s = %(name)s
+            %(tmpName)s = %(name)s
             %(name)s = function(...)
                 before()
-                _%(name)s(...)
+                %(tmpName)s(...)
                 after()
             end
-        end""" % {'name' : name})
+            log.setLogLevel(log.DEBUG)
+        end""" % {'name' : name, 'tmpName' : tmpName})
         setFunc(before, after)
 
 
     def enableColoredLog(self):
-        setColoredPrintFunc('log.debug',    coloredBeforePrint(Fore.WHITE, Style.NORMAL), afterPrint)
-        setColoredPrintFunc('log.info',     coloredBeforePrint(Fore.CYAN, Style.NORMAL), afterPrint)
-        setColoredPrintFunc('log.warning',  coloredBeforePrint(Fore.YELLOW, Style.NORMAL), afterPrint)
-        setColoredPrintFunc('log.error',    coloredBeforePrint(Fore.RED, Style.NORMAL), afterPrint)
-        setColoredPrintFunc('log.critical', coloredBeforePrint(Fore.RED, Style.BRIGHT), afterPrint)
+        self.setColoredPrintFunc('log.__debug',    coloredBeforePrint(Fore.WHITE, Style.NORMAL), afterPrint)
+        self.setColoredPrintFunc('log.__info',     coloredBeforePrint(Fore.CYAN, Style.NORMAL), afterPrint)
+        self.setColoredPrintFunc('log.__warning',  coloredBeforePrint(Fore.YELLOW, Style.NORMAL), afterPrint)
+        self.setColoredPrintFunc('log.__error',    coloredBeforePrint(Fore.RED, Style.NORMAL), afterPrint)
+        self.setColoredPrintFunc('log.__critical', coloredBeforePrint(Fore.RED, Style.BRIGHT), afterPrint)

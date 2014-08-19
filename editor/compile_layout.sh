@@ -9,5 +9,6 @@ pyside-uic -o propertyeditordock_ui.py propertyeditordock.ui
 pyside-uic -o consoledock_ui.py consoledock.ui
 pyside-uic -o outlinerdock_ui.py outlinerdock.ui
 pyside-uic -o profilerdock_ui.py profilerdock.ui
+pyside-uic -o statsdock_ui.py statsdock.ui
 
 cd ..
