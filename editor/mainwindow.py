@@ -134,10 +134,10 @@ class MainWindow(QMainWindow):
         settings.setValue("main/openProjectAttempts", self.runAttempts)
 
         # do not load projects if it crashed last time
-        # if not self.runningFile and self.runAttempts < 3:
-        #     self.runningFile = settings.value("main/currentFile")
-        #     self.workingDir = settings.value("main/workingDir", "")
-        #     QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
+        if not self.runningFile and self.runAttempts < 3:
+            self.runningFile = settings.value("main/currentFile")
+            self.workingDir = settings.value("main/workingDir", "")
+            QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
         
 
     def writeSettings(self):
@@ -161,6 +161,7 @@ class MainWindow(QMainWindow):
     @QtCore.Slot()
     def reloadMoai(self):
         if self.runningFile:
+            self.environmentDock.onEndSession()
             self.consoleDock.onReload(os.path.join(self.workingDir, self.runningFile), colorPrintEnabled)
             self.openFile(self.runningFile, self.workingDir)
 

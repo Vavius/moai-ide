@@ -175,12 +175,12 @@ class EnvironmentDock(QDockWidget):
 
     @QtCore.Slot()
     def onEndSession(self):
-        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.SESSION_END)" )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_END) end" )
 
     @QtCore.Slot()
     def onOpenedFromUrl(self):
         url = self.ui.urlEdit.text()
-        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.APP_OPENED_FROM_URL, '%s')" % url )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.APP_OPENED_FROM_URL, '%s') end" % url )
 
     @QtCore.Slot()
     def sendNotification(self):
@@ -189,12 +189,12 @@ class EnvironmentDock(QDockWidget):
         if self.ui.pushLocal.isChecked():
             event = 'MOAINotifications.REMOTE_NOTIFICATION_MESSAGE_RECEIVED'
 
-        self.mainWindow.moaiWidget.runString ( "MOAINotifications.dispatchEvent (%s, %s)" % (event, userInfo) )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAINotifications.dispatchEvent (%s, %s) end" % (event, userInfo) )
 
 
     def startSession(self, resume):
         flag = 'true' if resume else 'false'
-        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s)" % flag )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s) end" % flag )
 
 
     def applyEnvironmentSettings(self):
