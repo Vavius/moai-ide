@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>439</width>
-    <height>836</height>
+    <height>866</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -158,61 +158,6 @@
        <bool>true</bool>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>26</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Documents</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>DPI</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Country Code</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Height</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Width</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Language Code</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="widthEdit">
-         <property name="focusPolicy">
-          <enum>Qt::StrongFocus</enum>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <widget class="QLineEdit" name="heightEdit">
          <property name="sizePolicy">
@@ -232,8 +177,66 @@
          </property>
         </widget>
        </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Documents</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="widthEdit">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>DPI</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="dpiEdit"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Country Code</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Language Code</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="languageBox"/>
        </item>
        <item row="3" column="1">
         <widget class="QPushButton" name="documentsBtn">
@@ -266,11 +269,18 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="languageBox"/>
-       </item>
        <item row="5" column="1">
         <widget class="QComboBox" name="countryBox"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>DeviceType</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="deviceBox"/>
        </item>
       </layout>
      </widget>
@@ -686,6 +696,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>deviceBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>environmentdock</receiver>
+   <slot>setDeviceType()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>272</x>
+     <y>470</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>432</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>setAutoreloadHost(bool)</slot>
@@ -703,5 +729,6 @@
   <slot>onOpenedFromUrl()</slot>
   <slot>sendNotification()</slot>
   <slot>clearRemoteOverrides()</slot>
+  <slot>setDeviceType()</slot>
  </slots>
 </ui>

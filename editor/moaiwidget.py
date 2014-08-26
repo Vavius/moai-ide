@@ -166,7 +166,6 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         
         self.runString("package.path = '%s;%s;' .. package.path" % (luaFrameworkPath, luaEditorFrameworkPath))
         self.runString("""  MOAIApp = MOAIApp or require ('MOAIApp')
-                            MOAIAppAndroid = MOAIApp
                             MOAINotificationsIOS = MOAINotifications or require('MOAINotifications')
                             require ('include')""" )
         self.coloredlog = ColoredLog(self.lua)
