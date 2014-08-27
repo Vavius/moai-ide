@@ -161,6 +161,7 @@ class MainWindow(QMainWindow):
     @QtCore.Slot()
     def reloadMoai(self):
         if self.runningFile:
+            self.environmentDock.onEndSession()
             self.consoleDock.onReload(os.path.join(self.workingDir, self.runningFile), colorPrintEnabled)
             self.openFile(self.runningFile, self.workingDir)
 

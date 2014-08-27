@@ -35,6 +35,10 @@ class EnvironmentDock(QDockWidget):
         
         for idx in xrange(0, len(Languages)):
             ui.languageBox.addItem(QLocale.languageToString(Languages[idx]))
+
+        self.deviceTypes = ['Editor', 'IOS', 'Android']
+        for idx, val in enumerate(self.deviceTypes):
+            ui.deviceBox.addItem(val)
         
 
     def readSettings(self):
@@ -54,6 +58,7 @@ class EnvironmentDock(QDockWidget):
         self.ui.languageBox.setCurrentIndex( lang )
         self.updateCountriesCombobox( lang )
         self.ui.countryBox.setCurrentIndex( settings.value("env/countryCode", 0))
+        self.ui.deviceBox.setCurrentIndex( settings.value("env/deviceType", 0))
 
         self.mainWindow.livereload.setAutoreloadDevice(self.ui.deviceAutoreload.isChecked())
         self.mainWindow.livereload.setAutoreloadHost(self.ui.localAutoreload.isChecked())
@@ -72,6 +77,7 @@ class EnvironmentDock(QDockWidget):
         settings.setValue("env/documents", self.ui.documentsBtn.text())
         settings.setValue("env/countryCode", self.ui.countryBox.currentIndex())
         settings.setValue("env/languageCode", self.ui.languageBox.currentIndex())
+        settings.setValue("env/deviceType", self.ui.deviceBox.currentIndex())
 
     @QtCore.Slot(bool)
     def setAutoreloadDevice(self, flag):
@@ -118,6 +124,17 @@ class EnvironmentDock(QDockWidget):
             self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('languageCode', '%s')" % codes[0])
             self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('countryCode', '%s')" % codes[1])
 
+    @QtCore.Slot(int)
+    def setDeviceType(self, idx):
+        device = self.deviceTypes[idx]
+        self.mainWindow.moaiWidget.runString("MOAIAppAndroid = nil")
+        self.mainWindow.moaiWidget.runString("MOAIAppIOS = nil")
+        if device == "IOS":
+            self.mainWindow.moaiWidget.runString("MOAIAppIOS = MOAIApp")
+            self.mainWindow.moaiWidget.runString("MOAINotificationsIOS = MOAINotifications")
+        elif device == "Android":
+            self.mainWindow.moaiWidget.runString("MOAIAppAndroid = MOAIApp")
+            self.mainWindow.moaiWidget.runString("MOAINotificationsAndroid = MOAINotifications")
 
     @QtCore.Slot(int)
     def setLanguageCode(self, idx):
@@ -175,12 +192,12 @@ class EnvironmentDock(QDockWidget):
 
     @QtCore.Slot()
     def onEndSession(self):
-        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.SESSION_END)" )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_END) end" )
 
     @QtCore.Slot()
     def onOpenedFromUrl(self):
         url = self.ui.urlEdit.text()
-        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.APP_OPENED_FROM_URL, '%s')" % url )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.APP_OPENED_FROM_URL, '%s') end" % url )
 
     @QtCore.Slot()
     def sendNotification(self):
@@ -189,12 +206,12 @@ class EnvironmentDock(QDockWidget):
         if self.ui.pushLocal.isChecked():
             event = 'MOAINotifications.REMOTE_NOTIFICATION_MESSAGE_RECEIVED'
 
-        self.mainWindow.moaiWidget.runString ( "MOAINotifications.dispatchEvent (%s, %s)" % (event, userInfo) )
+        self.mainWindow.moaiWidget.runString ( "if MOAINotifications then MOAINotifications.dispatchEvent (%s, %s) end" % (event, userInfo) )
 
 
     def startSession(self, resume):
         flag = 'true' if resume else 'false'
-        self.mainWindow.moaiWidget.runString ( "MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s)" % flag )
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s) end" % flag )
 
 
     def applyEnvironmentSettings(self):

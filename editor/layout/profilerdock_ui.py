@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'profilerdock.ui'
 #
-# Created: Tue Aug  5 17:25:25 2014
+# Created: Tue Aug 26 14:46:25 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
