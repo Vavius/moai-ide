@@ -127,17 +127,14 @@ class EnvironmentDock(QDockWidget):
     @QtCore.Slot(int)
     def setDeviceType(self, idx):
         device = self.deviceTypes[idx]
-        print(idx, device)
         self.mainWindow.moaiWidget.runString("MOAIAppAndroid = nil")
         self.mainWindow.moaiWidget.runString("MOAIAppIOS = nil")
         if device == "IOS":
             self.mainWindow.moaiWidget.runString("MOAIAppIOS = MOAIApp")
             self.mainWindow.moaiWidget.runString("MOAINotificationsIOS = MOAINotifications")
-            print('setting ios')
         elif device == "Android":
             self.mainWindow.moaiWidget.runString("MOAIAppAndroid = MOAIApp")
             self.mainWindow.moaiWidget.runString("MOAINotificationsAndroid = MOAINotifications")
-            print('setting android')
 
     @QtCore.Slot(int)
     def setLanguageCode(self, idx):
@@ -217,7 +214,6 @@ class EnvironmentDock(QDockWidget):
         self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s) end" % flag )
 
     def applyEnvironmentSettings(self):
-        print('applying env')
         lang = Languages[self.ui.languageBox.currentIndex()]
         country = QLocale.Country(self.ui.countryBox.itemData(self.ui.countryBox.currentIndex()))
 
