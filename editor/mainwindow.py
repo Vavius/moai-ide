@@ -185,6 +185,8 @@ class MainWindow(QMainWindow):
         self.moaiWidget.setTraceback(tracebackFunc)
         self.moaiWidget.setPrint(luaBeforePrint, luaAfterPrint)
         
+        self.moaiWidget.loadEditorFramework()
+
         self.debugDock.updateAllDebugValues()
         self.environmentDock.applyEnvironmentSettings()
         self.profilerDock.applyProfilingSettings()
