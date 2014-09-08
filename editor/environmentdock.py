@@ -213,7 +213,6 @@ class EnvironmentDock(QDockWidget):
         flag = 'true' if resume else 'false'
         self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s) end" % flag )
 
-
     def applyEnvironmentSettings(self):
         lang = Languages[self.ui.languageBox.currentIndex()]
         country = QLocale.Country(self.ui.countryBox.itemData(self.ui.countryBox.currentIndex()))
@@ -229,3 +228,4 @@ class EnvironmentDock(QDockWidget):
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('countryCode', '%s')" % codes[1])
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('screenDpi', %f)" % dpi )
         self.mainWindow.moaiWidget.runString( "MOAIEnvironment.setValue('documentDirectory', '%s')" % relPath )
+        self.setDeviceType(self.ui.deviceBox.currentIndex())
