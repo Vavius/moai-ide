@@ -3,6 +3,6 @@
 # build python extension
 rm -f moaipy.cpp
 
-# export CFLAGS=-sysroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk
-# export LDFLAGS=-L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib
-python setup.py build
+PYTHON_PATH="/usr/local/Cellar/python/2.7.3/bin/python"
+export MACOSX_DEPLOYMENT_TARGET=10.8
+$PYTHON_PATH setup.py build
