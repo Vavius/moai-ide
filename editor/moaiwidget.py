@@ -11,6 +11,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import luainterface
+from filedialog import FileDialog
 from coloredlog import ColoredLog
 
 # input sensors IDs
@@ -173,6 +174,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         self.runString("package.path = '%s;' .. package.path" % luaFrameworkPath)
         self.runString("""  require ('include')""" )
         self.coloredlog = ColoredLog(self.lua)
+        self.fileDialog = FileDialog(self.lua, self)
 
 
     def openWindow(self, title, width, height):
