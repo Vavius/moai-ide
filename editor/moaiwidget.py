@@ -15,7 +15,7 @@ from filedialog import FileDialog
 from coloredlog import ColoredLog
 
 # input sensors IDs
-KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, TOTAL = range(0, 6)
+KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, MOUSE_WHEEL, TOTAL = range(0, 7)
 
 
 class MOAIWidget(QtOpenGL.QGLWidget):
@@ -59,9 +59,13 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
     def simStep(self):
         if self.windowReady:
-            AKUUpdate()
+            AKUModulesUpdate()
 
     # Input
+    def wheelEvent(self, event):
+        AKUEnqueueWheelEvent ( 0, MOUSE_WHEEL, event.delta() )
+        event.accept()
+
     def mouseMoveEvent(self, event):
         x, y = event.x(), event.y()
         AKUEnqueuePointerEvent ( 0, POINTER, x, y )
@@ -144,6 +148,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUReserveInputDeviceSensors    ( 0, TOTAL );
         AKUSetInputDeviceKeyboard       ( 0, KEYBOARD,     "keyboard" );
         AKUSetInputDevicePointer        ( 0, POINTER,      "pointer" );
+        AKUSetInputDeviceWheel          ( 0, MOUSE_WHEEL,  "wheel" );
         AKUSetInputDeviceButton         ( 0, MOUSE_LEFT,   "mouseLeft" );
         AKUSetInputDeviceButton         ( 0, MOUSE_MIDDLE, "mouseMiddle" );
         AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );

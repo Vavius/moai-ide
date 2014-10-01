@@ -24,6 +24,7 @@ lib_jit = [
     'lib/jit/libmoai-chipmunk.a',
     'lib/jit/libmoai-core.a',
     'lib/jit/libmoai-http-client.a',
+    'lib/jit/libmoai-fmod-studio.a',
     'lib/jit/libmoai-luaext.a',
     'lib/jit/libmoai-sim.a',
     'lib/jit/libmoai-untz.a',
@@ -67,6 +68,7 @@ lib_nojit = [
     'lib/nojit/libmoai-chipmunk.a',
     'lib/nojit/libmoai-core.a',
     'lib/nojit/libmoai-http-client.a',
+    'lib/nojit/libmoai-fmod-studio.a',
     'lib/nojit/libmoai-luaext.a',
     'lib/nojit/libmoai-plugins.a',
     'lib/nojit/libmoai-sim.a',
@@ -88,7 +90,8 @@ lib_nojit = [
     'lib/nojit/libvorbis.a',
     'lib/nojit/libzlcore.a',
     'lib/nojit/libzlib.a',
-    'lib/nojit/libzlvfs.a'
+    'lib/nojit/libzlvfs.a',
+    'lib/libfmod.dylib'
 ]
 
 setup(
@@ -97,7 +100,7 @@ setup(
         Extension("moaipy", ["moaipy.pyx", "lock.pxi"], 
             language="c++",
             extra_objects=lib_nojit,
-
+            
             extra_link_args=[
             '-framework', 'OpenGL',
             '-framework', 'GLUT',
@@ -117,8 +120,8 @@ setup(
 
             include_dirs=[
             # '/Users/vavius/moai/moai-new/3rdparty/LuaJIT-2.0.3/src/',
-            '/Users/vavius/moai/moai-new/src/',
-            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/'
+            '/Users/vavius/moai/moai-dev/src/',
+            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.3/src/'
             ])
     ]
 )
