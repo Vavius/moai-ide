@@ -53,6 +53,12 @@ cdef extern from "moai-untz/host.h":
     void            AKUUntzAppInitialize        ()
     void            AKUUntzContextInitialize    ()
 
+cdef extern from "moai-fmod-studio/host.h":
+    void            AKUFmodStudioAppFinalize          ()
+    void            AKUFmodStudioAppInitialize        ()
+    void            AKUFmodStudioContextInitialize    ()
+    void            AKUFmodStudioUpdate               ()
+
 cdef extern from "moai-http-client/host.h":
     void            AKUHttpClientAppFinalize        ()
     void            AKUHttpClientAppInitialize      ()
