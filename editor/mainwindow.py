@@ -101,7 +101,12 @@ class MainWindow(QMainWindow):
         ui.menuWindow.addAction(actionDebug)
         ui.menuWindow.addAction(actionProfiler)
         ui.menuWindow.addAction(actionStats)
-        
+
+        self.viewMenu = self.menuBar().addMenu('&View')
+        self.viewMenu.addAction(QtGui.QAction('&Fullscreen on', self, statusTip="Enter Fullscreen", shortcut="Shift+Ctrl+F", triggered=self.fullscreen))
+        self.viewMenu.addSeparator()
+        self.viewMenu.addAction(QtGui.QAction('&Fullscreen off', self, statusTip="Exit Fullscreen", shortcut="Alt+Ctrl+F", triggered=self.normal))
+
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
 
@@ -114,6 +119,12 @@ class MainWindow(QMainWindow):
         self.readSettings()
         if script:
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
+
+    def fullscreen(self):
+        self.setWindowState(QtCore.Qt.WindowFullScreen)
+
+    def normal(self):
+        self.setWindowState(QtCore.Qt.WindowNoState)
 
     def closeEvent(self, event):
         self.writeSettings()
@@ -209,7 +220,6 @@ class MainWindow(QMainWindow):
         settings = QSettings()
         settings.setValue("main/openProjectAttempts", self.runAttempts)
 
-
 class ConsoleStream(QtCore.QObject):
     message = QtCore.Signal(str)
     def __init__(self, parent=None):
@@ -238,7 +248,9 @@ if __name__ == '__main__':
     if colorPrintEnabled:
         print(Style.DIM)
     
-    mainWindow.show()
+    # mainWindow.show()
+    mainWindow.showNormal()
+
     app.exec_()
     
     if colorPrintEnabled:
