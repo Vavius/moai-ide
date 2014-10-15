@@ -10,7 +10,7 @@ import argparse
 
 from PySide import QtCore, QtGui
 from PySide.QtGui import QApplication, QMainWindow
-from PySide.QtCore import QSettings, QCoreApplication
+from PySide.QtCore import QSettings, QCoreApplication, QLocale
 
 from layout.mainwindow_ui import Ui_MainWindow as Ui
 from moaiwidget import MOAIWidget
@@ -28,6 +28,7 @@ from colorama import Fore, Back, Style
 from time import strftime
 
 import luainterface
+import locale
 
 colorPrintEnabled = True
 
@@ -229,6 +230,9 @@ class ConsoleStream(QtCore.QObject):
         self.message.emit(str(message))
 
 if __name__ == '__main__':
+    QLocale.setDefault(QLocale(QLocale.C))
+    locale.setlocale(locale.LC_ALL, 'C')
+
     QCoreApplication.setOrganizationName("DigitalClick")
     QCoreApplication.setOrganizationDomain("cloudteam.pro")
     QCoreApplication.setApplicationName("Moai Editor")
@@ -252,6 +256,5 @@ if __name__ == '__main__':
     mainWindow.showNormal()
 
     app.exec_()
-    
     if colorPrintEnabled:
         print(Style.RESET_ALL)

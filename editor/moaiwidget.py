@@ -153,6 +153,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         AKUSetInputDeviceButton         ( 0, MOUSE_MIDDLE, "mouseMiddle" );
         AKUSetInputDeviceButton         ( 0, MOUSE_RIGHT,  "mouseRight" );
 
+        self.runString("os.setlocale('C')")
         AKUModulesRunLuaAPIWrapper ()
         self.runString("MOAIEnvironment.setValue('horizontalResolution', %d) MOAIEnvironment.setValue('verticalResolution', %d)" %
             ( int ( self.size().width() ), int ( self.size().height()) ) )
