@@ -26,4 +26,8 @@ function MOAIApp.dispatchEvent(event, ...)
     end
 end
 
+function MOAIApp.exitGame()
+    os.exit()
+end
+
 return MOAIApp

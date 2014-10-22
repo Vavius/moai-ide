@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>439</width>
-    <height>866</height>
+    <height>881</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -368,6 +368,23 @@
        <bool>true</bool>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="urlEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="urlBtn">
+         <property name="text">
+          <string>Open Url</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="sessionEndBtn">
+         <property name="text">
+          <string>End Session</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="sessionStartBtn">
          <property name="text">
@@ -382,22 +399,12 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="sessionEndBtn">
-         <property name="text">
-          <string>End Session</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
-        <widget class="QPushButton" name="urlBtn">
+        <widget class="QPushButton" name="backBtn">
          <property name="text">
-          <string>Open Url</string>
+          <string>Back (Android)</string>
          </property>
         </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="urlEdit"/>
        </item>
       </layout>
      </widget>
@@ -712,6 +719,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>backBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>environmentdock</receiver>
+   <slot>onBackButton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>798</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>440</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>setAutoreloadHost(bool)</slot>
@@ -730,5 +753,6 @@
   <slot>sendNotification()</slot>
   <slot>clearRemoteOverrides()</slot>
   <slot>setDeviceType()</slot>
+  <slot>onBackButton()</slot>
  </slots>
 </ui>

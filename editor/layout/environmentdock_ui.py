@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'environmentdock.ui'
 #
-# Created: Tue Aug 26 14:46:25 2014
+# Created: Wed Oct 22 17:45:19 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_environmentdock(object):
     def setupUi(self, environmentdock):
         environmentdock.setObjectName("environmentdock")
-        environmentdock.resize(439, 866)
+        environmentdock.resize(439, 881)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
@@ -175,21 +175,24 @@ class Ui_environmentdock(object):
         self.seesionGroup.setObjectName("seesionGroup")
         self.gridLayout_3 = QtGui.QGridLayout(self.seesionGroup)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        self.urlEdit = QtGui.QLineEdit(self.seesionGroup)
+        self.urlEdit.setObjectName("urlEdit")
+        self.gridLayout_3.addWidget(self.urlEdit, 3, 1, 1, 1)
+        self.urlBtn = QtGui.QPushButton(self.seesionGroup)
+        self.urlBtn.setObjectName("urlBtn")
+        self.gridLayout_3.addWidget(self.urlBtn, 3, 0, 1, 1)
+        self.sessionEndBtn = QtGui.QPushButton(self.seesionGroup)
+        self.sessionEndBtn.setObjectName("sessionEndBtn")
+        self.gridLayout_3.addWidget(self.sessionEndBtn, 1, 0, 1, 1)
         self.sessionStartBtn = QtGui.QPushButton(self.seesionGroup)
         self.sessionStartBtn.setObjectName("sessionStartBtn")
         self.gridLayout_3.addWidget(self.sessionStartBtn, 0, 0, 1, 1)
         self.sessionResume = QtGui.QCheckBox(self.seesionGroup)
         self.sessionResume.setObjectName("sessionResume")
         self.gridLayout_3.addWidget(self.sessionResume, 0, 1, 1, 1)
-        self.sessionEndBtn = QtGui.QPushButton(self.seesionGroup)
-        self.sessionEndBtn.setObjectName("sessionEndBtn")
-        self.gridLayout_3.addWidget(self.sessionEndBtn, 1, 0, 1, 1)
-        self.urlBtn = QtGui.QPushButton(self.seesionGroup)
-        self.urlBtn.setObjectName("urlBtn")
-        self.gridLayout_3.addWidget(self.urlBtn, 2, 0, 1, 1)
-        self.urlEdit = QtGui.QLineEdit(self.seesionGroup)
-        self.urlEdit.setObjectName("urlEdit")
-        self.gridLayout_3.addWidget(self.urlEdit, 2, 1, 1, 1)
+        self.backBtn = QtGui.QPushButton(self.seesionGroup)
+        self.backBtn.setObjectName("backBtn")
+        self.gridLayout_3.addWidget(self.backBtn, 2, 0, 1, 1)
         self.verticalLayout.addWidget(self.seesionGroup)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
@@ -212,6 +215,7 @@ class Ui_environmentdock(object):
         QtCore.QObject.connect(self.pushSend, QtCore.SIGNAL("clicked()"), environmentdock.sendNotification)
         QtCore.QObject.connect(self.clearOverridesBtn, QtCore.SIGNAL("clicked()"), environmentdock.clearRemoteOverrides)
         QtCore.QObject.connect(self.deviceBox, QtCore.SIGNAL("currentIndexChanged(int)"), environmentdock.setDeviceType)
+        QtCore.QObject.connect(self.backBtn, QtCore.SIGNAL("clicked()"), environmentdock.onBackButton)
         QtCore.QMetaObject.connectSlotsByName(environmentdock)
         environmentdock.setTabOrder(self.reloadGroup, self.availableDevicesList)
         environmentdock.setTabOrder(self.availableDevicesList, self.updateDevicesBtn)
@@ -263,10 +267,11 @@ class Ui_environmentdock(object):
         self.pushSend.setText(QtGui.QApplication.translate("environmentdock", "Send", None, QtGui.QApplication.UnicodeUTF8))
         self.pushLocal.setText(QtGui.QApplication.translate("environmentdock", "Local", None, QtGui.QApplication.UnicodeUTF8))
         self.seesionGroup.setTitle(QtGui.QApplication.translate("environmentdock", "Session", None, QtGui.QApplication.UnicodeUTF8))
+        self.urlBtn.setText(QtGui.QApplication.translate("environmentdock", "Open Url", None, QtGui.QApplication.UnicodeUTF8))
+        self.sessionEndBtn.setText(QtGui.QApplication.translate("environmentdock", "End Session", None, QtGui.QApplication.UnicodeUTF8))
         self.sessionStartBtn.setText(QtGui.QApplication.translate("environmentdock", "Start Session", None, QtGui.QApplication.UnicodeUTF8))
         self.sessionResume.setText(QtGui.QApplication.translate("environmentdock", "resume", None, QtGui.QApplication.UnicodeUTF8))
-        self.sessionEndBtn.setText(QtGui.QApplication.translate("environmentdock", "End Session", None, QtGui.QApplication.UnicodeUTF8))
-        self.urlBtn.setText(QtGui.QApplication.translate("environmentdock", "Open Url", None, QtGui.QApplication.UnicodeUTF8))
+        self.backBtn.setText(QtGui.QApplication.translate("environmentdock", "Back (Android)", None, QtGui.QApplication.UnicodeUTF8))
 
 from widgets.qgroupboxcollapsible import QGroupBoxCollapsible
 import resources_rc

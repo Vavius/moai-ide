@@ -195,6 +195,10 @@ class EnvironmentDock(QDockWidget):
         self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_END) end" )
 
     @QtCore.Slot()
+    def onBackButton(self):
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.BACK_BUTTON_PRESSED) end" )
+
+    @QtCore.Slot()
     def onOpenedFromUrl(self):
         url = self.ui.urlEdit.text()
         self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.APP_OPENED_FROM_URL, '%s') end" % url )
