@@ -47,5 +47,9 @@ function MOAINotifications.unregisterForRemoteNotifications()
     -- pass
 end
 
+function MOAINotifications.cancelAllLocalNotifications()
+    
+end
+
 
 return MOAINotifications
