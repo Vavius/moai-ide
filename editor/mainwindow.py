@@ -50,6 +50,17 @@ def luaAfterPrint():
         style = Style.RESET_ALL + Style.DIM
         sys.stdout.write(style)
 
+def printSeparator(runningFile, colored):
+    if colored:
+        print(Style.RESET_ALL + Style.NORMAL + Fore.GREEN)
+    
+    print(5 * '\n' + 30 * '%%%')
+    print('\t' + strftime('%H:%M:%S') + '\t' + runningFile)
+    print(30 * '%%%')
+    
+    if colored:
+        print(Style.RESET_ALL + Style.DIM)
+
 
 class MainWindow(QMainWindow):
     runningFile = None
@@ -174,7 +185,7 @@ class MainWindow(QMainWindow):
     def reloadMoai(self):
         if self.runningFile:
             self.environmentDock.onEndSession()
-            self.consoleDock.onReload(os.path.join(self.workingDir, self.runningFile), colorPrintEnabled)
+            printSeparator(os.path.join(self.workingDir, self.runningFile), colorPrintEnabled)
             self.openFile(self.runningFile, self.workingDir)
 
     @QtCore.Slot()

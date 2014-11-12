@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'consoledock.ui'
 #
-# Created: Wed Oct 22 17:45:19 2014
+# Created: Wed Nov 12 16:43:37 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_consoledock(object):
     def setupUi(self, consoledock):
         consoledock.setObjectName("consoledock")
-        consoledock.resize(631, 384)
+        consoledock.resize(939, 641)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
@@ -25,8 +25,12 @@ class Ui_consoledock(object):
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.localLogTab)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.localConsoleTextBox = QtGui.QTextEdit(self.localLogTab)
-        self.localConsoleTextBox.setReadOnly(True)
+        self.localConsoleTextBox = QConsole(self.localLogTab)
+        font = QtGui.QFont()
+        font.setFamily("Monaco")
+        font.setPointSize(14)
+        self.localConsoleTextBox.setFont(font)
+        self.localConsoleTextBox.setCenterOnScroll(True)
         self.localConsoleTextBox.setObjectName("localConsoleTextBox")
         self.verticalLayout_2.addWidget(self.localConsoleTextBox)
         self.tabWidget.addTab(self.localLogTab, "")
@@ -51,3 +55,4 @@ class Ui_consoledock(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.localLogTab), QtGui.QApplication.translate("consoledock", "Local", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.mobileLogTab), QtGui.QApplication.translate("consoledock", "Device", None, QtGui.QApplication.UnicodeUTF8))
 
+from widgets.qconsole import QConsole
