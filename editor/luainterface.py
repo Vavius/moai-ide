@@ -25,3 +25,11 @@ def clearRemoteOverrides(lua, deviceIP):
 def runStringRemote(lua, deviceIP, luaStr):
     liveReloadServer = lua.require("util.LiveReloadServer")
     liveReloadServer.onRunString(deviceIP, luaStr)
+
+def runConsoleCommand(lua, cmd):
+    console = lua.require("console")
+    return console.run(cmd)
+
+def setConsolePrint(lua, func):
+    console = lua.require("console")
+    console.setPrint(func)    

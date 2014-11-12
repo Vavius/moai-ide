@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'consoledock.ui'
 #
-# Created: Wed Nov 12 16:43:37 2014
+# Created: Wed Nov 12 23:43:26 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -30,7 +30,8 @@ class Ui_consoledock(object):
         font.setFamily("Monaco")
         font.setPointSize(14)
         self.localConsoleTextBox.setFont(font)
-        self.localConsoleTextBox.setCenterOnScroll(True)
+        self.localConsoleTextBox.setBackgroundVisible(False)
+        self.localConsoleTextBox.setCenterOnScroll(False)
         self.localConsoleTextBox.setObjectName("localConsoleTextBox")
         self.verticalLayout_2.addWidget(self.localConsoleTextBox)
         self.tabWidget.addTab(self.localLogTab, "")

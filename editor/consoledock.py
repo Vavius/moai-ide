@@ -9,7 +9,7 @@ from colorama import Fore, Back, Style
 from time import strftime
 
 from layout.consoledock_ui import Ui_consoledock as Ui
-
+import luainterface
 
 class ConsoleDock(QDockWidget):
     def __init__(self, parent=None):
@@ -19,11 +19,17 @@ class ConsoleDock(QDockWidget):
         self.ui =  ui
         self.ui.setupUi(self)
 
+        ui.localConsoleTextBox.setDelegate(self)
+        self.lua = None
 
-    def setLastString(self, string):
-        pass
 
     def execute(self, string):
-        pass
+        if self.lua:
+            textBox = self.ui.localConsoleTextBox
+            
+            def onPrint(output):
+                textBox.display(output, False)
+            luainterface.setConsolePrint(self.lua, onPrint)
 
-
+            output = luainterface.runConsoleCommand(self.lua, string)
+            textBox.display(output)
