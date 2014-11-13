@@ -18,7 +18,7 @@ from livereload import LiveReload
 
 # dock widgets
 from outlinerdock import OutlinerDock
-from consoledock import ConsoleDock
+from consoledialog import ConsoleDialog
 from environmentdock import EnvironmentDock
 from debugdock import DebugDock
 from profilerdock import ProfilerDock
@@ -81,13 +81,13 @@ class MainWindow(QMainWindow):
         self.scrollArea.setAlignment(QtCore.Qt.AlignCenter)
 
         self.outlinerDock = OutlinerDock(self)
-        self.consoleDock = ConsoleDock(self)
+        self.consoleDialog = ConsoleDialog(self)
         self.debugDock = DebugDock(self)
         self.profilerDock = ProfilerDock(self)
         self.environmentDock = EnvironmentDock(self)
         self.statsDock = StatsDock(self)
 
-        self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDock)
+        # self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.environmentDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.debugDock)
@@ -95,24 +95,24 @@ class MainWindow(QMainWindow):
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.statsDock)
 
         actionOutliner = self.outlinerDock.toggleViewAction()
-        actionConsole = self.consoleDock.toggleViewAction()
         actionEnvironment = self.environmentDock.toggleViewAction()
         actionDebug = self.debugDock.toggleViewAction()
         actionProfiler = self.profilerDock.toggleViewAction()
         actionStats = self.statsDock.toggleViewAction()
 
         self.outlinerDock.hide()
-        self.consoleDock.hide()
+        self.consoleDialog.hide()
         self.debugDock.hide()
         self.profilerDock.hide()
         self.statsDock.hide()
-        
+
         ui.menuWindow.addAction(actionOutliner)
         ui.menuWindow.addAction(actionEnvironment)
-        ui.menuWindow.addAction(actionConsole)
         ui.menuWindow.addAction(actionDebug)
         ui.menuWindow.addAction(actionProfiler)
         ui.menuWindow.addAction(actionStats)
+        ui.menuWindow.addSeparator()
+        ui.menuWindow.addAction(QtGui.QAction('&Console', self, statusTip="Open console window", shortcut="Shift+Ctrl+C", triggered=self.showConsole))
 
         self.viewMenu = self.menuBar().addMenu('&View')
         self.viewMenu.addAction(QtGui.QAction('&Fullscreen on', self, statusTip="Enter Fullscreen", shortcut="Shift+Ctrl+F", triggered=self.fullscreen))
@@ -137,6 +137,10 @@ class MainWindow(QMainWindow):
 
     def normal(self):
         self.setWindowState(QtCore.Qt.WindowNoState)
+
+    def showConsole(self):
+        self.consoleDialog.show()
+        self.consoleDialog.activateWindow()
 
     def closeEvent(self, event):
         self.writeSettings()
@@ -223,7 +227,7 @@ class MainWindow(QMainWindow):
         self.environmentDock.startSession(False)
 
         self.livereload.lua = self.moaiWidget.lua
-        self.consoleDock.lua = self.moaiWidget.lua
+        self.consoleDialog.lua = self.moaiWidget.lua
         # self.livereload.watchDirectory(workingDir)
 
         self.statsDock.setLuaState(self.moaiWidget.lua)

@@ -1,24 +1,22 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'consoledock.ui'
+# Form implementation generated from reading ui file 'consoledialog.ui'
 #
-# Created: Thu Nov 13 15:37:43 2014
+# Created: Thu Nov 13 15:37:44 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
 
-class Ui_consoledock(object):
-    def setupUi(self, consoledock):
-        consoledock.setObjectName("consoledock")
-        consoledock.resize(939, 641)
-        self.dockWidgetContents = QtGui.QWidget()
-        self.dockWidgetContents.setObjectName("dockWidgetContents")
-        self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
-        self.verticalLayout.setContentsMargins(2, 0, 2, 2)
+class Ui_Console(object):
+    def setupUi(self, Console):
+        Console.setObjectName("Console")
+        Console.resize(774, 528)
+        self.verticalLayout = QtGui.QVBoxLayout(Console)
+        self.verticalLayout.setContentsMargins(2, 12, 2, 2)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.tabWidget = QtGui.QTabWidget(self.dockWidgetContents)
+        self.tabWidget = QtGui.QTabWidget(Console)
         self.tabWidget.setObjectName("tabWidget")
         self.localLogTab = QtGui.QWidget()
         self.localLogTab.setObjectName("localLogTab")
@@ -27,10 +25,11 @@ class Ui_consoledock(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.localConsoleTextBox = QConsole(self.localLogTab)
         font = QtGui.QFont()
-        font.setFamily("Monaco")
-        font.setPointSize(14)
+        font.setFamily("Menlo")
+        font.setPointSize(12)
+        font.setWeight(50)
+        font.setBold(False)
         self.localConsoleTextBox.setFont(font)
-        self.localConsoleTextBox.setBackgroundVisible(False)
         self.localConsoleTextBox.setCenterOnScroll(False)
         self.localConsoleTextBox.setObjectName("localConsoleTextBox")
         self.verticalLayout_2.addWidget(self.localConsoleTextBox)
@@ -45,15 +44,14 @@ class Ui_consoledock(object):
         self.verticalLayout_3.addWidget(self.deviceConsoleTextBox)
         self.tabWidget.addTab(self.mobileLogTab, "")
         self.verticalLayout.addWidget(self.tabWidget)
-        consoledock.setWidget(self.dockWidgetContents)
 
-        self.retranslateUi(consoledock)
+        self.retranslateUi(Console)
         self.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(consoledock)
+        QtCore.QMetaObject.connectSlotsByName(Console)
 
-    def retranslateUi(self, consoledock):
-        consoledock.setWindowTitle(QtGui.QApplication.translate("consoledock", "Console", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.localLogTab), QtGui.QApplication.translate("consoledock", "Local", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.mobileLogTab), QtGui.QApplication.translate("consoledock", "Device", None, QtGui.QApplication.UnicodeUTF8))
+    def retranslateUi(self, Console):
+        Console.setWindowTitle(QtGui.QApplication.translate("Console", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.localLogTab), QtGui.QApplication.translate("Console", "Local", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.mobileLogTab), QtGui.QApplication.translate("Console", "Device", None, QtGui.QApplication.UnicodeUTF8))
 
 from widgets.qconsole import QConsole
