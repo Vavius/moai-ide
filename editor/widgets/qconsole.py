@@ -3,6 +3,14 @@ import PySide
 from PySide import QtCore, QtGui
 from PySide.QtGui import QPlainTextEdit
 
+keys = (
+    QtCore.Qt.Key_Left,
+    QtCore.Qt.Key_Right,
+    QtCore.Qt.Key_Up,
+    QtCore.Qt.Key_Down,
+    QtCore.Qt.Key_Return
+)
+
 class QConsole (QPlainTextEdit):
     def __init__(self, parent=None):
         super(QConsole, self).__init__(parent)
@@ -20,7 +28,13 @@ class QConsole (QPlainTextEdit):
         self.showGreeting()
         
     def keyPressEvent(self, event):
-        if event.type() == QtCore.QEvent.KeyPress:
+        if not self.cursorValid:
+            if event.key() in keys or event.text() != '':
+                cursor = self.textCursor()
+                cursor.setPosition(self.lastCursorPosition)
+                self.setTextCursor(cursor)
+
+        elif event.type() == QtCore.QEvent.KeyPress:
             if event.key() == QtCore.Qt.Key_Up:
                 current = max(0, self.current - 1)
                 if 0 <= current < len(self.history):
@@ -43,12 +57,6 @@ class QConsole (QPlainTextEdit):
                 event.accept()
                 self.execute()
                 return
-
-        if not self.cursorValid:
-            if event.key() == QtCore.Qt.Key_Left or event.key() == QtCore.Qt.Key_Right or event.text() != '':
-                cursor = self.textCursor()
-                cursor.setPosition(self.lastCursorPosition)
-                self.setTextCursor(cursor)
 
         super(QConsole, self).keyPressEvent(event)
     

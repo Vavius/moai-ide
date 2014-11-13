@@ -72,6 +72,7 @@ local function s(t, opts)
       for n, key in ipairs(o) do
         local value, ktype, plainindex = t[key], type(key), n <= maxn and not sparse
         if opts.valignore and opts.valignore[value] -- skip ignored values; do nothing
+        or opts.keyignore and opts.keyignore[key]
         or opts.keyallow and not opts.keyallow[key]
         or opts.valtypeignore and opts.valtypeignore[type(value)] -- skipping ignored value types
         or sparse and value == nil then -- skipping nils; do nothing
@@ -136,7 +137,11 @@ line = function(a, opts) return s(a, merge({sortkeys = true, comment = true}, op
 block = function(a, opts) return s(a, merge({indent = '  ', sortkeys = true, comment = true}, opts)) end
 }
 
-pretty = function(a) return s(a, {indent = '  ', sortkeys = true, comment = true, nocode = true}) end
+local ignoredKeys = {
+  __class = true,
+  __index = true,
+}
+pretty = function(a) return s(a, {indent = '  ', sortkeys = true, comment = true, nocode = true, keyignore = ignoredKeys}) end
 
 --============================================================================--
 -- Console
