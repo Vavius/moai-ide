@@ -46,7 +46,9 @@ class ConsoleDialog(QDialog):
             
             def onPrint(output):
                 textBox.display(output, False)
-            luainterface.setConsolePrint(self.lua, onPrint)
+            def onConsole(output):
+                textBox.display(output, True)
+            luainterface.setConsolePrint(self.lua, onPrint, onConsole)
 
             output = luainterface.runConsoleCommand(self.lua, string)
             textBox.display(output)

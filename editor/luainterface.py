@@ -30,6 +30,6 @@ def runConsoleCommand(lua, cmd):
     console = lua.require("console")
     return console.run(cmd)
 
-def setConsolePrint(lua, func):
+def setConsolePrint(lua, func1, func2):
     console = lua.require("console")
-    console.setPrint(func)    
+    console.setPrint(func1, func2)

@@ -153,7 +153,7 @@ local Console = {}
 local __print
 local p = print
 
-function Console.setPrint(func)
+function Console.setPrint(func1, func2)
     __print = function(...)
         local n = select("#", ...)
         local arg = {...}
@@ -162,7 +162,18 @@ function Console.setPrint(func)
             p(i, arg[i])
             table.insert(out, tostring(arg[i]))
         end
-        func(table.concat(out, '\t'))
+        func1(table.concat(out, '\t'))
+    end
+
+    log.__console = function(...)
+        local n = select("#", ...)
+        local arg = {...}
+        local out = {}
+        for i = 1, n do
+            p(i, arg[i])
+            table.insert(out, tostring(arg[i]))
+        end
+        func2(table.concat(out, '\t'))
     end
 end
 
