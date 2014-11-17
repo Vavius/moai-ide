@@ -152,7 +152,8 @@ class DebugDock(QDockWidget):
                 local img = MOAIImage.new()
                 buffer:grabNextFrame(img, function()
                     local w, h = img:getSize()
-                    img:writePNG(string.format("%d_%dx%d.png", os.time(), w, h))
+                    local locale = MOAIEnvironment.languageCode
+                    img:writePNG(string.format("%d_%s_%dx%d.png", os.time(), locale, w, h))
                 end)
                 coroutine.yield()
 
