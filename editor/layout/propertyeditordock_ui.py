@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'propertyeditordock.ui'
 #
-# Created: Thu Nov 13 15:37:43 2014
+# Created: Mon Nov 17 18:36:59 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!

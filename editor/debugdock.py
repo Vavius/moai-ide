@@ -140,6 +140,29 @@ class DebugDock(QDockWidget):
         self.mainWindow.moaiWidget.runString("MOAISim.reportHistogram()")
 
     @QtCore.Slot()
+    def takeScreenshot(self):
+        screenshot = """
+            Executors.callOnce(function()
+                local buffer = MOAIFrameBufferTexture.new()
+                local screenW, screenH = MOAIEnvironment.horizontalResolution, MOAIEnvironment.verticalResolution
+                buffer:init(screenW, screenH)
+
+                MOAIRenderMgr.setBufferTable({buffer})
+                buffer:setRenderTable(MOAIGfxDevice.getFrameBuffer():getRenderTable())
+                local img = MOAIImage.new()
+                buffer:grabNextFrame(img, function()
+                    local w, h = img:getSize()
+                    img:writePNG(string.format("%d_%dx%d.png", os.time(), w, h))
+                end)
+                coroutine.yield()
+
+                MOAIRenderMgr.setBufferTable(nil)
+                buffer:setRenderTable(nil)
+            end)
+        """
+        self.mainWindow.moaiWidget.runString(screenshot)
+
+    @QtCore.Slot()
     def runStringLocal(self):
         luaStr = self.ui.luaStringEdit.document().toPlainText()
         self.mainWindow.moaiWidget.runString(luaStr)

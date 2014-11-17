@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'consoledialog.ui'
 #
-# Created: Thu Nov 13 15:37:44 2014
+# Created: Mon Nov 17 18:36:59 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -50,7 +50,7 @@ class Ui_Console(object):
         QtCore.QMetaObject.connectSlotsByName(Console)
 
     def retranslateUi(self, Console):
-        Console.setWindowTitle(QtGui.QApplication.translate("Console", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        Console.setWindowTitle(QtGui.QApplication.translate("Console", "Lua console", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.localLogTab), QtGui.QApplication.translate("Console", "Local", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.mobileLogTab), QtGui.QApplication.translate("Console", "Device", None, QtGui.QApplication.UnicodeUTF8))
 
