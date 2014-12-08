@@ -228,7 +228,7 @@ class MainWindow(QMainWindow):
 
         self.livereload.lua = self.moaiWidget.lua
         self.consoleDialog.lua = self.moaiWidget.lua
-        # self.livereload.watchDirectory(workingDir)
+        self.livereload.watchDirectory(workingDir)
 
         self.statsDock.setLuaState(self.moaiWidget.lua)
         self.statsDock.startTimer()
