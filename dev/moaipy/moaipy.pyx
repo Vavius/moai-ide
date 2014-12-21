@@ -87,14 +87,18 @@ def AKUAppInitialize():
 def AKUCreateContext():
     return cmoai.AKUCreateContext()
 
+def AKUCheckContext(context):
+    return cmoai.AKUCheckContext(context)
+
+def AKUCountContexts():
+    return cmoai.AKUCountContexts()
+
+
 def AKUDeleteContext(context):
     cmoai.AKUDeleteContext(context)
 
 def AKUGetContext():
     return cmoai.AKUGetContext()
-
-def AKUCreateContext():
-    cmoai.AKUCreateContext()
 
 def AKUAppFinalize():
     cmoai.AKUAppFinalize()
@@ -111,20 +115,15 @@ def AKUSetContext(context):
 # int             AKUMountVirtualDirectory        ( char* virtualPath, char* archive )
 
 def AKURunScript(filename):
-    cmoai.AKURunScript(filename)
+    cmoai.AKULoadFuncFromFile(filename)
+    cmoai.AKUCallFunc()
 
 def AKURunString(script):
-    cmoai.AKURunString(script)
+    cmoai.AKULoadFuncFromString(script)
+    cmoai.AKUCallFunc()
 
-# def AKUSetArgv(argv):
-    # cmoai.AKUSetArgv(argv)
-
-# void            AKURunData                      ( void* data, size_t size, int dataType, int compressed )
 def AKUSetWorkingDirectory(path):
     cmoai.AKUSetWorkingDirectory(path)
-
-# void            AKUSetArgv                      ( char **argv )
-
 
 # management api
 def AKUDetectGfxContext():
@@ -261,7 +260,7 @@ def AKUModulesAppInitialize():
     cmoai.AKUFmodStudioAppInitialize()
     cmoai.AKUUntzAppInitialize()
     cmoai.AKUHttpClientAppInitialize()
-    cmoai.AKUPluginsAppInitialize()
+    # cmoai.AKUPluginsAppInitialize()
 
 def AKUModulesAppFinalize():
     cmoai.AKUUtilAppFinalize()
@@ -270,7 +269,7 @@ def AKUModulesAppFinalize():
     cmoai.AKUFmodStudioAppFinalize()
     cmoai.AKUUntzAppFinalize()
     cmoai.AKUHttpClientAppFinalize()
-    cmoai.AKUPluginsAppFinalize()
+    # cmoai.AKUPluginsAppFinalize()
 
 def AKUModulesContextInitialize():
     cmoai.AKUUtilContextInitialize()
@@ -279,15 +278,16 @@ def AKUModulesContextInitialize():
     cmoai.AKUFmodStudioContextInitialize()
     cmoai.AKUUntzContextInitialize()
     cmoai.AKUHttpClientContextInitialize()
-    cmoai.AKUPluginsContextInitialize()
+    # cmoai.AKUPluginsContextInitialize()
 
 def AKUModulesUpdate():
     cmoai.AKUFmodStudioUpdate()
-    cmoai.AKUPluginsUpdate()
+    # cmoai.AKUPluginsUpdate()
     cmoai.AKUUpdate()
 
 def AKUModulesRunLuaAPIWrapper():
-    cmoai.AKURunData ( cmoai.moai_lua, cmoai.moai_lua_SIZE, cmoai.AKU_DATA_STRING, cmoai.AKU_DATA_ZIPPED )
+    cmoai.AKULoadFuncFromBuffer ( cmoai.moai_lua, cmoai.moai_lua_SIZE, cmoai.AKU_DATA_STRING, cmoai.AKU_DATA_ZIPPED )
+    cmoai.AKUCallFunc()
 
 
 # util host.h

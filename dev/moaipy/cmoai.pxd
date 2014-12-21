@@ -20,6 +20,8 @@ cdef extern from "moai-core/host.h":
     void            AKUAppFinalize                  ()
     void            AKUAppInitialize                ()
     void            AKUClearMemPool                 ()
+    int             AKUCheckContext                 ( AKUContextID context )
+    int             AKUCountContexts                ()
     AKUContextID    AKUCreateContext                ()
     void            AKUDeleteContext                ( AKUContextID context )
     AKUContextID    AKUGetContext                   ()
@@ -34,11 +36,14 @@ cdef extern from "moai-core/host.h":
     char*           AKUGetMoaiVersion               ( char* buffer, size_t length )
     char*           AKUGetWorkingDirectory          ( char* buffer, size_t length )
     int             AKUMountVirtualDirectory        ( char* virtualPath, char* archive )
-    void            AKURunData                      ( void* data, size_t size, int dataType, int compressed )
-    void            AKURunScript                    ( char* filename )
-    void            AKURunString                    ( char* script )
     int             AKUSetWorkingDirectory          ( char* path )
-    void            AKUSetArgv                      ( char **argv )
+
+    void            AKUCallFunc                     ()
+    void            AKUCallFuncWithArgArray         ( char* exeName, char* scriptName, int argc, char** argv, int asParams )
+    void            AKUCallFuncWithArgString        ( char* exeName, char* scriptName, char* args, int asParams )
+    void            AKULoadFuncFromBuffer           ( void* data, size_t size, int dataType, int compressed )
+    void            AKULoadFuncFromFile             ( const char* filename )
+    void            AKULoadFuncFromString           ( const char* script )
 
     # ctypedef void ( *AKUErrorTracebackFunc )        ( char* message, lua_State* L, int level )
     # void            AKUSetFunc_ErrorTraceback       ( AKUErrorTracebackFunc func )
@@ -64,11 +69,11 @@ cdef extern from "moai-http-client/host.h":
     void            AKUHttpClientAppInitialize      ()
     void            AKUHttpClientContextInitialize  ()
 
-cdef extern from "moai-plugins/host.h":
-    void            AKUPluginsAppFinalize           ()
-    void            AKUPluginsAppInitialize         ()
-    void            AKUPluginsContextInitialize     ()
-    void            AKUPluginsUpdate                ()
+# cdef extern from "moai-plugins/host.h":
+#     void            AKUPluginsAppFinalize           ()
+#     void            AKUPluginsAppInitialize         ()
+#     void            AKUPluginsContextInitialize     ()
+#     void            AKUPluginsUpdate                ()
 
 cdef extern from "lua-headers/moai_lua.h":
     cdef int moai_lua_SIZE
@@ -93,13 +98,11 @@ cdef extern from "moai-sim/host.h":
     void            AKUDetectGfxContext             ()
     double          AKUGetSimStep                   ()
     void            AKUPause                        ( bint pause )
-    void            AKUReleaseGfxContext            ()
     void            AKURender                       ()
     void            AKUSetOrientation               ( int orientation )
     void            AKUSetScreenDpi                 ( int dpi )
     void            AKUSetScreenSize                ( int width, int height )
     void            AKUSetViewSize                  ( int width, int height )
-    void            AKUSoftReleaseGfxResources      ( int age )
     void            AKUUpdate                       ()
 
     # callback management

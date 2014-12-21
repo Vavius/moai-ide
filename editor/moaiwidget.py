@@ -129,7 +129,6 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def refreshContext(self):
         context = AKUGetContext ()
         if context:
-            AKUReleaseGfxContext ()
             AKUDeleteContext ( context )
 
         AKUAppInitialize ()

@@ -48,29 +48,27 @@ lib_jit = [
 
 lib_nojit = [
     'lib/nojit/libbox2d.a',
-    'lib/nojit/libchipmunk.a',
     'lib/nojit/libcontrib.a',
     'lib/nojit/libcrypto.a',
     'lib/nojit/libcurl.a',
     'lib/nojit/libexpat.a',
     'lib/nojit/libfreetype.a',
     'lib/nojit/libglew.a',
-    'lib/nojit/libhost-modules.a',
     'lib/nojit/libjansson.a',
     'lib/nojit/libjpg.a',
-    'lib/nojit/libliblua-static.a',
     'lib/nojit/libluacrypto.a',
     'lib/nojit/libluacurl.a',
     'lib/nojit/libluafilesystem.a',
+    'lib/nojit/libliblua-static.a',
     'lib/nojit/libluasocket.a',
     'lib/nojit/libluasql.a',
+    'lib/nojit/libmoai-audiosampler.a',
     'lib/nojit/libmoai-box2d.a',
-    'lib/nojit/libmoai-chipmunk.a',
     'lib/nojit/libmoai-core.a',
-    'lib/nojit/libmoai-http-client.a',
+    'lib/nojit/libmoai-crypto.a',
     'lib/nojit/libmoai-fmod-studio.a',
+    'lib/nojit/libmoai-http-client.a',
     'lib/nojit/libmoai-luaext.a',
-    'lib/nojit/libmoai-plugins.a',
     'lib/nojit/libmoai-sim.a',
     'lib/nojit/libmoai-spine.a',
     'lib/nojit/libmoai-untz.a',
@@ -84,11 +82,14 @@ lib_nojit = [
     'lib/nojit/libspine.a',
     'lib/nojit/libsqlite3.a',
     'lib/nojit/libssl.a',
+    'lib/nojit/libtess.a',
     'lib/nojit/libtinyxml.a',
     'lib/nojit/libtlsf.a',
     'lib/nojit/libuntz.a',
     'lib/nojit/libvorbis.a',
+    'lib/nojit/libwebp.a',
     'lib/nojit/libzlcore.a',
+    'lib/nojit/libzlcrypto.a',
     'lib/nojit/libzlib.a',
     'lib/nojit/libzlvfs.a',
     'lib/libfmod.dylib'
@@ -120,8 +121,8 @@ setup(
 
             include_dirs=[
             # '/Users/vavius/moai/moai-new/3rdparty/LuaJIT-2.0.3/src/',
-            '/Users/vavius/moai/moai-new/src/',
-            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/'
+            '/Users/vavius/moai/moai-forge/src/',
+            '/Users/vavius/moai/moai-forge/3rdparty/lua-5.1.3/src/'
             ])
     ]
 )
