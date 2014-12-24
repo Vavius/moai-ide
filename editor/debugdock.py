@@ -129,7 +129,7 @@ class DebugDock(QDockWidget):
 
     @QtCore.Slot(bool)
     def toggleHistogramEnabled(self, flag):
-        self.mainWindow.moaiWidget.runString("MOAISim.setHistogramEnabled( %s )" % ('true' if flag else 'false'))
+        self.mainWindow.moaiWidget.runString("MOAILuaRuntime.setTrackingFlags( %s )" % ('MOAILuaRuntime.TRACK_OBJECTS' if flag else '0'))
 
     @QtCore.Slot()
     def forceGC(self):
@@ -137,7 +137,7 @@ class DebugDock(QDockWidget):
 
     @QtCore.Slot()
     def reportHistogram(self):
-        self.mainWindow.moaiWidget.runString("MOAISim.reportHistogram()")
+        self.mainWindow.moaiWidget.runString("MOAILuaRuntime.reportHistogram()")
 
     @QtCore.Slot()
     def takeScreenshot(self):
@@ -221,8 +221,8 @@ class DebugDock(QDockWidget):
             showStyle = "MOAIDebugLines.showStyle ( MOAIDebugLines.%s, %s )" % (moaiName, 'true' if enabled else 'false')
             setStyle = "MOAIDebugLines.setStyle ( MOAIDebugLines.%s, %s, %s, %s, %s, %s )" % (moaiName, width, color[0], color[1], color[2], color[3])
             luaCmd += "%s \n%s \n" % (setStyle, showStyle)
-
-        luaCmd += "MOAISim.setHistogramEnabled( %s ) \n" % ('true' if ui.histogram.isChecked() else 'false')
+        
+        luaCmd += "MOAILuaRuntime.setTrackingFlags( %s )" % ('MOAILuaRuntime.TRACK_OBJECTS' if ui.histogram.isChecked() else '0')
         luaCmd += "MOAISim.setLuaAllocLogEnabled( %s ) \n" % ('true' if ui.allocLog.isChecked() else 'false')
         
         self.mainWindow.moaiWidget.runString(luaCmd)

@@ -59,9 +59,9 @@ lib_nojit = [
     'lib/nojit/libluacrypto.a',
     'lib/nojit/libluacurl.a',
     'lib/nojit/libluafilesystem.a',
-    'lib/nojit/libliblua-static.a',
     'lib/nojit/libluasocket.a',
     'lib/nojit/libluasql.a',
+    'lib/nojit/libliblua-static.a',
     'lib/nojit/libmoai-audiosampler.a',
     'lib/nojit/libmoai-box2d.a',
     'lib/nojit/libmoai-core.a',
@@ -121,8 +121,8 @@ setup(
 
             include_dirs=[
             # '/Users/vavius/moai/moai-new/3rdparty/LuaJIT-2.0.3/src/',
-            '/Users/vavius/moai/moai-forge/src/',
-            '/Users/vavius/moai/moai-forge/3rdparty/lua-5.1.3/src/'
+            '/Users/vavius/moai/moai-new/src/',
+            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/'
             ])
     ]
 )

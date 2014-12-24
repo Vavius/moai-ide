@@ -260,6 +260,8 @@ def AKUModulesAppInitialize():
     cmoai.AKUFmodStudioAppInitialize()
     cmoai.AKUUntzAppInitialize()
     cmoai.AKUHttpClientAppInitialize()
+    cmoai.AKUCryptoAppInitialize()
+    cmoai.AKUSpineAppInitialize()
     # cmoai.AKUPluginsAppInitialize()
 
 def AKUModulesAppFinalize():
@@ -269,6 +271,8 @@ def AKUModulesAppFinalize():
     cmoai.AKUFmodStudioAppFinalize()
     cmoai.AKUUntzAppFinalize()
     cmoai.AKUHttpClientAppFinalize()
+    cmoai.AKUCryptoAppFinalize()
+    cmoai.AKUSpineAppFinalize()
     # cmoai.AKUPluginsAppFinalize()
 
 def AKUModulesContextInitialize():
@@ -278,6 +282,8 @@ def AKUModulesContextInitialize():
     cmoai.AKUFmodStudioContextInitialize()
     cmoai.AKUUntzContextInitialize()
     cmoai.AKUHttpClientContextInitialize()
+    cmoai.AKUCryptoContextInitialize()
+    cmoai.AKUSpineContextInitialize()
     # cmoai.AKUPluginsContextInitialize()
 
 def AKUModulesUpdate():

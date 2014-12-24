@@ -69,6 +69,16 @@ cdef extern from "moai-http-client/host.h":
     void            AKUHttpClientAppInitialize      ()
     void            AKUHttpClientContextInitialize  ()
 
+cdef extern from "moai-crypto/host.h":
+    void            AKUCryptoAppFinalize        ()
+    void            AKUCryptoAppInitialize      ()
+    void            AKUCryptoContextInitialize  ()
+
+cdef extern from "moai-spine/host.h":
+    void            AKUSpineAppFinalize        ()
+    void            AKUSpineAppInitialize      ()
+    void            AKUSpineContextInitialize  ()    
+
 # cdef extern from "moai-plugins/host.h":
 #     void            AKUPluginsAppFinalize           ()
 #     void            AKUPluginsAppInitialize         ()
