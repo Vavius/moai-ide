@@ -127,6 +127,7 @@ class EnvironmentDock(QDockWidget):
     @QtCore.Slot(int)
     def setDeviceType(self, idx):
         device = self.deviceTypes[idx]
+        self.device = device
         self.mainWindow.moaiWidget.runString("MOAIAppAndroid = nil")
         self.mainWindow.moaiWidget.runString("MOAIAppIOS = nil")
         if device == "IOS":
@@ -192,7 +193,8 @@ class EnvironmentDock(QDockWidget):
 
     @QtCore.Slot()
     def onEndSession(self):
-        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_END) end" )
+        event = "MOAIApp.WILL_RESIGN_ACTIVE" if self.device == 'IOS' else "MOAIApp.ACTIVITY_STOP"
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (%s) end" % event )
 
     @QtCore.Slot()
     def onBackButton(self):
@@ -215,7 +217,8 @@ class EnvironmentDock(QDockWidget):
 
     def startSession(self, resume):
         flag = 'true' if resume else 'false'
-        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (MOAIApp.SESSION_START, %s) end" % flag )
+        event = "MOAIApp.DID_BECOME_ACTIVE" if self.device == 'IOS' else "MOAIApp.ACTIVITY_START"
+        self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (%s, %s) end" % (event, flag) )
 
     def applyEnvironmentSettings(self):
         lang = Languages[self.ui.languageBox.currentIndex()]
