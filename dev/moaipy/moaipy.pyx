@@ -295,6 +295,9 @@ def AKUModulesRunLuaAPIWrapper():
     cmoai.AKULoadFuncFromBuffer ( cmoai.moai_lua, cmoai.moai_lua_SIZE, cmoai.AKU_DATA_STRING, cmoai.AKU_DATA_ZIPPED )
     cmoai.AKUCallFunc()
 
+def AKUInitParticlePresets():
+    cmoai.ParticlePresets()
+
 
 # util host.h
 # def AKUUtilAppFinalize ():

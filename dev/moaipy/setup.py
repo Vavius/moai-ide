@@ -95,10 +95,15 @@ lib_nojit = [
     'lib/libfmod.dylib'
 ]
 
+particle_presets_src = ["/Users/vavius/moai/projects/digger/cpp/ParticlePresets.cpp"]
+particle_presets_includes = ["/Users/vavius/moai/projects/digger/cpp/"]
+
+sources = ["moaipy.pyx", "lock.pxi"]
+
 setup(
     cmdclass = {'build_ext': build_ext},
     ext_modules = [
-        Extension("moaipy", ["moaipy.pyx", "lock.pxi"], 
+        Extension("moaipy", sources + particle_presets_src, 
             language="c++",
             extra_objects=lib_nojit,
             
@@ -122,7 +127,8 @@ setup(
             include_dirs=[
             # '/Users/vavius/moai/moai-new/3rdparty/LuaJIT-2.0.3/src/',
             '/Users/vavius/moai/moai-new/src/',
-            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/'
+            '/Users/vavius/moai/moai-new/3rdparty/lua-5.1.3/src/',
+            '/Users/vavius/moai/projects/digger/cpp/'
             ])
     ]
 )

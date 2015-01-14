@@ -155,6 +155,7 @@ cdef extern from "moai-sim/host.h":
     void            AKUEnqueueTouchEventCancel      ( int deviceID, int sensorID )
     void            AKUEnqueueWheelEvent            ( int deviceID, int sensorID, float value )
 
-
+cdef extern from "ParticlePresets.h":
+    void            ParticlePresets                 ()
 
 

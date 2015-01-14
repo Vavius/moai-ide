@@ -154,6 +154,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
         self.runString("os.setlocale('C')")
         AKUModulesRunLuaAPIWrapper ()
+        AKUInitParticlePresets ()
         self.runString("MOAIEnvironment.setValue('horizontalResolution', %d) MOAIEnvironment.setValue('verticalResolution', %d)" %
             ( int ( self.size().width() ), int ( self.size().height()) ) )
         # AKUSetWorkingDirectory()
