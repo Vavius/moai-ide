@@ -193,7 +193,7 @@ class EnvironmentDock(QDockWidget):
 
     @QtCore.Slot()
     def onEndSession(self):
-        event = "MOAIApp.WILL_RESIGN_ACTIVE" if self.device == 'IOS' else "MOAIApp.ACTIVITY_STOP"
+        event = "MOAIApp.WILL_RESIGN_ACTIVE" if self.device == 'IOS' else "MOAIApp.ACTIVITY_ON_STOP"
         self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (%s) end" % event )
 
     @QtCore.Slot()
@@ -217,7 +217,7 @@ class EnvironmentDock(QDockWidget):
 
     def startSession(self, resume):
         flag = 'true' if resume else 'false'
-        event = "MOAIApp.DID_BECOME_ACTIVE" if self.device == 'IOS' else "MOAIApp.ACTIVITY_START"
+        event = "MOAIApp.DID_BECOME_ACTIVE" if self.device == 'IOS' else "MOAIApp.ACTIVITY_ON_START"
         self.mainWindow.moaiWidget.runString ( "if MOAIApp then MOAIApp.dispatchEvent (%s, %s) end" % (event, flag) )
 
     def applyEnvironmentSettings(self):
