@@ -58,6 +58,11 @@ cdef extern from "moai-untz/host.h":
     void            AKUUntzAppInitialize        ()
     void            AKUUntzContextInitialize    ()
 
+cdef extern from "moai-box2d/host.h":
+    void            AKUBox2DAppFinalize         ()
+    void            AKUBox2DAppInitialize       ()
+    void            AKUBox2DContextInitialize   ()
+
 cdef extern from "moai-fmod-studio/host.h":
     void            AKUFmodStudioAppFinalize          ()
     void            AKUFmodStudioAppInitialize        ()
