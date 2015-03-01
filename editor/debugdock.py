@@ -149,6 +149,7 @@ class DebugDock(QDockWidget):
 
                 MOAIRenderMgr.setBufferTable({buffer})
                 buffer:setRenderTable(MOAIGfxDevice.getFrameBuffer():getRenderTable())
+                buffer:setClearColor(RenderMgr:getClearColor())
                 local img = MOAIImage.new()
                 buffer:grabNextFrame(img, function()
                     local w, h = img:getSize()
