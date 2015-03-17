@@ -110,6 +110,10 @@ class EnvironmentDock(QDockWidget):
         self.mainWindow.reloadMoai()
 
     @QtCore.Slot()
+    def reloadRemote(self):
+        self.mainWindow.reloadRemote()
+
+    @QtCore.Slot()
     def clearRemoteOverrides(self):
         self.mainWindow.livereload.clearRemoteOverrides()
 

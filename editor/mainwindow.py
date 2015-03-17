@@ -193,6 +193,10 @@ class MainWindow(QMainWindow):
             self.openFile(self.runningFile, self.workingDir)
 
     @QtCore.Slot()
+    def reloadRemote(self):
+        self.livereload.runStringRemote("if host and host.reload then host.reload() end")
+
+    @QtCore.Slot()
     def updateLiveReload(self):
         self.livereload.update()
 
