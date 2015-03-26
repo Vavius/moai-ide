@@ -291,6 +291,7 @@ def AKUModulesContextInitialize():
 
 def AKUModulesUpdate():
     cmoai.AKUFmodStudioUpdate()
+    cmoai.AKUHttpClientUpdate()
     # cmoai.AKUPluginsUpdate()
     cmoai.AKUUpdate()
 

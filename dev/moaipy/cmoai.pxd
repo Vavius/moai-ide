@@ -73,6 +73,7 @@ cdef extern from "moai-http-client/host.h":
     void            AKUHttpClientAppFinalize        ()
     void            AKUHttpClientAppInitialize      ()
     void            AKUHttpClientContextInitialize  ()
+    void            AKUHttpClientUpdate             ()
 
 cdef extern from "moai-crypto/host.h":
     void            AKUCryptoAppFinalize        ()
