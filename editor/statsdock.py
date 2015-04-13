@@ -36,34 +36,34 @@ class StatsDock(QDockWidget):
             return math.round(fps, 0.1), drawcalls, luaCount, mem.lua, mem.texture, math.round(node, 0.01), math.round(action, 0.01)
         end""")
 
-        self.mean = lua.eval("""function()
-            STATS = {}
-            local coro = MOAICoroutine.new()
+        # self.mean = lua.eval("""function()
+        #     STATS = {}
+        #     local coro = MOAICoroutine.new()
 
-            local nIdx = 0
-            local node = {0}
-            local action = {0}
-            local buffer = 10
-            coro:run(function()
-                while true do
-                    local _, a, n = MOAISim.getPerformance()
-                    nIdx = (nIdx + 1) % buffer
-                    action[nIdx + 1] = a
-                    node[nIdx + 1] = n
+        #     local nIdx = 0
+        #     local node = {0}
+        #     local action = {0}
+        #     local buffer = 10
+        #     coro:run(function()
+        #         while true do
+        #             local _, a, n = MOAISim.getPerformance()
+        #             nIdx = (nIdx + 1) % buffer
+        #             action[nIdx + 1] = a
+        #             node[nIdx + 1] = n
 
-                    local nodeMgrTime = 0
-                    local actionTreeTime = 0
-                    for i = 1, #action do
-                        nodeMgrTime = nodeMgrTime + node[i]
-                        actionTreeTime = actionTreeTime + action[i]
-                    end
-                    STATS.nodeMgr = 1000 * nodeMgrTime / buffer
-                    STATS.actionTree = 1000 * actionTreeTime / buffer
-                    coroutine.yield()
-                end
-            end)
-        end""")
-        self.mean()
+        #             local nodeMgrTime = 0
+        #             local actionTreeTime = 0
+        #             for i = 1, #action do
+        #                 nodeMgrTime = nodeMgrTime + node[i]
+        #                 actionTreeTime = actionTreeTime + action[i]
+        #             end
+        #             STATS.nodeMgr = 1000 * nodeMgrTime / buffer
+        #             STATS.actionTree = 1000 * actionTreeTime / buffer
+        #             coroutine.yield()
+        #         end
+        #     end)
+        # end""")
+        # self.mean()
 
     def startTimer(self):
         self.timer.start(600)
