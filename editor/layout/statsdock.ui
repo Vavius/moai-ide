@@ -88,6 +88,34 @@
       </property>
      </widget>
     </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="lblActionTree">
+      <property name="text">
+       <string>Action Tree time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="lblNodeMgr">
+      <property name="text">
+       <string>Node Mgr time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLabel" name="valueActionTree">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLabel" name="valueNodeMgr">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>
