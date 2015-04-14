@@ -194,7 +194,7 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot()
     def reloadRemote(self):
-        self.livereload.runStringRemote("if host and host.reload then host.reload() end")
+        self.livereload.runStringRemote("if MOAISim.scheduleRelaunch then MOAISim.scheduleRelaunch() end")
 
     @QtCore.Slot()
     def updateLiveReload(self):

@@ -22,6 +22,8 @@ class StatsDock(QDockWidget):
 
         self.mainWindow = self.parent()
         self.statsFunc = None
+        self.stopFunc = None
+        self.startFunc = None
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.updateStats)
 
@@ -36,41 +38,56 @@ class StatsDock(QDockWidget):
             return math.round(fps, 0.1), drawcalls, luaCount, mem.lua, mem.texture, math.round(node, 0.01), math.round(action, 0.01)
         end""")
 
-        # self.mean = lua.eval("""function()
-        #     STATS = {}
-        #     local coro = MOAICoroutine.new()
+        self.startFunc = lua.eval("""function()
+            STATS = {}
+            STATS.thread = MOAICoroutine.new()
 
-        #     local nIdx = 0
-        #     local node = {0}
-        #     local action = {0}
-        #     local buffer = 10
-        #     coro:run(function()
-        #         while true do
-        #             local _, a, n = MOAISim.getPerformance()
-        #             nIdx = (nIdx + 1) % buffer
-        #             action[nIdx + 1] = a
-        #             node[nIdx + 1] = n
+            local nIdx = 0
+            local node = {0}
+            local action = {0}
+            local buffer = 10
+            STATS.thread:run(function()
+                while true do
+                    local _, a, n = MOAISim.getPerformance()
+                    nIdx = (nIdx + 1) % buffer
+                    action[nIdx + 1] = a
+                    node[nIdx + 1] = n
 
-        #             local nodeMgrTime = 0
-        #             local actionTreeTime = 0
-        #             for i = 1, #action do
-        #                 nodeMgrTime = nodeMgrTime + node[i]
-        #                 actionTreeTime = actionTreeTime + action[i]
-        #             end
-        #             STATS.nodeMgr = 1000 * nodeMgrTime / buffer
-        #             STATS.actionTree = 1000 * actionTreeTime / buffer
-        #             coroutine.yield()
-        #         end
-        #     end)
-        # end""")
-        # self.mean()
+                    local nodeMgrTime = 0
+                    local actionTreeTime = 0
+                    for i = 1, #action do
+                        nodeMgrTime = nodeMgrTime + node[i]
+                        actionTreeTime = actionTreeTime + action[i]
+                    end
+                    STATS.nodeMgr = 1000 * nodeMgrTime / buffer
+                    STATS.actionTree = 1000 * actionTreeTime / buffer
+                    coroutine.yield()
+                end
+            end)
+        end""")
+
+        self.stopFunc = lua.eval("""function()
+            if STATS and STATS.thread then
+                STATS.thread:stop()
+                STATS.thread = nil
+            end
+        end""")
 
     def startTimer(self):
         self.timer.start(600)
+        self.statsFunc()
+        if self.startFunc:
+            self.startFunc()
 
     def stopTimer(self):
         self.timer.stop()
+        if self.stopFunc:
+            self.stopFunc()
+
         self.statsFunc = None
+        self.startFunc = None
+        self.stopFunc = None
+
 
     def updateStats(self):
         if self.statsFunc:
