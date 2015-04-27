@@ -108,7 +108,6 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
         else:
             key = self.normalizeKeyCode(key)
-            print("press", key)
             if key:
                 AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
 
@@ -127,7 +126,6 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
         else:
             key = self.normalizeKeyCode(key)
-            print("release", key)
             if key:
                 AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
 
