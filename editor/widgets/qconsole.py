@@ -30,6 +30,7 @@ class QConsole (QPlainTextEdit):
     def keyPressEvent(self, event):
         if not self.cursorValid:
             if event.key() in keys or event.text() != '':
+                print('moving')
                 cursor = self.textCursor()
                 cursor.setPosition(self.lastCursorPosition)
                 self.setTextCursor(cursor)
@@ -58,6 +59,8 @@ class QConsole (QPlainTextEdit):
                 self.execute()
                 return
 
+        print(event.key())
+        print(event.type())
         super(QConsole, self).keyPressEvent(event)
     
 
@@ -65,7 +68,7 @@ class QConsole (QPlainTextEdit):
         cursor = self.textCursor()
         if cursor.position() < self.initialCursorPosition:
             self.cursorValid = False
-            self.setReadOnly(True)
+            # self.setReadOnly(True)
 
             # don't allow to delete symbols before initialCursorPosition
             # (easier to append removed space here, than catching remove events)
@@ -81,7 +84,7 @@ class QConsole (QPlainTextEdit):
         else:
             self.cursorValid = True
             self.lastCursorPosition = cursor.position()
-            self.setReadOnly(False)
+            # self.setReadOnly(False)
         
     def setDelegate(self, delegate):
         self.delegate = delegate
