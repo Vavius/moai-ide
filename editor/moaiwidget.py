@@ -96,7 +96,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
     def keyPressEvent(self, event):
         key = event.key()
-
+        
         if key == QtCore.Qt.Key_Shift:
             AKUEnqueueKeyboardShiftEvent(0, KEYBOARD, True)
 
@@ -107,7 +107,10 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             AKUEnqueueKeyboardAltEvent(0, KEYBOARD, True)
 
         else:
-            AKUEnqueueKeyboardEvent(0, KEYBOARD, key, True)
+            key = self.normalizeKeyCode(key)
+            print("press", key)
+            if key:
+                AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
 
 
     def keyReleaseEvent(self, event):
@@ -123,7 +126,18 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             AKUEnqueueKeyboardAltEvent(0, KEYBOARD, False)
 
         else:
-            AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
+            key = self.normalizeKeyCode(key)
+            print("release", key)
+            if key:
+                AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
+
+    # Wrap key code to MOAI accepted range [0, 511]
+    def normalizeKeyCode(self, key):
+        if key >= 0x01000000:
+            key = 0x100 + (key & ~0x01000000)
+        if key >= 512:
+            return False
+        return key
 
     # Game Management API
     def refreshContext(self):
