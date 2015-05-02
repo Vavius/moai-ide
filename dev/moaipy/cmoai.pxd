@@ -150,16 +150,123 @@ cdef extern from "moai-sim/host.h":
     # input events api
     void            AKUEnqueueButtonEvent           ( int deviceID, int sensorID, bint down )
     void            AKUEnqueueCompassEvent          ( int deviceID, int sensorID, float heading )
-    void            AKUEnqueueKeyboardAltEvent      ( int deviceID, int sensorID, bint down )
-    void            AKUEnqueueKeyboardControlEvent  ( int deviceID, int sensorID, bint down )
-    void            AKUEnqueueKeyboardEvent         ( int deviceID, int sensorID, int keyID, bint down )
-    void            AKUEnqueueKeyboardShiftEvent    ( int deviceID, int sensorID, bint down )
+    void            AKUEnqueueKeyboardCharEvent     ( int deviceID, int sensorID, int unicodeChar )
+    void            AKUEnqueueKeyboardEditEvent     ( int deviceID, int sensorID, char* text, int start, int editLength, int maxLength)
+    void            AKUEnqueueKeyboardKeyEvent      ( int deviceID, int sensorID, int keyID, int down )
+    void            AKUEnqueueKeyboardTextEvent     ( int deviceID, int sensorID, char* text )
     void            AKUEnqueueLevelEvent            ( int deviceID, int sensorID, float x, float y, float z )
     void            AKUEnqueueLocationEvent         ( int deviceID, int sensorID, double longitude, double latitude, double altitude, float hAccuracy, float vAccuracy, float speed )
     void            AKUEnqueuePointerEvent          ( int deviceID, int sensorID, int x, int y )
     void            AKUEnqueueTouchEvent            ( int deviceID, int sensorID, int touchID, bint down, float x, float y )
     void            AKUEnqueueTouchEventCancel      ( int deviceID, int sensorID )
     void            AKUEnqueueWheelEvent            ( int deviceID, int sensorID, float value )
+
+cdef extern from "moai-sim/MOAIKeyCodeEnum.h":
+    enum MOAIKeyCodes:
+        MOAI_KEY_BACKSPACE
+        MOAI_KEY_TAB
+        MOAI_KEY_RETURN
+        MOAI_KEY_SHIFT
+        MOAI_KEY_CONTROL
+        MOAI_KEY_ALT
+        MOAI_KEY_PAUSE
+        MOAI_KEY_CAPS_LOCK
+        MOAI_KEY_ESCAPE
+        MOAI_KEY_SPACE
+        MOAI_KEY_PAGE_UP
+        MOAI_KEY_PAGE_DOWN
+        MOAI_KEY_END
+        MOAI_KEY_HOME
+        MOAI_KEY_LEFT
+        MOAI_KEY_UP
+        MOAI_KEY_RIGHT
+        MOAI_KEY_DOWN
+        MOAI_KEY_PRINT_SCREEN
+        MOAI_KEY_INSERT
+        MOAI_KEY_DELETE
+        MOAI_KEY_DIGIT_0
+        MOAI_KEY_DIGIT_1
+        MOAI_KEY_DIGIT_2
+        MOAI_KEY_DIGIT_3
+        MOAI_KEY_DIGIT_4
+        MOAI_KEY_DIGIT_5
+        MOAI_KEY_DIGIT_6
+        MOAI_KEY_DIGIT_7
+        MOAI_KEY_DIGIT_8
+        MOAI_KEY_DIGIT_9
+        MOAI_KEY_A
+        MOAI_KEY_B
+        MOAI_KEY_C
+        MOAI_KEY_D
+        MOAI_KEY_E
+        MOAI_KEY_F
+        MOAI_KEY_G
+        MOAI_KEY_H
+        MOAI_KEY_I
+        MOAI_KEY_J
+        MOAI_KEY_K
+        MOAI_KEY_L
+        MOAI_KEY_M
+        MOAI_KEY_N
+        MOAI_KEY_O
+        MOAI_KEY_P
+        MOAI_KEY_Q
+        MOAI_KEY_R
+        MOAI_KEY_S
+        MOAI_KEY_T
+        MOAI_KEY_U
+        MOAI_KEY_V
+        MOAI_KEY_W
+        MOAI_KEY_X
+        MOAI_KEY_Y
+        MOAI_KEY_Z
+        MOAI_KEY_GUI
+        MOAI_KEY_APPLICATION
+        MOAI_KEY_NUM_0
+        MOAI_KEY_NUM_1
+        MOAI_KEY_NUM_2
+        MOAI_KEY_NUM_3
+        MOAI_KEY_NUM_4
+        MOAI_KEY_NUM_5
+        MOAI_KEY_NUM_6
+        MOAI_KEY_NUM_7
+        MOAI_KEY_NUM_8
+        MOAI_KEY_NUM_9
+        MOAI_KEY_NUM_MULTIPLY
+        MOAI_KEY_NUM_PLUS
+        MOAI_KEY_NUM_MINUS
+        MOAI_KEY_NUM_DECIMAL
+        MOAI_KEY_NUM_DIVIDE
+        MOAI_KEY_F1
+        MOAI_KEY_F2
+        MOAI_KEY_F3
+        MOAI_KEY_F4
+        MOAI_KEY_F5
+        MOAI_KEY_F6
+        MOAI_KEY_F7
+        MOAI_KEY_F8
+        MOAI_KEY_F9
+        MOAI_KEY_F10
+        MOAI_KEY_F11
+        MOAI_KEY_F12
+        MOAI_KEY_NUM_LOCK
+        MOAI_KEY_SCROLL_LOCK
+        MOAI_KEY_OEM_1
+        MOAI_KEY_OEM_PLUS
+        MOAI_KEY_OEM_COMMA
+        MOAI_KEY_OEM_MINUS
+        MOAI_KEY_OEM_PERIOD
+        MOAI_KEY_OEM_2
+        MOAI_KEY_OEM_3
+        MOAI_KEY_OEM_4
+        MOAI_KEY_OEM_5
+        MOAI_KEY_OEM_6
+        MOAI_KEY_OEM_7
+        MOAI_KEY_OEM_8
+        MOAI_KEY_OEM_102
+        MOAI_KEY_TOTAL
+        MOAI_KEY_INVALID
+
 
 cdef extern from "ParticlePresets.h":
     void            ParticlePresets                 ()

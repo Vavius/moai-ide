@@ -220,17 +220,17 @@ def AKUEnqueueButtonEvent(deviceID, sensorID, down):
 def AKUEnqueueCompassEvent(deviceID, sensorID, heading):
     cmoai.AKUEnqueueCompassEvent(deviceID, sensorID, heading)
 
-def AKUEnqueueKeyboardAltEvent(deviceID, sensorID, down):
-    cmoai.AKUEnqueueKeyboardAltEvent(deviceID, sensorID, down)
+def AKUEnqueueKeyboardCharEvent(deviceID, sensorID, unicodeChar):
+    cmoai.AKUEnqueueKeyboardCharEvent(deviceID, sensorID, unicodeChar)
 
-def AKUEnqueueKeyboardControlEvent(deviceID, sensorID, down):
-    cmoai.AKUEnqueueKeyboardControlEvent(deviceID, sensorID, down)
+def AKUEnqueueKeyboardEditEvent(deviceID, sensorID, text, start, editLength, maxLength):
+    cmoai.AKUEnqueueKeyboardEditEvent(deviceID, sensorID, text, start, editLength, maxLength)
 
-def AKUEnqueueKeyboardEvent(deviceID, sensorID, keyID, down):
-    cmoai.AKUEnqueueKeyboardEvent(deviceID, sensorID, keyID, down)
+def AKUEnqueueKeyboardKeyEvent(deviceID, sensorID, keyID, down):
+    cmoai.AKUEnqueueKeyboardKeyEvent(deviceID, sensorID, keyID, down)
 
-def AKUEnqueueKeyboardShiftEvent(deviceID, sensorID, down):
-    cmoai.AKUEnqueueKeyboardShiftEvent(deviceID, sensorID, down)
+def AKUEnqueueKeyboardTextEvent(deviceID, sensorID, text):
+    cmoai.AKUEnqueueKeyboardTextEvent(deviceID, sensorID, text)
 
 def AKUEnqueueLevelEvent(deviceID, sensorID, x, y, z):
     cmoai.AKUEnqueueLevelEvent(deviceID, sensorID, x, y, z)
@@ -303,34 +303,108 @@ def AKUInitParticlePresets():
     cmoai.ParticlePresets()
 
 
-# util host.h
-# def AKUUtilAppFinalize ():
-#     cmoai.AKUUtilAppFinalize()
-
-# def AKUUtilAppInitialize ():
-#     cmoai.AKUUtilAppInitialize()
-
-# def AKUUtilContextInitialize ():
-#     cmoai.AKUUtilContextInitialize()
-
-# setup
-# def AKUSimAppFinalize():
-#     cmoai.AKUSimAppFinalize()
-
-# def AKUSimAppInitialize():
-#     cmoai.AKUSimAppInitialize()
-
-# def AKUSimContextInitialize():
-#     cmoai.AKUSimContextInitialize()
-
-# Lua extensions host.h
-# def AKULuaExtAppFinalize():
-#     cmoai.AKULuaExtAppFinalize()
-
-# def AKULuaExtAppInitialize():
-#     cmoai.AKULuaExtAppInitialize()
-
-# def AKULuaExtContextInitialize():
-#     cmoai.AKULuaExtContextInitialize()
-
+# Expose Key codes enum values
+MOAI_KEY_BACKSPACE      = cmoai.MOAI_KEY_BACKSPACE
+MOAI_KEY_TAB            = cmoai.MOAI_KEY_TAB
+MOAI_KEY_RETURN         = cmoai.MOAI_KEY_RETURN
+MOAI_KEY_SHIFT          = cmoai.MOAI_KEY_SHIFT
+MOAI_KEY_CONTROL        = cmoai.MOAI_KEY_CONTROL
+MOAI_KEY_ALT            = cmoai.MOAI_KEY_ALT
+MOAI_KEY_PAUSE          = cmoai.MOAI_KEY_PAUSE
+MOAI_KEY_CAPS_LOCK      = cmoai.MOAI_KEY_CAPS_LOCK
+MOAI_KEY_ESCAPE         = cmoai.MOAI_KEY_ESCAPE
+MOAI_KEY_SPACE          = cmoai.MOAI_KEY_SPACE
+MOAI_KEY_PAGE_UP        = cmoai.MOAI_KEY_PAGE_UP
+MOAI_KEY_PAGE_DOWN      = cmoai.MOAI_KEY_PAGE_DOWN
+MOAI_KEY_END            = cmoai.MOAI_KEY_END
+MOAI_KEY_HOME           = cmoai.MOAI_KEY_HOME
+MOAI_KEY_LEFT           = cmoai.MOAI_KEY_LEFT
+MOAI_KEY_UP             = cmoai.MOAI_KEY_UP
+MOAI_KEY_RIGHT          = cmoai.MOAI_KEY_RIGHT
+MOAI_KEY_DOWN           = cmoai.MOAI_KEY_DOWN
+MOAI_KEY_PRINT_SCREEN   = cmoai.MOAI_KEY_PRINT_SCREEN
+MOAI_KEY_INSERT         = cmoai.MOAI_KEY_INSERT
+MOAI_KEY_DELETE         = cmoai.MOAI_KEY_DELETE
+MOAI_KEY_DIGIT_0        = cmoai.MOAI_KEY_DIGIT_0
+MOAI_KEY_DIGIT_1        = cmoai.MOAI_KEY_DIGIT_1
+MOAI_KEY_DIGIT_2        = cmoai.MOAI_KEY_DIGIT_2
+MOAI_KEY_DIGIT_3        = cmoai.MOAI_KEY_DIGIT_3
+MOAI_KEY_DIGIT_4        = cmoai.MOAI_KEY_DIGIT_4
+MOAI_KEY_DIGIT_5        = cmoai.MOAI_KEY_DIGIT_5
+MOAI_KEY_DIGIT_6        = cmoai.MOAI_KEY_DIGIT_6
+MOAI_KEY_DIGIT_7        = cmoai.MOAI_KEY_DIGIT_7
+MOAI_KEY_DIGIT_8        = cmoai.MOAI_KEY_DIGIT_8
+MOAI_KEY_DIGIT_9        = cmoai.MOAI_KEY_DIGIT_9
+MOAI_KEY_A              = cmoai.MOAI_KEY_A
+MOAI_KEY_B              = cmoai.MOAI_KEY_B
+MOAI_KEY_C              = cmoai.MOAI_KEY_C
+MOAI_KEY_D              = cmoai.MOAI_KEY_D
+MOAI_KEY_E              = cmoai.MOAI_KEY_E
+MOAI_KEY_F              = cmoai.MOAI_KEY_F
+MOAI_KEY_G              = cmoai.MOAI_KEY_G
+MOAI_KEY_H              = cmoai.MOAI_KEY_H
+MOAI_KEY_I              = cmoai.MOAI_KEY_I
+MOAI_KEY_J              = cmoai.MOAI_KEY_J
+MOAI_KEY_K              = cmoai.MOAI_KEY_K
+MOAI_KEY_L              = cmoai.MOAI_KEY_L
+MOAI_KEY_M              = cmoai.MOAI_KEY_M
+MOAI_KEY_N              = cmoai.MOAI_KEY_N
+MOAI_KEY_O              = cmoai.MOAI_KEY_O
+MOAI_KEY_P              = cmoai.MOAI_KEY_P
+MOAI_KEY_Q              = cmoai.MOAI_KEY_Q
+MOAI_KEY_R              = cmoai.MOAI_KEY_R
+MOAI_KEY_S              = cmoai.MOAI_KEY_S
+MOAI_KEY_T              = cmoai.MOAI_KEY_T
+MOAI_KEY_U              = cmoai.MOAI_KEY_U
+MOAI_KEY_V              = cmoai.MOAI_KEY_V
+MOAI_KEY_W              = cmoai.MOAI_KEY_W
+MOAI_KEY_X              = cmoai.MOAI_KEY_X
+MOAI_KEY_Y              = cmoai.MOAI_KEY_Y
+MOAI_KEY_Z              = cmoai.MOAI_KEY_Z
+MOAI_KEY_GUI            = cmoai.MOAI_KEY_GUI
+MOAI_KEY_APPLICATION    = cmoai.MOAI_KEY_APPLICATION
+MOAI_KEY_NUM_0          = cmoai.MOAI_KEY_NUM_0
+MOAI_KEY_NUM_1          = cmoai.MOAI_KEY_NUM_1
+MOAI_KEY_NUM_2          = cmoai.MOAI_KEY_NUM_2
+MOAI_KEY_NUM_3          = cmoai.MOAI_KEY_NUM_3
+MOAI_KEY_NUM_4          = cmoai.MOAI_KEY_NUM_4
+MOAI_KEY_NUM_5          = cmoai.MOAI_KEY_NUM_5
+MOAI_KEY_NUM_6          = cmoai.MOAI_KEY_NUM_6
+MOAI_KEY_NUM_7          = cmoai.MOAI_KEY_NUM_7
+MOAI_KEY_NUM_8          = cmoai.MOAI_KEY_NUM_8
+MOAI_KEY_NUM_9          = cmoai.MOAI_KEY_NUM_9
+MOAI_KEY_NUM_MULTIPLY   = cmoai.MOAI_KEY_NUM_MULTIPLY
+MOAI_KEY_NUM_PLUS       = cmoai.MOAI_KEY_NUM_PLUS
+MOAI_KEY_NUM_MINUS      = cmoai.MOAI_KEY_NUM_MINUS
+MOAI_KEY_NUM_DECIMAL    = cmoai.MOAI_KEY_NUM_DECIMAL
+MOAI_KEY_NUM_DIVIDE     = cmoai.MOAI_KEY_NUM_DIVIDE
+MOAI_KEY_F1             = cmoai.MOAI_KEY_F1
+MOAI_KEY_F2             = cmoai.MOAI_KEY_F2
+MOAI_KEY_F3             = cmoai.MOAI_KEY_F3
+MOAI_KEY_F4             = cmoai.MOAI_KEY_F4
+MOAI_KEY_F5             = cmoai.MOAI_KEY_F5
+MOAI_KEY_F6             = cmoai.MOAI_KEY_F6
+MOAI_KEY_F7             = cmoai.MOAI_KEY_F7
+MOAI_KEY_F8             = cmoai.MOAI_KEY_F8
+MOAI_KEY_F9             = cmoai.MOAI_KEY_F9
+MOAI_KEY_F10            = cmoai.MOAI_KEY_F10
+MOAI_KEY_F11            = cmoai.MOAI_KEY_F11
+MOAI_KEY_F12            = cmoai.MOAI_KEY_F12
+MOAI_KEY_NUM_LOCK       = cmoai.MOAI_KEY_NUM_LOCK
+MOAI_KEY_SCROLL_LOCK    = cmoai.MOAI_KEY_SCROLL_LOCK
+MOAI_KEY_OEM_1          = cmoai.MOAI_KEY_OEM_1
+MOAI_KEY_OEM_PLUS       = cmoai.MOAI_KEY_OEM_PLUS
+MOAI_KEY_OEM_COMMA      = cmoai.MOAI_KEY_OEM_COMMA
+MOAI_KEY_OEM_MINUS      = cmoai.MOAI_KEY_OEM_MINUS
+MOAI_KEY_OEM_PERIOD     = cmoai.MOAI_KEY_OEM_PERIOD
+MOAI_KEY_OEM_2          = cmoai.MOAI_KEY_OEM_2
+MOAI_KEY_OEM_3          = cmoai.MOAI_KEY_OEM_3
+MOAI_KEY_OEM_4          = cmoai.MOAI_KEY_OEM_4
+MOAI_KEY_OEM_5          = cmoai.MOAI_KEY_OEM_5
+MOAI_KEY_OEM_6          = cmoai.MOAI_KEY_OEM_6
+MOAI_KEY_OEM_7          = cmoai.MOAI_KEY_OEM_7
+MOAI_KEY_OEM_8          = cmoai.MOAI_KEY_OEM_8
+MOAI_KEY_OEM_102        = cmoai.MOAI_KEY_OEM_102
+MOAI_KEY_TOTAL          = cmoai.MOAI_KEY_TOTAL
+MOAI_KEY_INVALID        = cmoai.MOAI_KEY_INVALID
 

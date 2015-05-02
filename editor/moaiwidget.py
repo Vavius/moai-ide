@@ -13,6 +13,7 @@ from OpenGL.GLU import *
 import luainterface
 from filedialog import FileDialog
 from coloredlog import ColoredLog
+from keycodes import getMoaiKeyCode
 
 # input sensors IDs
 KEYBOARD, POINTER, MOUSE_LEFT, MOUSE_MIDDLE, MOUSE_RIGHT, MOUSE_WHEEL, TOTAL = range(0, 7)
@@ -95,47 +96,17 @@ class MOAIWidget(QtOpenGL.QGLWidget):
             AKUEnqueueButtonEvent ( 0, MOUSE_MIDDLE, False)
 
     def keyPressEvent(self, event):
-        key = event.key()
-        
-        if key == QtCore.Qt.Key_Shift:
-            AKUEnqueueKeyboardShiftEvent(0, KEYBOARD, True)
-
-        elif key == QtCore.Qt.Key_Control:
-            AKUEnqueueKeyboardControlEvent(0, KEYBOARD, True)
-
-        elif key == QtCore.Qt.Key_Alt:
-            AKUEnqueueKeyboardAltEvent(0, KEYBOARD, True)
-
-        else:
-            key = self.normalizeKeyCode(key)
-            if key:
-                AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
+        key = getMoaiKeyCode(event.key())
+        print(event.key())
+        print(key)
+        AKUEnqueueKeyboardKeyEvent(0, KEYBOARD, key, True)
 
 
     def keyReleaseEvent(self, event):
-        key = event.key()
-
-        if key == QtCore.Qt.Key_Shift:
-            AKUEnqueueKeyboardShiftEvent(0, KEYBOARD, False)
-
-        elif key == QtCore.Qt.Key_Control:
-            AKUEnqueueKeyboardControlEvent(0, KEYBOARD, False)
-
-        elif key == QtCore.Qt.Key_Alt:
-            AKUEnqueueKeyboardAltEvent(0, KEYBOARD, False)
-
-        else:
-            key = self.normalizeKeyCode(key)
-            if key:
-                AKUEnqueueKeyboardEvent(0, KEYBOARD, key, False)
-
-    # Wrap key code to MOAI accepted range [0, 511]
-    def normalizeKeyCode(self, key):
-        if key >= 0x01000000:
-            key = 0x100 + (key & ~0x01000000)
-        if key >= 512:
-            return False
-        return key
+        key = getMoaiKeyCode(event.key())
+        print(event.key())
+        print(key)
+        AKUEnqueueKeyboardKeyEvent(0, KEYBOARD, key, False)
 
     # Game Management API
     def refreshContext(self):
