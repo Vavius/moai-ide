@@ -28,15 +28,25 @@ class ColoredLog():
 
     def setColoredPrintFunc(self, name, before, after):
         tmpName = name.replace('.', '')
-        setFunc = self.lua.eval("""function(before, after) 
-            %(tmpName)s = %(name)s
+        setFunc = self.lua.eval("""function(before, after)
+            local logfunc = %(name)s
             %(name)s = function(...)
                 before()
-                %(tmpName)s(...)
+
+                -- 1 itself, 2 the caller
+                local info = debug.getinfo(2, 'Sln')
+                local dbg
+                if info and info.what == 'Lua' and info.source:sub(1, 1) == "@" then
+                    local src = string.pathFile(info.source)
+                    dbg = string.format('(%%s %%s:%%d) \t', src, info.name or 'unknown', info.currentline or 0)
+                    logfunc(dbg, ...)
+                else
+                    logfunc(...)
+                end
                 after()
             end
             log.setLogLevel(log.DEBUG)
-        end""" % {'name' : name, 'tmpName' : tmpName})
+        end""" % {'name' : name})
         setFunc(before, after)
 
 
