@@ -10,5 +10,7 @@ pyside-uic -o consoledialog_ui.py consoledialog.ui
 pyside-uic -o outlinerdock_ui.py outlinerdock.ui
 pyside-uic -o profilerdock_ui.py profilerdock.ui
 pyside-uic -o statsdock_ui.py statsdock.ui
+pyside-uic -o particleparams_ui.py particleparams.ui
+pyside-uic -o particleeditor_ui.py particleeditor.ui
 
 cd ..

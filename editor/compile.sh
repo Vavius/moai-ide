@@ -1,3 +1,0 @@
-#!/bin/bash
-
-g++ -I ~/moai/moai-forge/src/ -L/Users/vavius/moai/moai-forge/lib/osx/lib/ -lbox2d -lcontrib -lcrypto -lcurl -lexpat -lfreetype -lglew -ljansson -ljpg -lluacrypto -lluacurl -lluafilesystem -lluajit -lluasocket -lluasql -lmoai-audiosampler -lmoai-box2d -lmoai-core -lmoai-crypto -lmoai-fmod-studio -lmoai-http-client -lmoai-luaext -lmoai-sim -lmoai-spine -lmoai-untz -lmoai-util -lmongoose -logg -lpng -lSDL2 -lSDL2main -lsfmt -lspine -lsqlite3 -lssl -ltess -ltinyxml -ltlsf -luntz -lvorbis -lwebp -lzlcore -lzlcrypto -lzlib -lzlvfs main.cpp
