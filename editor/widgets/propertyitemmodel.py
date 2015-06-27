@@ -127,7 +127,12 @@ class TreeItem(object):
     def setModel(self, model):
         self.model = model
         self.itemData[0] = model.get('name')
-        self.itemData[1] = model.get('value')
+        
+        value = model.get('value')
+        if model['type'] == 'int':
+            self.itemData[1] = int(value)
+        if model['type'] == 'float':
+            self.itemData[1] = float(value)
 
 
 class PropertyItemModel(QtCore.QAbstractItemModel):

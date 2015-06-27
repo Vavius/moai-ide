@@ -1,0 +1,127 @@
+--------------------------------------------------------------------------------
+--
+--
+--
+--------------------------------------------------------------------------------
+
+local ParticleState = require("ParticleState")
+local ParticleEmitter = require("ParticleEmitter")
+local ParticleEditorScene = require("ParticleEditorScene")
+
+local ParticleEditor = {}
+
+local system
+local emitters = {}
+local states = {}
+
+
+function ParticleEditor.addEmitter()
+	local emitter = ParticleEmitter(system)
+	table.insert(emitters, emitter)
+end
+
+
+function ParticleEditor.addForce(stateId)
+
+end
+
+
+function ParticleEditor.addState()
+	local state = ParticleState()
+	table.insert(states, state)
+end
+
+
+function ParticleEditor.createScene()
+	ParticleEditorScene.start()
+	system = ParticleEditorScene.getSystem()
+end
+
+
+function ParticleEditor.findState(idx)
+	return states[idx]
+end
+
+
+function ParticleEditor.getEmitterData(idx)
+	local emitter = emitters[idx]
+	if not emitter then
+		log.error("emitter not found")
+		return
+	end
+	
+	return emitter:getModelData()
+end
+
+
+function ParticleEditor.getEmitterParam(emitterId, paramId)
+	return emitters[emitterId]:getParam(paramId)
+end
+
+
+function ParticleEditor.getStateData(idx)
+	local state = states[idx]
+	if not state then
+		log.error("state not found")
+		return
+	end
+
+	return state:getModelData()
+end
+
+
+function ParticleEditor.getStateIdx(state)
+	for i, s in ipairs(states) do
+		if s == state then
+			return i
+		end
+	end
+	return 0
+end
+
+
+function ParticleEditor.getStateParam(stateId, paramId)
+	return states[stateId]:getParam(paramId)
+end
+
+
+function ParticleEditor.listEmitters()
+	local list = {}
+	for k, v in ipairs(emitters) do
+		table.insert(list, v.name)
+	end
+	return list
+end
+
+
+function ParticleEditor.listStates()
+	local list = {}
+	for k, v in ipairs(states) do
+		table.insert(list, v.name)
+	end
+	return list
+end
+
+
+function ParticleEditor.removeEmitter(idx)
+
+end
+
+
+function ParticleEditor.removeState(idx)
+
+end
+
+
+function ParticleEditor.setEmitterParam(emitterId, paramId, value)
+	emitters[emitterId]:setParam(paramId, value)
+end
+
+
+function ParticleEditor.setStateParam(stateId, paramId, value)
+	states[stateId]:setParam(paramId, value)
+end
+
+
+
+return ParticleEditor

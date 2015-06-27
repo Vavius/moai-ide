@@ -66,8 +66,8 @@ items = [
     {
         'group' : 'State',
         'items' : [
-            {'id':6, 'name':'Frequency', 'type':'float', 'value':1.0},
-            {'id':7, 'name':'Emission', 'type':'float', 'value':1.0},
+            {'id':6, 'name':'Frequency', 'type':'int', 'value':1.0},
+            {'id':7, 'name':'Emission', 'type':'int', 'value':1.0},
         ]
     }
 ]
