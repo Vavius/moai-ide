@@ -30,7 +30,6 @@ class QConsole (QPlainTextEdit):
     def keyPressEvent(self, event):
         if not self.cursorValid:
             if event.key() in keys or event.text() != '':
-                print('moving')
                 cursor = self.textCursor()
                 cursor.setPosition(self.lastCursorPosition)
                 self.setTextCursor(cursor)
@@ -59,8 +58,6 @@ class QConsole (QPlainTextEdit):
                 self.execute()
                 return
 
-        print(event.key())
-        print(event.type())
         super(QConsole, self).keyPressEvent(event)
     
 
