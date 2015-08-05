@@ -49,27 +49,45 @@ class MyWindow(QWidget):
 
 items = [
     {
-        'group' : 'Emitter',
-        'items' : [
-            {'id':1, 'name':'Frequency', 'type':'float', 'value':1.0},
-            {'id':2, 'name':'Emission', 'type':'float', 'value':1.0},
-        ]
-    },
-    {
-        'group' : 'Forces',
-        'items' : [
-            {'id':3, 'name':'Type', 'type':'list', 'value':0, 'choices':['radial', 'linear']},
-            {'id':4, 'name':'Loc X', 'type':'float', 'value':0.0},
-            {'id':5, 'name':'Loc Y', 'type':'float', 'value':0.0},
-        ]
-    },
-    {
         'group' : 'State',
         'items' : [
-            {'id':6, 'name':'Frequency', 'type':'int', 'value':1.0},
-            {'id':7, 'name':'Emission', 'type':'int', 'value':1.0},
+            { 'type' : "string", 'name' : "Name", 'value' : "state", 'id' : "Name" },
+            { 'type' : "float", 'name' : "Damping", 'value' : 0, 'id' : "Damping" },
+            { 'type' : "float", 'name' : "Mass min", 'value' : 1, 'id' : "MassMin" },
+            { 'type' : "float", 'name' : "Mass max", 'value' : 1, 'id' : "MassMax" },
+            { 'type' : "float", 'name' : "Lifetime min", 'value' : 1, 'id' : "TermMin" },
+            { 'type' : "float", 'name' : "Lifetime max", 'value' : 1, 'id' : "TermMax" },
+
         ]
-    }
+    },
+    {
+        'group' : 'Force1',
+        'items' : [
+
+            { 'type' : "string",  'name' : "Name", 'value' : "Force1", 'id' : "Name" },
+            { 'type' : "list",    'name' : "Type", 'value' : 0, 'id' : "Type", 'choices' : ['Force', 'Gravity', 'Offset'] },
+            { 'type' : "list",    'name' : "Shape", 'value' : 0, 'id' : "Shape", 'choices' : ['Attractor', 'Basin', 'Linear', 'Radial'] },
+            { 'type' : "float",   'name' : "Loc X", 'value' : 0, 'id' : "LocX" },
+            { 'type' : "float",   'name' : "Loc Y", 'value' : 0, 'id' : "LocY" },
+
+            { 'type' : "float",   "name" : "Radius", "value" : 0, 'id' : "Radius" },
+            { 'type' : "float",   "name" : "Magnitude", "value" : 0, 'id' : "Magnitude" },
+        ]
+    },
+    {
+        'group' : 'Force2',
+        'items' : [
+
+            { 'type' : "string",  'name' : "Name", 'value' : "Force2", 'id' : "Name" },
+            { 'type' : "list",    'name' : "Type", 'value' : 0, 'id' : "Type", 'choices' : ['Force', 'Gravity', 'Offset'] },
+            { 'type' : "list",    'name' : "Shape", 'value' : 2, 'id' : "Shape", 'choices' : ['Attractor', 'Basin', 'Linear', 'Radial'] },
+            { 'type' : "float",   'name' : "Loc X", 'value' : 0, 'id' : "LocX" },
+            { 'type' : "float",   'name' : "Loc Y", 'value' : 0, 'id' : "LocY" },
+
+            { 'type' : "float",   'name' : "Mag X", 'value' : 0, 'id' : "MagX" },
+            { 'type' : "float",   'name' : "Mag Y", 'value' : 0, 'id' : "MagY" },
+        ]
+    },
 ]
 
 app = QApplication([])

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Fri Jun 19 00:15:22 2015
+# Created: Wed Aug  5 14:50:17 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,10 +45,13 @@ class Ui_MainWindow(object):
         self.actionNew_project.setObjectName("actionNew_project")
         self.actionReload_Project = QtGui.QAction(MainWindow)
         self.actionReload_Project.setObjectName("actionReload_Project")
+        self.actionParicle_Editor = QtGui.QAction(MainWindow)
+        self.actionParicle_Editor.setObjectName("actionParicle_Editor")
         self.menuFile.addAction(self.actionNew_project)
         self.menuFile.addAction(self.actionOpen_project)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionSave_project)
+        self.menuFile.addAction(self.actionParicle_Editor)
         self.menuEdit.addAction(self.actionCopy)
         self.menuEdit.addAction(self.actionPaste)
         self.menuEdit.addSeparator()
@@ -61,6 +64,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.actionOpen_project, QtCore.SIGNAL("triggered()"), MainWindow.showOpenFileDialog)
         QtCore.QObject.connect(self.actionReload_Project, QtCore.SIGNAL("triggered()"), MainWindow.reloadMoai)
+        QtCore.QObject.connect(self.actionParicle_Editor, QtCore.SIGNAL("triggered()"), MainWindow.launchParticleEditor)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -81,5 +85,6 @@ class Ui_MainWindow(object):
         self.actionNew_project.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
         self.actionReload_Project.setText(QtGui.QApplication.translate("MainWindow", "Reload Project", None, QtGui.QApplication.UnicodeUTF8))
         self.actionReload_Project.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+R", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionParicle_Editor.setText(QtGui.QApplication.translate("MainWindow", "Paricle Editor", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc

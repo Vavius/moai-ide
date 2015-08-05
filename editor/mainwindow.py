@@ -23,6 +23,8 @@ from environmentdock import EnvironmentDock
 from debugdock import DebugDock
 from profilerdock import ProfilerDock
 from statsdock import StatsDock
+from particleeditordock import ParticleEditorDock
+from particleparamsdock import ParticleParamsDock
 
 from colorama import Fore, Back, Style
 from time import strftime
@@ -31,6 +33,8 @@ import luainterface
 import locale
 
 colorPrintEnabled = True
+
+rootPath = os.path.dirname(os.path.abspath(__file__))
 
 def tracebackFunc(trace):
     if colorPrintEnabled:
@@ -72,6 +76,8 @@ class MainWindow(QMainWindow):
         self.ui =  ui
         self.ui.setupUi(self)
 
+        # self.setDockNestingEnabled(True)
+
         self.moaiWidget = MOAIWidget()
 
         self.scrollArea = QtGui.QScrollArea()
@@ -86,6 +92,8 @@ class MainWindow(QMainWindow):
         self.profilerDock = ProfilerDock(self)
         self.environmentDock = EnvironmentDock(self)
         self.statsDock = StatsDock(self)
+        self.particleEditorDock = ParticleEditorDock(self)
+        self.particleParamsDock = ParticleParamsDock(self)
 
         # self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
@@ -93,24 +101,32 @@ class MainWindow(QMainWindow):
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.debugDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.profilerDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.statsDock)
+        self.tabifyDockWidget(self.environmentDock, self.particleEditorDock)
+        self.tabifyDockWidget(self.debugDock, self.particleParamsDock)
 
         actionOutliner = self.outlinerDock.toggleViewAction()
         actionEnvironment = self.environmentDock.toggleViewAction()
         actionDebug = self.debugDock.toggleViewAction()
         actionProfiler = self.profilerDock.toggleViewAction()
         actionStats = self.statsDock.toggleViewAction()
+        actionParticleEditor = self.particleEditorDock.toggleViewAction()
+        actionParticleParams = self.particleParamsDock.toggleViewAction()
 
         self.outlinerDock.hide()
         self.consoleDialog.hide()
         self.debugDock.hide()
         self.profilerDock.hide()
         self.statsDock.hide()
+        self.particleEditorDock.hide()
+        self.particleParamsDock.hide()
 
         ui.menuWindow.addAction(actionOutliner)
         ui.menuWindow.addAction(actionEnvironment)
         ui.menuWindow.addAction(actionDebug)
         ui.menuWindow.addAction(actionProfiler)
         ui.menuWindow.addAction(actionStats)
+        ui.menuWindow.addAction(actionParticleEditor)
+        ui.menuWindow.addAction(actionParticleParams)
         ui.menuWindow.addSeparator()
         ui.menuWindow.addAction(QtGui.QAction('&Console', self, statusTip="Open console window", shortcut="Shift+Ctrl+C", triggered=self.showConsole))
 
@@ -203,6 +219,14 @@ class MainWindow(QMainWindow):
     @QtCore.Slot(str)
     def onMessage(self, message):
         pass
+
+    @QtCore.Slot()
+    def launchParticleEditor(self):
+        fileName = os.path.join(rootPath, "lua/editor-framework/main.lua")
+        luaFile = os.path.basename(fileName)
+        workingDir = os.path.dirname(fileName)
+
+        self.openFile(luaFile, workingDir)
 
     def resizeMoaiView(self, width, height):
         self.moaiWidget.resize(width, height)

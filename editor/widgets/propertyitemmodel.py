@@ -131,8 +131,15 @@ class TreeItem(object):
         value = model.get('value')
         if model['type'] == 'int':
             self.itemData[1] = int(value)
-        if model['type'] == 'float':
+        
+        elif model['type'] == 'float':
             self.itemData[1] = float(value)
+
+        elif model['type'] in ('string', 'header'):
+            self.itemData[1] = str(value)
+        
+        else:
+            self.itemData[1] = value
 
 
 class PropertyItemModel(QtCore.QAbstractItemModel):
@@ -278,7 +285,7 @@ class PropertyItemModel(QtCore.QAbstractItemModel):
         self.items = {}
 
         for group in data:
-            section = parent.insertChild(parent.childCount(), {'type' : 'header', 'name' : group['group']})
+            section = parent.insertChild(parent.childCount(), {'type' : 'header', 'name' : group['group'], 'value' : ''})
             for item in group['items']:
                 child = section.insertChild(section.childCount(), item)
                 self.items[item['id']] = child

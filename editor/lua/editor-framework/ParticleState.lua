@@ -15,6 +15,7 @@ local DATA = {
     { type = "float", name = "Mass max", value = 1, access = "MassMax" },
     { type = "float", name = "Lifetime min", value = 1, access = "TermMin" },
     { type = "float", name = "Lifetime max", value = 1, access = "TermMax" },
+    { type = "list",  name = "Next", value = 0, access = "Next", choices = {} },
 }
 
 
@@ -41,7 +42,7 @@ function ParticleState:getModelData()
     end
 
     local data = {
-        { group = 'State', items = stateParams }
+        { group = self:getName(), items = stateParams }
     }
 
     if #self.forces > 0 then

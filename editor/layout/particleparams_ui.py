@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particleparams.ui'
 #
-# Created: Fri Jun 19 00:15:23 2015
+# Created: Wed Aug  5 14:50:18 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_particleParams(object):
     def setupUi(self, particleParams):
         particleParams.setObjectName("particleParams")
-        particleParams.resize(557, 695)
+        particleParams.resize(393, 748)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)

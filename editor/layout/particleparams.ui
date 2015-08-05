@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>557</width>
-    <height>695</height>
+    <width>393</width>
+    <height>748</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,8 +26,14 @@
       <property name="alternatingRowColors">
        <bool>true</bool>
       </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
       <property name="indentation">
-       <number>0</number>
+       <number>20</number>
+      </property>
+      <property name="animated">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -36,4 +42,7 @@
  </widget>
  <resources/>
  <connections/>
+ <slots>
+  <slot>onValueChange()</slot>
+ </slots>
 </ui>

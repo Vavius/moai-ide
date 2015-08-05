@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>365</width>
-    <height>695</height>
+    <width>364</width>
+    <height>796</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,29 +16,115 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Particle System</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblMaxParticles">
+         <property name="text">
+          <string>Particle limit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="editParticleLimit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblMaxSprites">
+         <property name="text">
+          <string>Sprite limit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="editSpriteLimit"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="chkWrapParticles">
+         <property name="text">
+          <string>Wrap particles</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="chkWrapSprites">
+         <property name="text">
+          <string>Wrap sprites</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="chkReverseDraw">
+         <property name="text">
+          <string>Reverse draw order</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="btnTexture">
+         <property name="text">
+          <string>Load texture atlas</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QToolButton" name="btnBgColor">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="lblColor">
+         <property name="text">
+          <string>Background color</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
        <string>Emitters</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QListWidget" name="listEmitter">
-         <property name="selectionRectVisible">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0">
         <widget class="QPushButton" name="btnAddEmitter">
          <property name="text">
-          <string>New emitter</string>
+          <string>Add emitter</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="1">
         <widget class="QPushButton" name="btnDeleteEmitter">
          <property name="text">
           <string>Remove emitter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QListWidget" name="listEmitter">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -50,33 +136,51 @@
       <property name="title">
        <string>Particle States</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QListWidget" name="listState">
-         <property name="selectionRectVisible">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
         <widget class="QPushButton" name="btnAddState">
          <property name="text">
-          <string>New state</string>
+          <string>Add state</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="2" column="0">
+        <widget class="QComboBox" name="cmbComponent"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="btnAddComponent">
+         <property name="text">
+          <string>Add component</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
         <widget class="QPushButton" name="btnDeleteState">
          <property name="text">
           <string>Remove state</string>
          </property>
         </widget>
        </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QListWidget" name="listState">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
-      <zorder>listWidget_2</zorder>
-      <zorder>listState</zorder>
-      <zorder>btnAddState</zorder>
-      <zorder>btnDeleteState</zorder>
      </widget>
     </item>
     <item>
@@ -96,11 +200,246 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnAddComponent</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onNewComponent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>728</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAddEmitter</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onNewEmitter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>446</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAddState</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onNewState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>694</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeleteEmitter</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onDeleteEmitter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>446</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeleteState</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onDeleteState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>694</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnTexture</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onLoadTexture()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkReverseDraw</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onReverseDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkWrapParticles</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onWrapParticles(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkWrapSprites</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onWrapSprites(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>145</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editParticleLimit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEditParticleLimit(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editSpriteLimit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEditSpriteLimit(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listEmitter</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEmitterClick(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>336</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listState</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onStateClick(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnBgColor</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onBgColorClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>232</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
-  <slot>addEmitter()</slot>
-  <slot>deleteEmitter()</slot>
-  <slot>addState()</slot>
-  <slot>deleteState()</slot>
+  <slot>onNewComponent()</slot>
+  <slot>onNewState()</slot>
+  <slot>onNewEmitter()</slot>
+  <slot>onDeleteEmitter()</slot>
+  <slot>onDeleteState()</slot>
+  <slot>onLoadTexture()</slot>
+  <slot>onReverseDraw(bool)</slot>
+  <slot>onWrapParticles(bool)</slot>
+  <slot>onWrapSprites(bool)</slot>
+  <slot>onEditParticleLimit(QString)</slot>
+  <slot>onEditSpriteLimit(QString)</slot>
+  <slot>onEmitterClick(int)</slot>
+  <slot>onStateClick(int)</slot>
+  <slot>onBgColorClick()</slot>
  </slots>
 </ui>
