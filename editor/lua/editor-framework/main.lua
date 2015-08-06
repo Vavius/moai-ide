@@ -2,4 +2,6 @@
 require("include")
 
 App:openWindow("Particle Editor")
-SceneMgr:pushScene("ParticleEditorScene")
+
+local ParticleEditor = require("ParticleEditor")
+ParticleEditor.createScene()

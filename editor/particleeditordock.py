@@ -42,8 +42,8 @@ class ParticleEditorDock(QDockWidget):
     def setPropertyModel(self, propertyModel):
         self.propertyModel = propertyModel
 
-    def loadEditorScene(self):
-        pass
+    def loadEditorScene(self, lua):
+        self.api = lua.require("ParticleEditor")
 
     def updateEmitterList(self):
         pass
@@ -61,13 +61,18 @@ class ParticleEditorDock(QDockWidget):
         if color.isValid():
             self.setBgBtnColor(color)
 
+            c = [float(x)/255.0 for x in color.getRgb()]
+            self.api.setBgColor(*c)
+
     @QtCore.Slot()
     def onNewEmitter(self):
-        pass
+        self.api.addEmitter()
+        self.updateEmitterList()
 
     @QtCore.Slot()
     def onNewState(self):
-        pass
+        self.api.addState()
+        self.updateStateList()
 
     @QtCore.Slot(str)
     def onEditParticleLimit(self, limit):

@@ -227,6 +227,7 @@ class MainWindow(QMainWindow):
         workingDir = os.path.dirname(fileName)
 
         self.openFile(luaFile, workingDir)
+        self.particleEditorDock.loadEditorScene(self.moaiWidget.lua)
 
     def resizeMoaiView(self, width, height):
         self.moaiWidget.resize(width, height)

@@ -11,9 +11,10 @@ local ParticleEditorScene = require("ParticleEditorScene")
 local ParticleEditor = {}
 
 local system
+local scene
+local regMax = 0
 local emitters = {}
 local states = {}
-
 
 function ParticleEditor.addEmitter()
 	local emitter = ParticleEmitter(system)
@@ -33,8 +34,9 @@ end
 
 
 function ParticleEditor.createScene()
-	ParticleEditorScene.start()
-	system = ParticleEditorScene.getSystem()
+	scene = ParticleEditorScene()
+	system = scene:getSystem()
+	SceneMgr:pushScene(scene)
 end
 
 
@@ -112,6 +114,9 @@ function ParticleEditor.removeState(idx)
 
 end
 
+function ParticleEditor.setBgColor(r, g, b, a)
+	scene:setBgColor(r, g, b, a)
+end
 
 function ParticleEditor.setEmitterParam(emitterId, paramId, value)
 	emitters[emitterId]:setParam(paramId, value)
@@ -120,6 +125,14 @@ end
 
 function ParticleEditor.setStateParam(stateId, paramId, value)
 	states[stateId]:setParam(paramId, value)
+end
+
+function ParticleEditor.setParticleLimit(num)
+	system:reserveParticles(num, regMax)
+end
+
+function ParticleEditor.setSpriteLimit(num)
+	system:reserveSprites(num)
 end
 
 

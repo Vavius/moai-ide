@@ -21,9 +21,14 @@ function ParticleEditorScene:init(params)
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleEditorScene:getSystem()
+    return self.system
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 -- called before transition
 function ParticleEditorScene:onWillEnter(event)
-
+    self.system:start()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -41,7 +46,7 @@ end
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 -- called after transition
 function ParticleEditorScene:onDidExit()
-
+    self.system:stop()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -49,8 +54,17 @@ function ParticleEditorScene:createLayer()
     local layer = Display.Layer()
 
     layer:setTouchEnabled(true)
+    self.layer = layer
     self:addLayer(layer)
+
+    local system = MOAIParticleSystem.new()
+    system:setLayer(layer)
+    self.system = system
 end
 
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleEditorScene:setBgColor(r, g, b, a)
+    self.layer:setClearColor(r, g, b, a)
+end
 
 return ParticleEditorScene
