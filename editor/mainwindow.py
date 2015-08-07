@@ -92,8 +92,8 @@ class MainWindow(QMainWindow):
         self.profilerDock = ProfilerDock(self)
         self.environmentDock = EnvironmentDock(self)
         self.statsDock = StatsDock(self)
-        self.particleEditorDock = ParticleEditorDock(self)
         self.particleParamsDock = ParticleParamsDock(self)
+        self.particleEditorDock = ParticleEditorDock(self)
 
         # self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
@@ -172,6 +172,7 @@ class MainWindow(QMainWindow):
         
         self.environmentDock.readSettings()
         self.debugDock.readSettings()
+        self.particleEditorDock.readSettings()
 
         self.runAttempts = settings.value("main/openProjectAttempts", 0) + 1
         settings.setValue("main/openProjectAttempts", self.runAttempts)
@@ -192,10 +193,11 @@ class MainWindow(QMainWindow):
         settings.setValue("main/workingDir", self.workingDir)
         self.environmentDock.writeSettings()
         self.debugDock.writeSettings()
+        self.particleEditorDock.writeSettings()
 
     @QtCore.Slot()
     def showOpenFileDialog(self):
-        fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
+        fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", self.workingDir or "~", "Lua source (*.lua )")
         if fileName:
             workingDir = os.path.dirname(fileName)
             luaFile = os.path.basename(fileName)

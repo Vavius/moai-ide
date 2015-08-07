@@ -1,8 +1,10 @@
-import PySide
+import PySide, math
 
 from PySide import QtCore, QtGui
 from PySide.QtCore import QAbstractTableModel, Qt
 
+def clamp(minvalue, value, maxvalue):
+    return max(minvalue, min(value, maxvalue))
 
 class ComboDelegate(QtGui.QStyledItemDelegate):
     IndexRole = Qt.UserRole + 1
@@ -46,6 +48,7 @@ class TreeItem(object):
         self.itemData = list(range(0, 2))
         self.setModel(model)
         self.childItems = []
+        self.smoothSwitch = 0
 
     def child(self, row):
         return self.childItems[row]
@@ -83,6 +86,41 @@ class TreeItem(object):
         if column == 1 and self.model.get('type') != 'header':
             return True
         return False
+
+    def getId(self):
+        return self.id
+
+    def getValue(self):
+        return self.itemData[1]
+
+    def getValueAfterIncrement(self, diff):
+        model = self.model
+        if model['type'] == 'float':
+            return self.itemData[1] + diff
+
+        if model['type'] == 'int':
+            self.smoothSwitch += diff
+            if abs(self.smoothSwitch) > 1:
+                res = self.itemData[1] + int(math.copysign(1, self.smoothSwitch))
+                self.smoothSwitch = 0
+                return res
+
+        if model['type'] == 'list':
+            self.smoothSwitch += diff
+            if abs(self.smoothSwitch) > 1:
+                res = self.itemData[1] + int(math.copysign(1, self.smoothSwitch))
+                total = len(model['choices'])
+                self.smoothSwitch = 0
+                return max(min(res, total - 1), 0)
+
+        if model['type'] == 'bool':
+            self.smoothSwitch += diff
+            if abs(self.smoothSwitch) > 1:
+                res = self.smoothSwitch > 0
+                self.smoothSwitch = 0
+                return res
+
+        return None
 
     def insertChildren(self, position, count):
         if position < 0 or position > len(self.childItems):
@@ -127,6 +165,7 @@ class TreeItem(object):
     def setModel(self, model):
         self.model = model
         self.itemData[0] = model.get('name')
+        self.id = model.get('id')
         
         value = model.get('value')
         if model['type'] == 'int':
@@ -135,14 +174,30 @@ class TreeItem(object):
         elif model['type'] == 'float':
             self.itemData[1] = float(value)
 
+        elif model['type'] == 'bool':
+            self.itemData[1] = bool(value)
+
         elif model['type'] in ('string', 'header'):
             self.itemData[1] = str(value)
         
+        elif model['type'] == 'list':
+            model['choices'] = model['choices'] or list()
+            # convert lua 1-based dict to array
+            if 0 not in model['choices']:
+                l = list()
+                for k in sorted(model['choices']):
+                    l.append(model['choices'][k])
+                model['choices'] = l
+
+            self.itemData[1] = int(value)
+
         else:
             self.itemData[1] = value
 
 
 class PropertyItemModel(QtCore.QAbstractItemModel):
+    itemDataChanged = QtCore.Signal(object, object)
+
     def __init__(self, parent=None):
         super(PropertyItemModel, self).__init__(parent)
         self.rootItem = TreeItem({'type' : 'header', 'name' : 'Property', 'value' : 'Value'})
@@ -154,6 +209,18 @@ class PropertyItemModel(QtCore.QAbstractItemModel):
             return index.sibling(row, 1)
         else:
             return index
+
+    def applyOffset(self, index, offset):
+        if not index.isValid(): return
+
+        # index must point to value
+        if index.column() != 1:
+            index = index.sibling(index.row(), 1)
+
+        item = self.getItem(index)
+        val = item.getValueAfterIncrement(offset)
+        if val is not None:
+            self.setData(index, val)
 
     def columnCount(self, parent=QtCore.QModelIndex()):
         return self.rootItem.columnCount()
@@ -263,6 +330,7 @@ class PropertyItemModel(QtCore.QAbstractItemModel):
 
         if result:
             self.dataChanged.emit(index, index)
+            self.itemDataChanged.emit(item.getId(), item.getValue())
 
         return result
 
@@ -284,10 +352,11 @@ class PropertyItemModel(QtCore.QAbstractItemModel):
         parent = self.rootItem
         self.items = {}
 
-        for group in data:
-            section = parent.insertChild(parent.childCount(), {'type' : 'header', 'name' : group['group'], 'value' : ''})
-            for item in group['items']:
-                child = section.insertChild(section.childCount(), item)
-                self.items[item['id']] = child
+        if data:
+            for i, group in data.items():
+                section = parent.insertChild(parent.childCount(), {'type' : 'header', 'name' : group['group'], 'value' : ''})
+                for j, item in group['items'].items():
+                    child = section.insertChild(section.childCount(), item)
+                    self.items[item['id']] = child
 
         self.endResetModel()

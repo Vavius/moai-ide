@@ -5,6 +5,7 @@
 --------------------------------------------------------------------------------
 
 local Scene = require("core.Scene")
+local Gizmos = require("Gizmos")
 
 local ParticleEditorScene = class(Scene)
 
@@ -63,8 +64,24 @@ function ParticleEditorScene:createLayer()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleEditorScene:makeCircleGizmo()
+    local circle = Gizmos.Circle()
+    self.layer:insertProp(circle.prop)
+    return circle
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleEditorScene:makeRectGizmo()
+    local rect = Gizmos.Rect()
+    self.layer:insertProp(rect.prop)
+    return rect
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:setBgColor(r, g, b, a)
     self.layer:setClearColor(r, g, b, a)
 end
+
+
 
 return ParticleEditorScene

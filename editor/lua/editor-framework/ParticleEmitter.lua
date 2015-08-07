@@ -9,6 +9,9 @@ local ParticleEmitter = class()
 local SHAPE_RECT = 0
 local SHAPE_CIRCLE = 1
 
+-- some big number
+local STATE_NONE = 0x0fffffff
+
 local COMMON = {
     { type = "string",  name = "Name", value = "emitter", access = "Name" },
     { type = "int",     name = "Emission min", value = 1, access = "EmissionMin" },
@@ -36,12 +39,13 @@ local RECT = {
     { type = "float",   name = "Top",       value = 10,  access = "Top" },
 }
 
+local counter = 1
 
 function ParticleEmitter:getModelData()
     local data = {}
     for _, p in ipairs(COMMON) do
         local getter = self['get' .. p.access]
-        local value = getter()
+        local value = getter(self)
 
         local item = {
             type = p.type,
@@ -52,6 +56,7 @@ function ParticleEmitter:getModelData()
 
         if p.access == 'State' then
             item.choices = require('ParticleEditor').listStates()
+            table.insert(item.choices, 1, 'None')
         elseif p.type == 'list' then
             item.choices = p.choices
         end
@@ -67,7 +72,7 @@ function ParticleEmitter:getModelData()
     end
     for _, p in ipairs(shape) do
         local getter = self['get' .. p.access]
-        local value = getter()
+        local value = getter(self)
 
         local item = {
             type = p.type,
@@ -79,7 +84,7 @@ function ParticleEmitter:getModelData()
         table.insert(data, item)
     end
     
-    return { group = 'Emitter', items = data }
+    return {{ group = 'Emitter', items = data }}
 end
 
 
@@ -90,13 +95,15 @@ function ParticleEmitter:getParam(paramId)
         return
     end
 
-    return getter()
+    return getter(self)
 end
 
 
 function ParticleEmitter:init(system)
     local emitter = MOAIParticleTimedEmitter.new()
     emitter:setSystem(system)
+    emitter:start()
+    self.emitter = emitter
 
     self.angle = {0, 0}
     self.emission = {0, 0}
@@ -105,15 +112,73 @@ function ParticleEmitter:init(system)
     self.radius = {0, 0}
     self.rect = {0, 0, 0, 0}
 
+    self:initGizmos()
+
     for _, default in ipairs(COMMON) do
         local setter = 'set' .. default.access
-        self[setter](default.value)
+        self[setter](self, default.value)
     end
 
     for _, default in ipairs(RECT) do
         local setter = 'set' .. default.access
-        self[setter](default.value)
+        self[setter](self, default.value)
     end
+
+    self:setName("Emitter" .. counter)
+    counter = counter + 1
+end
+
+function ParticleEmitter:initGizmos()
+    local editor = require("ParticleEditor")
+    local gizmoCircleMin = editor.makeCircleGizmo()
+    local gizmoCircleMax = editor.makeCircleGizmo()
+    local gizmoRect = editor.makeRectGizmo()
+
+    gizmoCircleMin.prop:setAttrLink(MOAITransform.INHERIT_TRANSFORM, self.emitter, MOAITransform.TRANSFORM_TRAIT)
+    gizmoCircleMax.prop:setAttrLink(MOAITransform.INHERIT_TRANSFORM, self.emitter, MOAITransform.TRANSFORM_TRAIT)
+    gizmoRect.prop:setAttrLink(MOAITransform.INHERIT_TRANSFORM, self.emitter, MOAITransform.TRANSFORM_TRAIT)
+
+    gizmoCircleMin:setColor(1, 0, 1, 1)
+    gizmoCircleMin:setWidth(2)
+    gizmoCircleMax:setColor(0, 1, 1, 1)
+    gizmoCircleMax:setWidth(2)
+
+    gizmoRect:setColor(1, 1, 0, 1)
+    gizmoRect:setWidth(2)
+
+    self.gizmoCircleMin = gizmoCircleMin
+    self.gizmoCircleMax = gizmoCircleMax
+    self.gizmoRect = gizmoRect
+end
+
+function ParticleEmitter:destroy()
+    self.emitter:stop()
+
+    self.gizmoCircleMin.prop:setLayer()
+    self.gizmoCircleMax.prop:setLayer()
+    self.gizmoRect.prop:setLayer()
+end
+
+
+function ParticleEmitter:hideGizmos()
+    self.gizmoCircleMin.prop:setVisible(false)
+    self.gizmoCircleMax.prop:setVisible(false)
+    self.gizmoRect.prop:setVisible(false)
+end
+
+function ParticleEmitter:showCircleGizmo()
+    self:hideGizmos()
+    self.gizmoCircleMin.prop:setVisible(true)
+    self.gizmoCircleMax.prop:setVisible(true)
+    
+    self.gizmoCircleMin:setRadius(self.radius[1])
+    self.gizmoCircleMax:setRadius(self.radius[2])
+end
+
+function ParticleEmitter:showRectGizmo()
+    self:hideGizmos()
+    self.gizmoRect.prop:setVisible(true)
+    self.gizmoRect:setVerts(unpack(self.rect))
 end
 
 
@@ -124,7 +189,7 @@ function ParticleEmitter:setParam(paramId, value)
         return
     end
 
-    setter(value)
+    return setter(self, value)
 end
 
 
@@ -150,6 +215,14 @@ end
 
 function ParticleEmitter:getEmissionMin()
     return self.emission[1]
+end
+
+function ParticleEmitter:getFrequencyMax()
+    return self.freq[2]
+end
+
+function ParticleEmitter:getFrequencyMin()
+    return self.freq[1]
 end
 
 function ParticleEmitter:getLeft()
@@ -207,6 +280,7 @@ function ParticleEmitter:setBottom(value)
     self.rect[2] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
+        self:showRectGizmo()
     end
 end
 
@@ -220,10 +294,21 @@ function ParticleEmitter:setEmissionMin(value)
     self.emitter:setEmission(unpack(self.emission))
 end
 
+function ParticleEmitter:setFrequencyMax(value)
+    self.freq[2] = value
+    self.emitter:setFrequency(unpack(self.freq))
+end
+
+function ParticleEmitter:setFrequencyMin(value)
+    self.freq[1] = value
+    self.emitter:setFrequency(unpack(self.freq))
+end
+
 function ParticleEmitter:setLeft(value)
     self.rect[1] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
+        self:showRectGizmo()
     end
 end
 
@@ -245,6 +330,7 @@ function ParticleEmitter:setRight(value)
     self.rect[3] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
+        self:showRectGizmo()
     end
 end
 
@@ -252,6 +338,7 @@ function ParticleEmitter:setRadiusMax(value)
     self.radius[2] = value
     if self.shape == SHAPE_CIRCLE then
         self.emitter:setRadius(unpack(self.radius))
+        self:showCircleGizmo()
     end
 end
 
@@ -259,6 +346,7 @@ function ParticleEmitter:setRadiusMin(value)
     self.radius[1] = value
     if self.shape == SHAPE_CIRCLE then
         self.emitter:setRadius(unpack(self.radius))
+        self:showCircleGizmo()
     end
 end
 
@@ -266,21 +354,29 @@ function ParticleEmitter:setShape(shape)
     self.shape = shape
 
     if shape == SHAPE_RECT then
-        self.emitter:setRect(unpack(self.rect))
+        self.emitter:setRect(unpack(self.rect))        
     elseif shape == SHAPE_CIRCLE then
         self.emitter:setRadius(unpack(self.radius))
     end
+
+    -- request params view reload
+    return true
 end
 
 function ParticleEmitter:setState(value)
     self.state = value
-    self.emitter:setState(value + 1)
+    if value == 0 then
+        self.emitter:setState(STATE_NONE)
+    else
+        self.emitter:setState(value)
+    end
 end
 
 function ParticleEmitter:setTop(value)
     self.rect[4] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
+        self:showRectGizmo()
     end
 end
 

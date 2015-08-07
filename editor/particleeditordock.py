@@ -6,10 +6,22 @@ from PySide import QtCore, QtGui
 from PySide.QtGui import QDockWidget, QColor, QColorDialog, QPixmap
 
 from layout.particleeditor_ui import Ui_particleEditor as Ui
+import moaipy
 
 import luainterface
 
+def luaTableToDict(t):
+    d = dict()
+    for k, v in t.items():
+        if type(v) == moaipy._LuaTable:
+            d[k] = luaTableToDict(v)
+        else:
+            d[k] = v
+    return d
+
 class ParticleEditorDock(QDockWidget):
+    activeModelType = None
+
     def __init__(self, parent=None):
         super(ParticleEditorDock, self).__init__(parent)
 
@@ -17,9 +29,34 @@ class ParticleEditorDock(QDockWidget):
         self.ui =  ui
         self.ui.setupUi(self)
 
+        intValidator = QtGui.QIntValidator()
+        intValidator.setRange(0, 99000)
+        ui.editParticleLimit.setValidator(intValidator)
+        ui.editSpriteLimit.setValidator(intValidator)
+
+        self.emitterList = ui.listEmitter
+        self.stateList = ui.listState
+
         self.createColorPicker()
 
         self.mainWindow = self.parent()
+        self.propertyModel = self.mainWindow.particleParamsDock.getModel()
+        self.treeView = self.mainWindow.particleParamsDock.getTreeView()
+
+        self.propertyModel.itemDataChanged.connect(self.onModelParamChange)
+
+    def readSettings(self):
+        settings = QtCore.QSettings()
+        self.lastTextureDir = settings.value("particle/texdir", "~")
+
+    def writeSettings(self):
+        settings = QtCore.QSettings()
+        settings.setValue("particle/texdir", self.lastTextureDir or "~")
+
+    def populateComponentList(self):
+        components = self.api.getComponentList()
+        for k, v in components.items():
+            self.ui.cmbComponent.addItem(v)
 
     def createColorPicker(self):
         self.bgColorBtn = self.ui.btnBgColor
@@ -39,17 +76,25 @@ class ParticleEditorDock(QDockWidget):
         btn.setIcon(btn.pixmap)
         btn.color = color
 
-    def setPropertyModel(self, propertyModel):
-        self.propertyModel = propertyModel
-
     def loadEditorScene(self, lua):
         self.api = lua.require("ParticleEditor")
+        self.populateComponentList()
+        self.ui.editParticleLimit.setText('128')
+        self.ui.editSpriteLimit.setText('128')
 
     def updateEmitterList(self):
-        pass
+        emitters = self.api.listEmitters()
+        self.emitterList.clear()
+
+        for i, name in emitters.items():
+            self.emitterList.addItem(name)
 
     def updateStateList(self):
-        pass
+        states = self.api.listStates()
+        self.stateList.clear()
+
+        for i, name in states.items():
+            self.stateList.addItem(name)
 
     def updateModel(self):
         pass
@@ -76,31 +121,55 @@ class ParticleEditorDock(QDockWidget):
 
     @QtCore.Slot(str)
     def onEditParticleLimit(self, limit):
-        pass
+        self.api.setParticleLimit(int(limit))
 
     @QtCore.Slot(str)
     def onEditSpriteLimit(self, limit):
-        pass
+        self.api.setSpriteLimit(int(limit))
 
-    @QtCore.Slot(int)
-    def onEmitterClick(self, index):
-        pass
+    @QtCore.Slot()
+    def onEmitterClick(self):
+        index = self.emitterList.currentRow()
+        if index < 0:
+            return
+        
+        data = self.api.getEmitterData(int(index) + 1)
+        self.propertyModel.setModelData(luaTableToDict(data))
+        self.treeView.expandAll()
+        self.activeModelType = 'emitter'
 
-    @QtCore.Slot(int)
-    def onStateClick(self, index):
-        pass
+    @QtCore.Slot()
+    def onStateClick(self):
+        index = self.stateList.currentRow()
+        if index < 0:
+            return
+
+        data = self.api.getStateData(int(index) + 1)
+        self.propertyModel.setModelData(luaTableToDict(data))
+        self.treeView.expandAll()
+        self.activeModelType = 'state'
 
     @QtCore.Slot()
     def onDeleteEmitter(self):
-        pass
+        idx = self.emitterList.currentRow() + 1
+        self.api.removeEmitter(idx)
+        self.updateEmitterList()
+        self.propertyModel.setModelData(None)
 
     @QtCore.Slot()
     def onDeleteState(self):
-        pass
+        idx = self.stateList.currentRow() + 1
+        self.api.removeState(idx)
+        self.updateStateList()
+        self.propertyModel.setModelData(None)
 
     @QtCore.Slot()
     def onNewComponent(self):
-        pass
+        idx = self.stateList.currentRow() + 1
+        if idx < 0: return
+        component = self.ui.cmbComponent.currentText()
+        self.api.addComponent(idx, component)
+        self.onStateClick()
 
     @QtCore.Slot()
     def onDeleteComponent(self):
@@ -108,7 +177,10 @@ class ParticleEditorDock(QDockWidget):
 
     @QtCore.Slot()
     def onLoadTexture(self):
-        pass
+        filename, filt = QtGui.QFileDialog.getOpenFileName(self, "Load texture atlas", self.lastTextureDir or "~", "MOAI texture atlas (*.lua)")
+        if filename:
+            self.lastTextureDir = os.path.dirname(filename)
+            self.api.loadTextureAtlas(filename)
 
     @QtCore.Slot(bool)
     def onWrapSprites(self, flag):
@@ -122,6 +194,17 @@ class ParticleEditorDock(QDockWidget):
     def onReverseDraw(self, flag):
         pass
 
-    def onModelParamChange(self, param, value):
-        pass
+    @QtCore.Slot(object, object)
+    def onModelParamChange(self, paramId, value):
+        if self.activeModelType == 'emitter':
+            emitterId = self.emitterList.currentRow()
+            if emitterId < 0: return
+            if self.api.setEmitterParam(emitterId + 1, str(paramId), value):
+                self.onEmitterClick()
+
+        elif self.activeModelType == 'state':
+            stateId = self.stateList.currentRow()
+            if stateId < 0: return
+            if self.api.setStateParam(stateId + 1, str(paramId), value):
+                self.onStateClick()
 

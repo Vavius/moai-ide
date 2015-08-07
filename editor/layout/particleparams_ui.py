@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particleparams.ui'
 #
-# Created: Wed Aug  5 14:50:18 2015
+# Created: Fri Aug  7 20:32:11 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_particleParams(object):
     def setupUi(self, particleParams):
         particleParams.setObjectName("particleParams")
-        particleParams.resize(393, 748)
+        particleParams.resize(391, 748)
         self.dockWidgetContents = QtGui.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
@@ -21,8 +21,12 @@ class Ui_particleParams(object):
         self.paramsView.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked|QtGui.QAbstractItemView.EditKeyPressed|QtGui.QAbstractItemView.SelectedClicked)
         self.paramsView.setTabKeyNavigation(True)
         self.paramsView.setAlternatingRowColors(True)
-        self.paramsView.setIndentation(0)
+        self.paramsView.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.paramsView.setVerticalScrollMode(QtGui.QAbstractItemView.ScrollPerPixel)
+        self.paramsView.setIndentation(20)
+        self.paramsView.setAnimated(True)
         self.paramsView.setObjectName("paramsView")
+        self.paramsView.header().setDefaultSectionSize(150)
         self.verticalLayout.addWidget(self.paramsView)
         particleParams.setWidget(self.dockWidgetContents)
 

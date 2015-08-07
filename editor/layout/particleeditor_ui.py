@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particleeditor.ui'
 #
-# Created: Wed Aug  5 14:50:18 2015
+# Created: Fri Aug  7 20:32:12 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -72,6 +72,7 @@ class Ui_particleEditor(object):
         self.listEmitter.setSizePolicy(sizePolicy)
         self.listEmitter.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.listEmitter.setProperty("showDropIndicator", False)
+        self.listEmitter.setResizeMode(QtGui.QListView.Adjust)
         self.listEmitter.setSelectionRectVisible(True)
         self.listEmitter.setObjectName("listEmitter")
         self.gridLayout.addWidget(self.listEmitter, 0, 0, 1, 2)
@@ -100,6 +101,7 @@ class Ui_particleEditor(object):
         self.listState.setSizePolicy(sizePolicy)
         self.listState.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.listState.setProperty("showDropIndicator", False)
+        self.listState.setResizeMode(QtGui.QListView.Adjust)
         self.listState.setSelectionRectVisible(True)
         self.listState.setObjectName("listState")
         self.gridLayout_2.addWidget(self.listState, 0, 0, 1, 2)
@@ -120,8 +122,8 @@ class Ui_particleEditor(object):
         QtCore.QObject.connect(self.chkWrapSprites, QtCore.SIGNAL("toggled(bool)"), particleEditor.onWrapSprites)
         QtCore.QObject.connect(self.editParticleLimit, QtCore.SIGNAL("textChanged(QString)"), particleEditor.onEditParticleLimit)
         QtCore.QObject.connect(self.editSpriteLimit, QtCore.SIGNAL("textChanged(QString)"), particleEditor.onEditSpriteLimit)
-        QtCore.QObject.connect(self.listEmitter, QtCore.SIGNAL("currentRowChanged(int)"), particleEditor.onEmitterClick)
-        QtCore.QObject.connect(self.listState, QtCore.SIGNAL("currentRowChanged(int)"), particleEditor.onStateClick)
+        QtCore.QObject.connect(self.listEmitter, QtCore.SIGNAL("itemClicked(QListWidgetItem*)"), particleEditor.onEmitterClick)
+        QtCore.QObject.connect(self.listState, QtCore.SIGNAL("itemClicked(QListWidgetItem*)"), particleEditor.onStateClick)
         QtCore.QObject.connect(self.btnBgColor, QtCore.SIGNAL("clicked()"), particleEditor.onBgColorClick)
         QtCore.QMetaObject.connectSlotsByName(particleEditor)
 

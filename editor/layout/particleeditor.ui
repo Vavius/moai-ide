@@ -123,6 +123,9 @@
          <property name="showDropIndicator" stdset="0">
           <bool>false</bool>
          </property>
+         <property name="resizeMode">
+          <enum>QListView::Adjust</enum>
+         </property>
          <property name="selectionRectVisible">
           <bool>true</bool>
          </property>
@@ -174,6 +177,9 @@
          </property>
          <property name="showDropIndicator" stdset="0">
           <bool>false</bool>
+         </property>
+         <property name="resizeMode">
+          <enum>QListView::Adjust</enum>
          </property>
          <property name="selectionRectVisible">
           <bool>true</bool>
@@ -379,9 +385,9 @@
   </connection>
   <connection>
    <sender>listEmitter</sender>
-   <signal>currentRowChanged(int)</signal>
+   <signal>itemClicked(QListWidgetItem*)</signal>
    <receiver>particleEditor</receiver>
-   <slot>onEmitterClick(int)</slot>
+   <slot>onEmitterClick()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>181</x>
@@ -395,9 +401,9 @@
   </connection>
   <connection>
    <sender>listState</sender>
-   <signal>currentRowChanged(int)</signal>
+   <signal>itemClicked(QListWidgetItem*)</signal>
    <receiver>particleEditor</receiver>
-   <slot>onStateClick(int)</slot>
+   <slot>onStateClick()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>181</x>
@@ -438,8 +444,8 @@
   <slot>onWrapSprites(bool)</slot>
   <slot>onEditParticleLimit(QString)</slot>
   <slot>onEditSpriteLimit(QString)</slot>
-  <slot>onEmitterClick(int)</slot>
-  <slot>onStateClick(int)</slot>
+  <slot>onEmitterClick()</slot>
+  <slot>onStateClick()</slot>
   <slot>onBgColorClick()</slot>
  </slots>
 </ui>

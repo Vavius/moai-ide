@@ -55,11 +55,11 @@ local TYPES = {
 }
 
 
-function ParticleForce:getModelData()
+function ParticleForce:getGroupData()
     local data = {}
     for _, p in ipairs(DATA) do
         local getter = 'get' .. p.access
-        local value = self[getter]()
+        local value = self[getter](self)
 
         local item = {
             type = p.type,
@@ -74,7 +74,7 @@ function ParticleForce:getModelData()
     local shape = SHAPE_DATA[self:getShape()]
     for _, p in ipairs(shape) do
         local getter = self['get' .. p.access]
-        local value = getter()
+        local value = getter(self)
 
         local item = {
             type = p.type,
@@ -97,7 +97,7 @@ function ParticleForce:getParam(paramId)
         return
     end
 
-    return getter()
+    return getter(self)
 end
 
 function ParticleForce:init()
@@ -107,10 +107,11 @@ function ParticleForce:init()
     self.basin = {0, 0}
     self.linear = {0, 0}
     self.loc = {0, 0, 0}
+    self.radial = 0
 
     for _, default in ipairs(DATA) do
         local setter = 'set' .. default.access
-        self[setter](default.value)
+        self[setter](self, default.value)
     end
 end
 
@@ -122,7 +123,7 @@ function ParticleForce:setParam(paramId, value)
         return
     end
 
-    setter(value)
+    setter(self, value)
 end
 
 
@@ -220,11 +221,11 @@ end
 
 function ParticleForce:setRadius(value)
     if self.shape == A_ATTRACTOR then
-        self.attractor[2] = value
+        self.attractor[1] = value
         self.force:initAttractor(unpack(self.attractor))
 
     elseif self.shape == A_BASIN then
-        self.basin[2] = value
+        self.basin[1] = value
         self.force:initBasin(unpack(self.basin))
     end    
 end
@@ -241,6 +242,9 @@ function ParticleForce:setShape(value)
     elseif self.shape == A_LINEAR then
         self.force:initLinear(unpack(self.linear))
     end
+
+    -- request view reload
+    return true
 end
 
 function ParticleForce:setType(value)
