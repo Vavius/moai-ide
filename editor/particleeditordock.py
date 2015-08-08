@@ -137,6 +137,7 @@ class ParticleEditorDock(QDockWidget):
         self.propertyModel.setModelData(luaTableToDict(data))
         self.treeView.expandAll()
         self.activeModelType = 'emitter'
+        self.api.hideGizmos()
 
     @QtCore.Slot()
     def onStateClick(self):
@@ -148,6 +149,7 @@ class ParticleEditorDock(QDockWidget):
         self.propertyModel.setModelData(luaTableToDict(data))
         self.treeView.expandAll()
         self.activeModelType = 'state'
+        self.api.hideGizmos()
 
     @QtCore.Slot()
     def onDeleteEmitter(self):
@@ -184,15 +186,15 @@ class ParticleEditorDock(QDockWidget):
 
     @QtCore.Slot(bool)
     def onWrapSprites(self, flag):
-        pass
+        self.api.setWrapSprites(flag)
 
     @QtCore.Slot(bool)
     def onWrapParticles(self, flag):
-        pass
+        self.api.setWrapParticles(flag)
 
     @QtCore.Slot(bool)
     def onReverseDraw(self, flag):
-        pass
+        self.api.setReverseDrawOrder(flag)
 
     @QtCore.Slot(object, object)
     def onModelParamChange(self, paramId, value):

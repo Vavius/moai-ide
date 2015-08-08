@@ -8,13 +8,22 @@ def clamp(minvalue, value, maxvalue):
 
 class ComboDelegate(QtGui.QStyledItemDelegate):
     IndexRole = Qt.UserRole + 1
+    ValidatorRole = Qt.UserRole + 2
 
     def __init__(self, parent):
         QtGui.QStyledItemDelegate.__init__(self, parent)
         
     def createEditor(self, parent, option, index):
         if index.data(ComboDelegate.IndexRole) is None:
-            return super(ComboDelegate, self).createEditor(parent, option, index)
+            # add validation for spinbox widgets
+            validRange = index.data(ComboDelegate.ValidatorRole)
+            widget = super(ComboDelegate, self).createEditor(parent, option, index)
+            if validRange:
+                if hasattr(widget, 'setMinimum') and 'min' in validRange:
+                    widget.setMinimum(validRange['min'])
+                if hasattr(widget, 'setMaximum') and 'max' in validRange:
+                    widget.setMaximum(validRange['max'])
+            return widget
 
         data = index.data(Qt.EditRole)
         combo = QtGui.QComboBox(parent)
@@ -68,6 +77,9 @@ class TreeItem(object):
         if column < 0 or column > len(self.itemData):
             return None
 
+        if role == ComboDelegate.ValidatorRole:
+            return self.model.get('range')
+
         if self.model.get('type') == 'list':
             if role == Qt.EditRole:
                 return self.model.get('choices')
@@ -96,14 +108,14 @@ class TreeItem(object):
     def getValueAfterIncrement(self, diff):
         model = self.model
         if model['type'] == 'float':
-            return self.itemData[1] + diff
+            return self.validate ( self.itemData[1] + diff )
 
         if model['type'] == 'int':
             self.smoothSwitch += diff
             if abs(self.smoothSwitch) > 1:
                 res = self.itemData[1] + int(math.copysign(1, self.smoothSwitch))
                 self.smoothSwitch = 0
-                return res
+                return self.validate(res)
 
         if model['type'] == 'list':
             self.smoothSwitch += diff
@@ -193,6 +205,16 @@ class TreeItem(object):
 
         else:
             self.itemData[1] = value
+
+    def validate(self, val):
+        validRange = self.model.get('range')
+        result = val
+        if validRange:
+            if 'min' in validRange:
+                result = max(result, validRange['min'])
+            if 'max' in validRange:
+                result = min(result, validRange['max'])
+        return result
 
 
 class PropertyItemModel(QtCore.QAbstractItemModel):

@@ -4,6 +4,7 @@
 --
 --------------------------------------------------------------------------------
 
+local Gizmos = require("Gizmos")
 local ParticleEmitter = class()
 
 local SHAPE_RECT = 0
@@ -14,12 +15,15 @@ local STATE_NONE = 0x0fffffff
 
 local COMMON = {
     { type = "string",  name = "Name", value = "emitter", access = "Name" },
-    { type = "int",     name = "Emission min", value = 1, access = "EmissionMin" },
-    { type = "int",     name = "Emission max", value = 1, access = "EmissionMax" },
+    { type = "float",   name = "Position X", value = 0, access = "LocX" },
+    { type = "float",   name = "Position Y", value = 0, access = "LocY" },
+    { type = "float",   name = "Rotation",   value = 0, access = "Rot" },
+    { type = "int",     name = "Emission min", value = 1, access = "EmissionMin", range = {min = 0}},
+    { type = "int",     name = "Emission max", value = 1, access = "EmissionMax", range = {min = 0}},
     { type = "list",    name = "State", value = 0, access = "State", choices = {} },
     -- { type = "list",    name = "Type",      value = 0, choices = {'Timed', 'Distance'}, access = "Type" },
-    { type = "float",   name = "Frequency min", value = 1, access = "FrequencyMin" },
-    { type = "float",   name = "Frequency max", value = 1, access = "FrequencyMax" },
+    { type = "float",   name = "Frequency min", value = 1, access = "FrequencyMin", range = {min = 0}},
+    { type = "float",   name = "Frequency max", value = 1, access = "FrequencyMax", range = {min = 0}},
     { type = "float",   name = "Angle min", value = 0, access = "AngleMin" },
     { type = "float",   name = "Angle max", value = 0, access = "AngleMax" },
     { type = "float",   name = "Velocity min", value = 0, access = "MagnitudeMin" },
@@ -28,8 +32,8 @@ local COMMON = {
 }
 
 local CIRCLE = {
-    { type = "float",   name = "Radius min", value = 10, access = "RadiusMin" },
-    { type = "float",   name = "Radius max", value = 10, access = "RadiusMax" },
+    { type = "float",   name = "Radius min", value = 10, access = "RadiusMin", range = {min = 0} },
+    { type = "float",   name = "Radius max", value = 10, access = "RadiusMax", range = {min = 0} },
 }
 
 local RECT = {
@@ -52,6 +56,7 @@ function ParticleEmitter:getModelData()
             name = p.name,
             id = p.access,
             value = value,
+            range = p.range
         }
 
         if p.access == 'State' then
@@ -79,6 +84,7 @@ function ParticleEmitter:getModelData()
             name = p.name,
             id = p.access,
             value = value,
+            range = p.range,
         }
 
         table.insert(data, item)
@@ -106,6 +112,7 @@ function ParticleEmitter:init(system)
     self.emitter = emitter
 
     self.angle = {0, 0}
+    self.loc = {0, 0}
     self.emission = {0, 0}
     self.freq = {0, 0}
     self.mag = {0, 0}
@@ -126,13 +133,15 @@ function ParticleEmitter:init(system)
 
     self:setName("Emitter" .. counter)
     counter = counter + 1
+
+    self:hideGizmos()
 end
 
 function ParticleEmitter:initGizmos()
     local editor = require("ParticleEditor")
-    local gizmoCircleMin = editor.makeCircleGizmo()
-    local gizmoCircleMax = editor.makeCircleGizmo()
-    local gizmoRect = editor.makeRectGizmo()
+    local gizmoCircleMin = Gizmos.Circle()
+    local gizmoCircleMax = Gizmos.Circle()
+    local gizmoRect = Gizmos.Rect()
 
     gizmoCircleMin.prop:setAttrLink(MOAITransform.INHERIT_TRANSFORM, self.emitter, MOAITransform.TRANSFORM_TRAIT)
     gizmoCircleMax.prop:setAttrLink(MOAITransform.INHERIT_TRANSFORM, self.emitter, MOAITransform.TRANSFORM_TRAIT)
@@ -142,13 +151,17 @@ function ParticleEmitter:initGizmos()
     gizmoCircleMin:setWidth(2)
     gizmoCircleMax:setColor(0, 1, 1, 1)
     gizmoCircleMax:setWidth(2)
-
+    
     gizmoRect:setColor(1, 1, 0, 1)
     gizmoRect:setWidth(2)
 
     self.gizmoCircleMin = gizmoCircleMin
     self.gizmoCircleMax = gizmoCircleMax
     self.gizmoRect = gizmoRect
+
+    editor.addGizmo(gizmoCircleMin)
+    editor.addGizmo(gizmoCircleMax)
+    editor.addGizmo(gizmoRect)
 end
 
 function ParticleEmitter:destroy()
@@ -166,21 +179,20 @@ function ParticleEmitter:hideGizmos()
     self.gizmoRect.prop:setVisible(false)
 end
 
-function ParticleEmitter:showCircleGizmo()
+function ParticleEmitter:showGizmos()
     self:hideGizmos()
-    self.gizmoCircleMin.prop:setVisible(true)
-    self.gizmoCircleMax.prop:setVisible(true)
-    
-    self.gizmoCircleMin:setRadius(self.radius[1])
-    self.gizmoCircleMax:setRadius(self.radius[2])
-end
 
-function ParticleEmitter:showRectGizmo()
-    self:hideGizmos()
-    self.gizmoRect.prop:setVisible(true)
-    self.gizmoRect:setVerts(unpack(self.rect))
+    if self.shape == SHAPE_RECT then
+        self.gizmoRect.prop:setVisible(true)
+        self.gizmoRect:setVerts(unpack(self.rect))
+    else
+        self.gizmoCircleMin.prop:setVisible(true)
+        self.gizmoCircleMax.prop:setVisible(true)
+        
+        self.gizmoCircleMin:setRadius(self.radius[1])
+        self.gizmoCircleMax:setRadius(self.radius[2])
+    end
 end
-
 
 function ParticleEmitter:setParam(paramId, value)
     local setter = self['set' .. paramId]
@@ -229,6 +241,14 @@ function ParticleEmitter:getLeft()
     return self.rect[1]
 end
 
+function ParticleEmitter:getLocX()
+    return self.loc[1]
+end
+
+function ParticleEmitter:getLocY()
+    return self.loc[2]
+end
+
 function ParticleEmitter:getMagnitudeMax()
     return self.mag[2]
 end
@@ -251,6 +271,11 @@ end
 
 function ParticleEmitter:getRight()
     return self.rect[3]
+end
+
+function ParticleEmitter:getRot()
+    local _, _, r = self.emitter:getRot()
+    return r
 end
 
 function ParticleEmitter:getShape()
@@ -280,7 +305,7 @@ function ParticleEmitter:setBottom(value)
     self.rect[2] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
-        self:showRectGizmo()
+        self:showGizmos()
     end
 end
 
@@ -308,8 +333,20 @@ function ParticleEmitter:setLeft(value)
     self.rect[1] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
-        self:showRectGizmo()
+        self:showGizmos()
     end
+end
+
+function ParticleEmitter:setLocX(value)
+    self.loc[1] = value
+    self.emitter:setLoc(unpack(self.loc))
+    self:showGizmos()
+end
+
+function ParticleEmitter:setLocY(value)
+    self.loc[2] = value
+    self.emitter:setLoc(unpack(self.loc))
+    self:showGizmos()
 end
 
 function ParticleEmitter:setMagnitudeMax(value)
@@ -326,19 +363,11 @@ function ParticleEmitter:setName(name)
     self.name = name
 end
 
-function ParticleEmitter:setRight(value)
-    self.rect[3] = value
-    if self.shape == SHAPE_RECT then
-        self.emitter:setRect(unpack(self.rect))
-        self:showRectGizmo()
-    end
-end
-
 function ParticleEmitter:setRadiusMax(value)
     self.radius[2] = value
     if self.shape == SHAPE_CIRCLE then
         self.emitter:setRadius(unpack(self.radius))
-        self:showCircleGizmo()
+        self:showGizmos()
     end
 end
 
@@ -346,8 +375,21 @@ function ParticleEmitter:setRadiusMin(value)
     self.radius[1] = value
     if self.shape == SHAPE_CIRCLE then
         self.emitter:setRadius(unpack(self.radius))
-        self:showCircleGizmo()
+        self:showGizmos()
     end
+end
+
+function ParticleEmitter:setRight(value)
+    self.rect[3] = value
+    if self.shape == SHAPE_RECT then
+        self.emitter:setRect(unpack(self.rect))
+        self:showGizmos()
+    end
+end
+
+function ParticleEmitter:setRot(value)
+    self.emitter:setRot(0, 0, value)
+    self:showGizmos()
 end
 
 function ParticleEmitter:setShape(shape)
@@ -376,7 +418,7 @@ function ParticleEmitter:setTop(value)
     self.rect[4] = value
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
-        self:showRectGizmo()
+        self:showGizmos()
     end
 end
 

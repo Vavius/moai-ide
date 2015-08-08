@@ -5,9 +5,13 @@
 --------------------------------------------------------------------------------
 
 local Scene = require("core.Scene")
-local Gizmos = require("Gizmos")
 
 local ParticleEditorScene = class(Scene)
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleEditorScene:addGizmo(gizmo)
+    self.layer:insertProp(gizmo.prop)
+end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:init(params)
@@ -58,28 +62,18 @@ function ParticleEditorScene:createLayer()
     self.layer = layer
     self:addLayer(layer)
 
+    self.color = MOAIColor.new()
+    self.color:setColor(0, 0, 0, 1)
+    layer:setClearColor(self.color)
+
     local system = MOAIParticleSystem.new()
     system:setLayer(layer)
     self.system = system
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-function ParticleEditorScene:makeCircleGizmo()
-    local circle = Gizmos.Circle()
-    self.layer:insertProp(circle.prop)
-    return circle
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-function ParticleEditorScene:makeRectGizmo()
-    local rect = Gizmos.Rect()
-    self.layer:insertProp(rect.prop)
-    return rect
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:setBgColor(r, g, b, a)
-    self.layer:setClearColor(r, g, b, a)
+    self.color:setColor(r, g, b, a)
 end
 
 

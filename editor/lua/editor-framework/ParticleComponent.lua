@@ -37,6 +37,7 @@ function ParticleComponent:getGroupData()
             id = p.access,
             value = value,
             choices = p.choices,
+            range = p.range,
         }
         table.insert(data, item)
     end
@@ -217,7 +218,7 @@ local ANIM_TMPL = {
     
     ['linear'] = "ease(%[min], %[max], EaseType.LINEAR)",
     ['soft in + sharp out'] = "ease(%[min], ease(%[max], %[min], EaseType.SHARP_EASE_OUT), EaseType.SOFT_EASE_IN)",
-    ['soft out + sharp in'] = "ease(%[min], ease(%[max], %[min], EaseType.SOFT_EASE_OUT), EaseType.SHARP_EASE_IN)",
+    ['sharp in + soft out'] = "ease(%[min], ease(%[max], %[min], EaseType.SOFT_EASE_OUT), EaseType.SHARP_EASE_IN)",
     ['soft in + soft out'] = "ease(%[min], ease(%[max], %[min], EaseType.SOFT_EASE_OUT), EaseType.SOFT_EASE_IN)",
     ['sharp in + sharp out'] = "ease(%[min], ease(%[max], %[min], EaseType.EXTRA_SHARP_EASE_OUT), EaseType.EXTRA_SHARP_EASE_IN)",
 }
@@ -319,11 +320,45 @@ function ColorAnim:getAnimExpr(param)
 end
 
 --------------------------------------------------------------------------------
-local Transform = class()
+local Transform = class(ParticleComponent)
 
 local TRANSFORM = {
-    
+    { type = "string",  name = "Name", value = "color", access = "Name" },
+    { type = "float",   name = "X",  value = 0.0,       access = "LocX" },
+    { type = "float",   name = "Y",  value = 0.0,       access = "LocY" },
+    { type = "float",   name = "Rotation",  value = 0.0,  access = "Rot" },
+    { type = "float",   name = "Scale X",  value = 1.0,   access = "SclX" },
+    { type = "float",   name = "Scale Y",  value = 1.0,   access = "SclY" },
 }
+
+local XFORM_REGS = {
+    locx = 'x', locy = 'y', rot = 'rot', sclx = 'sx', scly = 'sy'
+}
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function Transform:init()
+    ParticleComponent.init(self, TRANSFORM)
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function Transform:getRegisterCount()
+    return 0
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function Transform:getSpriteScript()
+    local result = {}
+    for _, t in pairs{'LocX', 'LocY', 'Rot', 'SclX', 'SclY'} do
+        local default = table.detect(TRANSFORM, function(x) return x.access == t end)
+        local val = self:getParam(t)
+        if val ~= default.value then
+            local reg = string.lower(t)
+            local spreg = XFORM_REGS[reg]
+            table.insert(result, string.format("sp.%s = %s", spreg, val))
+        end
+    end
+    return table.concat(result, '\n')
+end
 
 --------------------------------------------------------------------------------
 local TransformAnim = class()
@@ -339,5 +374,6 @@ return {
     SpriteAnim = SpriteAnim,
     Color = Color,
     ColorAnim = ColorAnim,
+    Transform = Transform,
 }
 

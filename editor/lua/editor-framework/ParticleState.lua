@@ -12,11 +12,11 @@ local ParticleState = class()
 
 local DATA = {
     { type = "string", name = "Name", value = "state", access = "Name" },
-    { type = "float", name = "Damping", value = 0, access = "Damping" },
-    { type = "float", name = "Mass min", value = 1, access = "MassMin" },
-    { type = "float", name = "Mass max", value = 1, access = "MassMax" },
-    { type = "float", name = "Lifetime min", value = 1, access = "TermMin" },
-    { type = "float", name = "Lifetime max", value = 1, access = "TermMax" },
+    { type = "float", name = "Damping", value = 0, access = "Damping", range = {min = 0} },
+    { type = "float", name = "Mass min", value = 1, access = "MassMin", range = {min = 0} },
+    { type = "float", name = "Mass max", value = 1, access = "MassMax", range = {min = 0} },
+    { type = "float", name = "Lifetime min", value = 1, access = "TermMin", range = {min = 0} },
+    { type = "float", name = "Lifetime max", value = 1, access = "TermMax", range = {min = 0} },
     { type = "list",  name = "Next", value = 0, access = "Next", choices = {} },
 }
 
@@ -66,6 +66,7 @@ function ParticleState:getModelData()
             name = p.name,
             id = p.access,
             value = value,
+            range = p.range,
         }
 
         if p.access == "Next" then
@@ -134,7 +135,15 @@ end
 
 
 function ParticleState:destroy()
+    for _, f in pairs(self.forces) do
+        f:destroy()
+    end
+end
 
+function ParticleState:hideGizmos()
+    for _, force in pairs(self.forces) do
+        force:hideGizmos()
+    end
 end
 
 

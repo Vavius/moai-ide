@@ -34,6 +34,9 @@ function ParticleEditor.addComponent(stateId, component)
 	state:addComponent(component)
 end
 
+function ParticleEditor.addGizmo(gizmo)
+	scene:addGizmo(gizmo)
+end
 
 function ParticleEditor.addState()
 	local state = ParticleState()
@@ -115,6 +118,17 @@ function ParticleEditor.getStateParam(stateId, paramId)
 end
 
 
+function ParticleEditor.hideGizmos()
+	for _, emitter in pairs(emitters) do
+		emitter:hideGizmos()
+	end
+
+	for _, state in pairs(states) do
+		state:hideGizmos()
+	end
+end
+
+
 function ParticleEditor.listEmitters()
 	local list = {}
 	for k, v in ipairs(emitters) do
@@ -138,14 +152,6 @@ function ParticleEditor.loadTextureAtlas(filepath)
 		log.error("Texture atlas cannot be loaded: " .. tostring(filepath))
 	end
 	system:setDeck(deck)
-end
-
-function ParticleEditor.makeCircleGizmo()
-	return scene:makeCircleGizmo()
-end
-
-function ParticleEditor.makeRectGizmo()
-	return scene:makeRectGizmo()
 end
 
 function ParticleEditor.removeEmitter(idx)
@@ -204,8 +210,24 @@ function ParticleEditor.setParticleLimit(num)
 	system:reserveParticles(num, regMax)
 end
 
+function ParticleEditor.setReverseDrawOrder(flag)
+	if flag then
+		system:setDrawOrder(MOAIParticleSystem.ORDER_REVERSE)
+	else
+		system:setDrawOrder(MOAIParticleSystem.ORDER_NORMAL)
+	end
+end
+
 function ParticleEditor.setSpriteLimit(num)
 	system:reserveSprites(num)
+end
+
+function ParticleEditor.setWrapParticles(flag)
+	system:capParticles(not flag)
+end
+
+function ParticleEditor.setWrapSprites(flag)
+	system:capSprites(not flag)
 end
 
 function ParticleEditor.updateRegCount()
