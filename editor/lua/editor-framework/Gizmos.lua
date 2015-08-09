@@ -147,8 +147,9 @@ function VectorField:rect()
 end
 
 function VectorField:onDraw()
-    local x, y = math.normalize(self.x, self.y)
-    local l = 20
+    local d = math.distance(self.x, self.y)
+    local x, y = self.x/d, self.y/d
+    local l = 10 + math.sqrt(d)
     local off = 10
     local lArrow = 6
     local a = math.atan2(-y, -x)

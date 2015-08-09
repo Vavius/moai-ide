@@ -55,6 +55,40 @@ function ParticleState:assignUniqueIds(data, prefix)
     return data
 end
 
+function ParticleState:copyFrom(state)
+    self:destroy()
+
+    for _, default in ipairs(DATA) do
+        local getter = 'get' .. default.access
+        local setter = 'set' .. default.access
+        self[setter](self, state[getter](state))
+    end
+
+    local name, num = string.match(state:getName(),  "^(.+)[%s]copy%s?(%d?)$")
+    if not name then
+        name = state:getName() .. " copy"
+    else
+        num = tonumber(num) or 0
+        name = string.format("%s copy %d", name, num + 1)
+    end
+    self:setName(name)
+
+    for _, force in pairs(state.forces) do
+        local myForce = ParticleForce()
+        myForce:copyFrom(force)
+        table.insert(self.forces, myForce)
+    end
+
+    for _, comp in pairs(state.components) do
+        local myComp = comp.__class()
+        myComp:copyFrom(comp)
+        table.insert(self.components, myComp)
+    end
+
+    self:syncForces()
+    self:syncComponents()
+end
+
 function ParticleState:getModelData()
     local stateParams = {}
     for _, p in ipairs(DATA) do
@@ -131,6 +165,8 @@ function ParticleState:init()
 
     self:setName("State" .. counter)
     counter = counter + 1
+
+    self:syncComponents()
 end
 
 
@@ -138,6 +174,12 @@ function ParticleState:destroy()
     for _, f in pairs(self.forces) do
         f:destroy()
     end
+
+    for _, c in pairs(self.components) do
+        c:destroy()
+    end
+    self.foces = {}
+    self.components = {}
 end
 
 function ParticleState:hideGizmos()
@@ -146,10 +188,22 @@ function ParticleState:hideGizmos()
     end
 end
 
+function ParticleState:removeComponent(paramId)
+    local forceIdx = string.match(paramId, "force(%d+)%$(.*)")
+    if forceIdx then
+        local force = table.remove(self.forces, forceIdx)
+        force:destroy()
+        self:syncForces()
+        return true
+    end
 
-function ParticleState:removeForce(idx)
-    table.remove()
-    self:syncForces()
+    local compIdx = string.match(paramId, "comp(%d+)%$(.*)")
+    if compIdx then
+        local comp = table.remove(self.components, compIdx)
+        comp:destroy()
+        self:syncComponents()
+        return true
+    end
 end
 
 function ParticleState:setForceParam(paramId, value)

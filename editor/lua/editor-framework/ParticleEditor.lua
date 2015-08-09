@@ -51,6 +51,16 @@ function ParticleEditor.createScene()
 	SceneMgr:pushScene(scene)
 end
 
+function ParticleEditor.duplicateState(idx)
+	local state = states[idx]
+	if state then
+		local new = ParticleState()
+		new:copyFrom(state)
+		table.insert(states, new)
+		ParticleEditor.updateStates()
+	end
+end
+
 function ParticleEditor.findEmitter(idx)
 	return emitters[idx]
 end
@@ -65,6 +75,7 @@ function ParticleEditor.getComponentList()
 		table.insert(list, k)
 	end
 	table.insert(list, "Force")
+	table.sort(list)
 	return list
 end
 
@@ -162,6 +173,12 @@ function ParticleEditor.removeEmitter(idx)
 	end
 end
 
+function ParticleEditor.removeComponent(stateId, componentId)
+	local state = states[stateId]
+	if not state then return end
+
+	return state:removeComponent(componentId)
+end
 
 function ParticleEditor.removeState(idx)
 	local state = states[idx]

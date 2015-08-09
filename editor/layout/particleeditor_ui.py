@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particleeditor.ui'
 #
-# Created: Fri Aug  7 20:32:12 2015
+# Created: Sun Aug  9 13:31:51 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -105,6 +105,9 @@ class Ui_particleEditor(object):
         self.listState.setSelectionRectVisible(True)
         self.listState.setObjectName("listState")
         self.gridLayout_2.addWidget(self.listState, 0, 0, 1, 2)
+        self.btnRemoveComponent = QtGui.QPushButton(self.groupBox_2)
+        self.btnRemoveComponent.setObjectName("btnRemoveComponent")
+        self.gridLayout_2.addWidget(self.btnRemoveComponent, 3, 1, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_2)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
@@ -125,6 +128,7 @@ class Ui_particleEditor(object):
         QtCore.QObject.connect(self.listEmitter, QtCore.SIGNAL("itemClicked(QListWidgetItem*)"), particleEditor.onEmitterClick)
         QtCore.QObject.connect(self.listState, QtCore.SIGNAL("itemClicked(QListWidgetItem*)"), particleEditor.onStateClick)
         QtCore.QObject.connect(self.btnBgColor, QtCore.SIGNAL("clicked()"), particleEditor.onBgColorClick)
+        QtCore.QObject.connect(self.btnRemoveComponent, QtCore.SIGNAL("clicked()"), particleEditor.onDeleteComponent)
         QtCore.QMetaObject.connectSlotsByName(particleEditor)
 
     def retranslateUi(self, particleEditor):
@@ -144,4 +148,5 @@ class Ui_particleEditor(object):
         self.btnAddState.setText(QtGui.QApplication.translate("particleEditor", "Add state", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddComponent.setText(QtGui.QApplication.translate("particleEditor", "Add component", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDeleteState.setText(QtGui.QApplication.translate("particleEditor", "Remove state", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnRemoveComponent.setText(QtGui.QApplication.translate("particleEditor", "Remove component", None, QtGui.QApplication.UnicodeUTF8))
 

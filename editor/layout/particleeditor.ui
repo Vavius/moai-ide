@@ -186,6 +186,13 @@
          </property>
         </widget>
        </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="btnRemoveComponent">
+         <property name="text">
+          <string>Remove component</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -431,6 +438,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnRemoveComponent</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onDeleteComponent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>744</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onNewComponent()</slot>
@@ -447,5 +470,6 @@
   <slot>onEmitterClick()</slot>
   <slot>onStateClick()</slot>
   <slot>onBgColorClick()</slot>
+  <slot>onDeleteComponent()</slot>
  </slots>
 </ui>

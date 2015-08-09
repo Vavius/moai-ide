@@ -56,10 +56,25 @@ local TYPES = {
 }
 
 
+function ParticleForce:copyFrom(force)
+    for _, data in ipairs(DATA) do
+        local getter = 'get' .. data.access
+        local setter = 'set' .. data.access
+        self[setter](self, force[getter](force))
+    end
+
+    local shape = SHAPE_DATA[force:getShape()]
+    for _, data in ipairs(shape) do
+        local getter = 'get' .. data.access
+        local setter = 'set' .. data.access
+        self[setter](self, force[getter](force))
+    end
+end
+
 function ParticleForce:destroy()
-    self.gizmoField:setLayer()
-    self.gizmoLoc:setLayer()
-    self.gizmoCircle:setLayer()
+    self.gizmoField.prop:setLayer()
+    self.gizmoLoc.prop:setLayer()
+    self.gizmoCircle.prop:setLayer()
 end
 
 function ParticleForce:getGroupData()
