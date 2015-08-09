@@ -187,7 +187,14 @@ class ParticleEditorDock(QDockWidget):
         self.showCurrentEmitter()
 
     @QtCore.Slot()
-    def onLoadTexture(self):
+    def onLoadImage(self):
+        filename, filt = QtGui.QFileDialog.getOpenFileName(self, "Load image", self.lastTextureDir or "~", "Image files (*.png *.jpg)")
+        if filename:
+            self.lastTextureDir = os.path.dirname(filename)
+            self.api.loadImage(filename)
+
+    @QtCore.Slot()
+    def onLoadAtlas(self):
         filename, filt = QtGui.QFileDialog.getOpenFileName(self, "Load texture atlas", self.lastTextureDir or "~", "MOAI texture atlas (*.lua)")
         if filename:
             self.lastTextureDir = os.path.dirname(filename)

@@ -157,6 +157,18 @@ function ParticleEditor.listStates()
 	return list
 end
 
+function ParticleEditor.loadImage(filepath)
+	local texture = ResourceMgr:getTexture(filepath)
+	if not texture then
+		log.error("Texture cannot be loaded: " .. tostring(filepath))
+		return
+	end
+
+	texture.scale = App:getContentScale()
+	local deck = ResourceMgr:getImageDeck(texture)
+	system:setDeck(deck)
+end
+
 function ParticleEditor.loadTextureAtlas(filepath)
 	local deck = ResourceMgr:getAtlasDeck(filepath)
 	if not deck then

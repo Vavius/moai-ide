@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particleeditor.ui'
 #
-# Created: Sun Aug  9 13:31:51 2015
+# Created: Sun Aug  9 15:09:52 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,14 +45,17 @@ class Ui_particleEditor(object):
         self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.chkReverseDraw)
         self.btnTexture = QtGui.QPushButton(self.groupBox_3)
         self.btnTexture.setObjectName("btnTexture")
-        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.btnTexture)
+        self.formLayout.setWidget(6, QtGui.QFormLayout.FieldRole, self.btnTexture)
         self.btnBgColor = QtGui.QToolButton(self.groupBox_3)
         self.btnBgColor.setText("")
         self.btnBgColor.setObjectName("btnBgColor")
-        self.formLayout.setWidget(6, QtGui.QFormLayout.FieldRole, self.btnBgColor)
+        self.formLayout.setWidget(7, QtGui.QFormLayout.FieldRole, self.btnBgColor)
         self.lblColor = QtGui.QLabel(self.groupBox_3)
         self.lblColor.setObjectName("lblColor")
-        self.formLayout.setWidget(6, QtGui.QFormLayout.LabelRole, self.lblColor)
+        self.formLayout.setWidget(7, QtGui.QFormLayout.LabelRole, self.lblColor)
+        self.btnLoadImage = QtGui.QPushButton(self.groupBox_3)
+        self.btnLoadImage.setObjectName("btnLoadImage")
+        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.btnLoadImage)
         self.verticalLayout.addWidget(self.groupBox_3)
         self.groupBox = QtGui.QGroupBox(self.dockWidgetContents)
         self.groupBox.setObjectName("groupBox")
@@ -119,7 +122,7 @@ class Ui_particleEditor(object):
         QtCore.QObject.connect(self.btnAddState, QtCore.SIGNAL("clicked()"), particleEditor.onNewState)
         QtCore.QObject.connect(self.btnDeleteEmitter, QtCore.SIGNAL("clicked()"), particleEditor.onDeleteEmitter)
         QtCore.QObject.connect(self.btnDeleteState, QtCore.SIGNAL("clicked()"), particleEditor.onDeleteState)
-        QtCore.QObject.connect(self.btnTexture, QtCore.SIGNAL("clicked()"), particleEditor.onLoadTexture)
+        QtCore.QObject.connect(self.btnTexture, QtCore.SIGNAL("clicked()"), particleEditor.onLoadAtlas)
         QtCore.QObject.connect(self.chkReverseDraw, QtCore.SIGNAL("toggled(bool)"), particleEditor.onReverseDraw)
         QtCore.QObject.connect(self.chkWrapParticles, QtCore.SIGNAL("toggled(bool)"), particleEditor.onWrapParticles)
         QtCore.QObject.connect(self.chkWrapSprites, QtCore.SIGNAL("toggled(bool)"), particleEditor.onWrapSprites)
@@ -129,6 +132,7 @@ class Ui_particleEditor(object):
         QtCore.QObject.connect(self.listState, QtCore.SIGNAL("itemClicked(QListWidgetItem*)"), particleEditor.onStateClick)
         QtCore.QObject.connect(self.btnBgColor, QtCore.SIGNAL("clicked()"), particleEditor.onBgColorClick)
         QtCore.QObject.connect(self.btnRemoveComponent, QtCore.SIGNAL("clicked()"), particleEditor.onDeleteComponent)
+        QtCore.QObject.connect(self.btnLoadImage, QtCore.SIGNAL("clicked()"), particleEditor.onLoadImage)
         QtCore.QMetaObject.connectSlotsByName(particleEditor)
 
     def retranslateUi(self, particleEditor):
@@ -141,6 +145,7 @@ class Ui_particleEditor(object):
         self.chkReverseDraw.setText(QtGui.QApplication.translate("particleEditor", "Reverse draw order", None, QtGui.QApplication.UnicodeUTF8))
         self.btnTexture.setText(QtGui.QApplication.translate("particleEditor", "Load texture atlas", None, QtGui.QApplication.UnicodeUTF8))
         self.lblColor.setText(QtGui.QApplication.translate("particleEditor", "Background color", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnLoadImage.setText(QtGui.QApplication.translate("particleEditor", "Load image", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("particleEditor", "Emitters", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddEmitter.setText(QtGui.QApplication.translate("particleEditor", "Add emitter", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDeleteEmitter.setText(QtGui.QApplication.translate("particleEditor", "Remove emitter", None, QtGui.QApplication.UnicodeUTF8))
