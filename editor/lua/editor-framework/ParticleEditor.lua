@@ -55,15 +55,23 @@ end
 
 function ParticleEditor.clear()
 	for i, e in pairs(emitters) do
+		log.info('destroy emitter')
 		e:destroy()
 	end
 
 	for i, s in pairs(states) do
+		log.info('destroy state')
 		s:destroy()
 	end
 
 	emitters = {}
 	states = {}
+
+	regMax = 0
+
+	ParticleEditor.updateStates()
+	system:clearSprites()
+	ParticleEditor.setParticleLimit(particleLimit)
 end
 
 
@@ -268,6 +276,7 @@ function ParticleEditor.loadProject(path)
 	end
 
 	ParticleEditor.updateStates()
+	ParticleEditor.hideGizmos()
 end
 
 function ParticleEditor.saveProject(path)

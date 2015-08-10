@@ -10,7 +10,7 @@ local ParticleEditorScene = class(Scene)
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:addGizmo(gizmo)
-    self.layer:insertProp(gizmo.prop)
+    gizmo.prop:setLayer(self.layer)
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

@@ -273,6 +273,7 @@ class ParticleEditorDock(QDockWidget):
             self.mainWindow.launchParticleEditor()
         else:
             self.api.clear()
+            self.projectPath = None
             self.luaModelChanged()
 
     @QtCore.Slot()
