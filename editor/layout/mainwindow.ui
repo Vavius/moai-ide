@@ -42,11 +42,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_project"/>
     <addaction name="actionOpen_project"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_project"/>
-    <addaction name="actionParicle_Editor"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">

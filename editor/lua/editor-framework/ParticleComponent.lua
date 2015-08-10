@@ -82,12 +82,27 @@ function ParticleComponent:setParam(id, value)
     self.storage[id] = value
 end
 
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleComponent:serializeIn(serializer, data)
+    for _, v in ipairs(self.data) do
+        self:setParam(v.access, data[v.access])
+    end
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleComponent:serializeOut(serializer, out)
+    for _, v in ipairs(self.data) do
+        out[v.access] = self:getParam(v.access)
+    end
+end
+
 --============================================================================--
 -- Presets
 --============================================================================--
 
 --------------------------------------------------------------------------------
 local Sprite = class(ParticleComponent)
+Sprite.__className = "Sprite"
 
 local SPRITE = {
     { type = "string",  name = "Name", value = "sprite", access = "Name" },
@@ -114,6 +129,7 @@ end
 
 --------------------------------------------------------------------------------
 local SpriteAnim = class(ParticleComponent)
+SpriteAnim.__className = "SpriteAnim"
 
 local SPRITE_ANIM = {
     { type = "string",  name = "Name", value = "sprite animation", access = "Name" },
@@ -183,6 +199,7 @@ end
 
 --------------------------------------------------------------------------------
 local Color = class(ParticleComponent)
+Color.__className = "Color"
 
 local COLOR = {
     { type = "string",  name = "Name", value = "color", access = "Name" },
@@ -231,6 +248,7 @@ end
 
 --------------------------------------------------------------------------------
 local ColorAnim = class(ParticleComponent)
+ColorAnim.__className = "ColorAnim"
 
 local ANIM_TYPES = {
     "None",
@@ -360,6 +378,7 @@ end
 
 --------------------------------------------------------------------------------
 local Transform = class(ParticleComponent)
+Transform.__className = "Transform"
 
 local TRANSFORM = {
     { type = "string",  name = "Name", value = "Transform", access = "Name" },
@@ -404,6 +423,7 @@ end
 
 --------------------------------------------------------------------------------
 local TransformAnim = class(ParticleComponent)
+TransformAnim.__className = "TransformAnim"
 
 local TRANSFORM_ANIM = {
     { type = "string",  name = "Name", value = "Transform animation", access = "Name" },

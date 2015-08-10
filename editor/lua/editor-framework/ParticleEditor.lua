@@ -8,6 +8,8 @@ local ParticleState = require("ParticleState")
 local ParticleEmitter = require("ParticleEmitter")
 local ParticleEditorScene = require("ParticleEditorScene")
 local ParticleComponent = require("ParticleComponent")
+local ParticleProject = require("ParticleProject")
+local ParticleSerializer = require("ParticleSerializer")
 
 local ParticleEditor = {}
 
@@ -15,11 +17,18 @@ local system
 local scene
 local regMax = 0
 local particleLimit = 0
+local spriteLimit = 0
+local wrapParticles = false
+local wrapSprites = false
+local reverseDraw = false
+local textureInfo = {}
+
 local emitters = {}
 local states = {}
 
 function ParticleEditor.addEmitter()
-	local emitter = ParticleEmitter(system)
+	local emitter = ParticleEmitter()
+	emitter:setParticleSystem(system)
 	table.insert(emitters, emitter)
 end
 
@@ -42,6 +51,19 @@ function ParticleEditor.addState()
 	local state = ParticleState()
 	table.insert(states, state)
 	ParticleEditor.updateStates()
+end
+
+function ParticleEditor.clear()
+	for i, e in pairs(emitters) do
+		e:destroy()
+	end
+
+	for i, s in pairs(states) do
+		s:destroy()
+	end
+
+	emitters = {}
+	states = {}
 end
 
 
@@ -123,6 +145,35 @@ function ParticleEditor.getStateIdx(state)
 	return 0
 end
 
+function ParticleEditor.getBgColor()
+	return scene:getBgColor()
+end
+
+function ParticleEditor.getEmitterParam(emitterId, paramId, value)
+	return emitters[emitterId]:setParam(paramId, value)
+end
+
+
+function ParticleEditor.getParticleLimit()
+	return particleLimit
+end
+
+function ParticleEditor.getReverseDrawOrder()
+	return reverseDraw
+end
+
+function ParticleEditor.getSpriteLimit()
+	return spriteLimit
+end
+
+function ParticleEditor.getWrapParticles()
+	return wrapParticles
+end
+
+function ParticleEditor.getWrapSprites()
+	return wrapSprites
+end
+
 
 function ParticleEditor.getStateParam(stateId, paramId)
 	return states[stateId]:getParam(paramId)
@@ -164,6 +215,9 @@ function ParticleEditor.loadImage(filepath)
 		return
 	end
 
+	textureInfo.atlas = false
+	textureInfo.path = filepath
+
 	texture.scale = App:getContentScale()
 	local deck = ResourceMgr:getImageDeck(texture)
 	system:setDeck(deck)
@@ -174,7 +228,63 @@ function ParticleEditor.loadTextureAtlas(filepath)
 	if not deck then
 		log.error("Texture atlas cannot be loaded: " .. tostring(filepath))
 	end
+
+	textureInfo.atlas = true
+	textureInfo.path = filepath
+
 	system:setDeck(deck)
+end
+
+function ParticleEditor.loadProject(path)
+	local components = require("ParticleComponent")
+	local project = ParticleSerializer.load(path, components)
+
+	ParticleEditor.clear()
+
+	ParticleEditor.setParticleLimit(project.particleLimit)
+	ParticleEditor.setSpriteLimit(project.spriteLimit)
+	ParticleEditor.setWrapParticles(project.wrapParticles)
+	ParticleEditor.setWrapSprites(project.wrapSprites)
+	ParticleEditor.setReverseDrawOrder(project.reverseDraw)
+	ParticleEditor.setBgColor(unpack(project.bgColor))
+
+	emitters = project.emitters
+	states = project.states
+
+	for _, emitter in pairs(emitters) do
+		emitter:setParticleSystem(system)
+	end
+
+	for _, state in pairs(states) do
+		state:syncComponents()
+		state:syncForces()
+	end
+
+	local tex = project.texture
+	if tex.atlas then
+		ParticleEditor.loadTextureAtlas(tex.path)
+	else
+		ParticleEditor.loadImage(tex.path)
+	end
+
+	ParticleEditor.updateStates()
+end
+
+function ParticleEditor.saveProject(path)
+	local project = ParticleProject()
+	
+	project.particleLimit = ParticleEditor.getParticleLimit()
+	project.spriteLimit = ParticleEditor.getSpriteLimit()
+	project.wrapParticles = ParticleEditor.getWrapParticles()
+	project.wrapSprites = ParticleEditor.getWrapSprites()
+	project.reverseDraw = ParticleEditor.getReverseDrawOrder()
+	project.bgColor = { ParticleEditor.getBgColor() }
+	project.texture = textureInfo
+
+	project.emitters = emitters
+	project.states = states
+
+	ParticleSerializer.save(path, project)
 end
 
 function ParticleEditor.removeEmitter(idx)
@@ -240,6 +350,7 @@ function ParticleEditor.setParticleLimit(num)
 end
 
 function ParticleEditor.setReverseDrawOrder(flag)
+	reverseDraw = flag
 	if flag then
 		system:setDrawOrder(MOAIParticleSystem.ORDER_REVERSE)
 	else
@@ -248,14 +359,17 @@ function ParticleEditor.setReverseDrawOrder(flag)
 end
 
 function ParticleEditor.setSpriteLimit(num)
+	spriteLimit = num
 	system:reserveSprites(num)
 end
 
 function ParticleEditor.setWrapParticles(flag)
+	wrapParticles = flag
 	system:capParticles(not flag)
 end
 
 function ParticleEditor.setWrapSprites(flag)
+	wrapSprites = flag
 	system:capSprites(not flag)
 end
 

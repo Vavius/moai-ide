@@ -6,6 +6,7 @@
 
 local Gizmos = require("Gizmos")
 local ParticleForce = class()
+ParticleForce.__className = "ParticleForce"
 
 local T_FORCE = 0
 local T_GRAVITY = 1
@@ -196,6 +197,28 @@ function ParticleForce:showGizmos()
     elseif self.shape == A_RADIAL then
         self.gizmoLoc.prop:setVisible(true)
 
+    end
+end
+
+function ParticleForce:serializeIn(serializer, data)
+    for _, v in ipairs(DATA) do
+        self:setParam(v.access, data[v.access])
+    end
+
+    local shape = SHAPE_DATA[self:getShape()]
+    for _, v in ipairs(shape) do
+        self:setParam(v.access, data[v.access])
+    end
+end
+
+function ParticleForce:serializeOut(serializer, out)
+    for _, v in ipairs(DATA) do
+        out[v.access] = self:getParam(v.access)
+    end
+
+    local shape = SHAPE_DATA[self:getShape()]
+    for _, v in ipairs(shape) do
+        out[v.access] = self:getParam(v.access)
     end
 end
 

@@ -9,6 +9,7 @@ local ParticleComponent = require("ParticleComponent")
 local ParticleHelper = require("util.ParticleHelper")
 
 local ParticleState = class()
+ParticleState.__className = "ParticleState"
 
 local DATA = {
     { type = "string", name = "Name", value = "state", access = "Name" },
@@ -206,6 +207,45 @@ function ParticleState:removeComponent(paramId)
     end
 end
 
+function ParticleState:serializeIn(serializer, data)
+    for _, v in pairs(DATA) do
+        self:setParam(v.access, data[v.access])
+    end
+    if data.nextState then
+        self.next = serializer:getObjectById(data.nextState)
+        self.state:setNext(self.next.state)
+    end
+
+    for _, forceId in pairs(data.forces) do
+        local force = serializer:getObjectById(forceId)
+        table.insert(self.forces, force)
+    end
+
+    for _, compId in pairs(data.components) do
+        local comp = serializer:getObjectById(compId)
+        table.insert(self.components, comp)
+    end
+end
+
+function ParticleState:serializeOut(serializer, out)
+    for _, v in pairs(DATA) do
+        out[v.access] = self:getParam(v.access)
+    end
+    if self.next then
+        out.nextState = serializer:affirmObjectId(self.next)
+    end
+
+    out.forces = {}
+    for _, force in pairs(self.forces) do
+        table.insert(out.forces, serializer:affirmObjectId(force))
+    end
+
+    out.components = {}
+    for _, comp in pairs(self.components) do
+        table.insert(out.components, serializer:affirmObjectId(comp))
+    end
+end
+
 function ParticleState:setForceParam(paramId, value)
     local idx, param = string.match(paramId, "force(%d+)%$(.*)")
     if idx and param then
@@ -247,7 +287,6 @@ end
 
 
 function ParticleState:syncComponents()
-    log.info("SYNC")
     local init = {}
     local sim = {}
     local sprite = {}
@@ -263,8 +302,8 @@ function ParticleState:syncComponents()
     local initFunc = loadstring(initStr)
     local renderFunc = loadstring(renderStr)
 
-    log.debug("Compiling init script:\n" .. initStr)
-    log.debug("Compiling render script:\n" .. renderStr)
+    -- log.debug("Compiling init script:\n" .. initStr)
+    -- log.debug("Compiling render script:\n" .. renderStr)
 
     local initScript = ParticleHelper.makeParticleScript(initFunc, reg)
     local renderScript = ParticleHelper.makeParticleScript(renderFunc, reg)

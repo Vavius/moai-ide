@@ -6,6 +6,7 @@
 
 local Gizmos = require("Gizmos")
 local ParticleEmitter = class()
+ParticleEmitter.__className = "ParticleEmitter"
 
 local SHAPE_RECT = 0
 local SHAPE_CIRCLE = 1
@@ -105,9 +106,8 @@ function ParticleEmitter:getParam(paramId)
 end
 
 
-function ParticleEmitter:init(system)
+function ParticleEmitter:init()
     local emitter = MOAIParticleTimedEmitter.new()
-    emitter:setSystem(system)
     emitter:start()
     self.emitter = emitter
 
@@ -166,6 +166,7 @@ end
 
 function ParticleEmitter:destroy()
     self.emitter:stop()
+    self.emitter:setSystem()
 
     self.gizmoCircleMin.prop:setLayer()
     self.gizmoCircleMax.prop:setLayer()
@@ -194,6 +195,34 @@ function ParticleEmitter:showGizmos()
     end
 end
 
+function ParticleEmitter:serializeIn(serializer, data)
+    for _, v in ipairs(COMMON) do
+        self:setParam(v.access, data[v.access])
+    end
+
+    for _, v in ipairs(RECT) do
+        self:setParam(v.access, data[v.access])
+    end
+
+    for _, v in ipairs(CIRCLE) do
+        self:setParam(v.access, data[v.access])
+    end
+end
+
+function ParticleEmitter:serializeOut(serializer, out)
+    for _, v in ipairs(COMMON) do
+        out[v.access] = self:getParam(v.access)
+    end
+
+    for _, v in ipairs(RECT) do
+        out[v.access] = self:getParam(v.access)
+    end
+
+    for _, v in ipairs(CIRCLE) do
+        out[v.access] = self:getParam(v.access)
+    end
+end
+
 function ParticleEmitter:setParam(paramId, value)
     local setter = self['set' .. paramId]
     if not setter then
@@ -202,6 +231,10 @@ function ParticleEmitter:setParam(paramId, value)
     end
 
     return setter(self, value)
+end
+
+function ParticleEmitter:setParticleSystem(system)
+    self.emitter:setSystem(system)
 end
 
 

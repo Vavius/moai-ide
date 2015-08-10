@@ -21,6 +21,8 @@ def luaTableToDict(t):
 
 class ParticleEditorDock(QDockWidget):
     activeModelType = None
+    api = None
+    projectPath = None
 
     def __init__(self, parent=None):
         super(ParticleEditorDock, self).__init__(parent)
@@ -48,13 +50,28 @@ class ParticleEditorDock(QDockWidget):
 
         self.propertyModel.itemDataChanged.connect(self.onModelParamChange)
 
+        self.editorMenu = self.mainWindow.menuBar().addMenu('Particle Editor')
+
+        actionNew = QtGui.QAction('New project', self, triggered=self.onNewProject)
+        actionOpen = QtGui.QAction('Open project...', self, triggered=self.onOpenProject)
+        actionSave = QtGui.QAction('Save project', self, shortcut = "Ctrl+S", triggered=self.onSaveProject)
+        actionSaveAs = QtGui.QAction('Save project as...', self, shortcut = "Ctrl+Shift+S", triggered=self.onSaveProjectAs)
+
+        self.editorMenu.addAction(actionNew)
+        self.editorMenu.addAction(actionOpen)
+        self.editorMenu.addAction(actionSave)
+        self.editorMenu.addAction(actionSaveAs)
+
+
     def readSettings(self):
         settings = QtCore.QSettings()
         self.lastTextureDir = settings.value("particle/texdir", "~")
+        self.lastProjectDir = settings.value("particle/projdir", "~")
 
     def writeSettings(self):
         settings = QtCore.QSettings()
         settings.setValue("particle/texdir", self.lastTextureDir or "~")
+        settings.setValue("particle/projdir", self.lastProjectDir or "~")
 
     def populateComponentList(self):
         components = self.api.getComponentList()
@@ -77,6 +94,21 @@ class ParticleEditorDock(QDockWidget):
         self.populateComponentList()
         self.ui.editParticleLimit.setText('128')
         self.ui.editSpriteLimit.setText('128')
+
+    def luaModelChanged(self):
+        ui = self.ui
+        
+        ui.editParticleLimit.setText( str(self.api.getParticleLimit()) )
+        ui.editSpriteLimit.setText( str(self.api.getSpriteLimit()) )
+        ui.chkReverseDraw.setChecked( bool(self.api.getReverseDrawOrder()) )
+        ui.chkWrapSprites.setChecked( bool(self.api.getWrapSprites()) )
+        ui.chkWrapParticles.setChecked( bool(self.api.getWrapParticles()) )
+
+        r, g, b, a = self.api.getBgColor()
+        self.setBgBtnColor( QtGui.QColor(r, g, b, a) )
+
+        self.updateStateList()
+        self.updateEmitterList()
 
     def setBgBtnColor(self, color):
         btn = self.bgColorBtn
@@ -132,6 +164,7 @@ class ParticleEditorDock(QDockWidget):
                 item.setText(name)
             else:
                 self.stateList.addItem(name)
+
 
     @QtCore.Slot()
     def onBgColorClick(self):
@@ -208,11 +241,17 @@ class ParticleEditorDock(QDockWidget):
             if self.api.setEmitterParam(emitterId + 1, str(paramId), value):
                 self.showCurrentEmitter()
 
+            # update possible name change
+            # however, calling this on each param change seems a bit too much
+            self.updateEmitterList()
+
         elif self.activeModelType == 'state':
             stateId = self.stateList.currentRow()
             if stateId < 0: return
             if self.api.setStateParam(stateId + 1, str(paramId), value):
                 self.showCurrentState()
+
+            self.updateStateList()
 
     @QtCore.Slot()
     def onNewComponent(self):
@@ -228,13 +267,56 @@ class ParticleEditorDock(QDockWidget):
         self.updateEmitterList()
 
     @QtCore.Slot()
+    def onNewProject(self):
+        if not self.api:
+            # initialize particle editor
+            self.mainWindow.launchParticleEditor()
+        else:
+            self.api.clear()
+            self.luaModelChanged()
+
+    @QtCore.Slot()
     def onNewState(self):
         self.api.addState()
         self.updateStateList()
 
+    @QtCore.Slot()
+    def onOpenProject(self):
+        filename, filt = QtGui.QFileDialog.getOpenFileName(self, "Open project", self.lastProjectDir or "~", "Project files (*.mpp)")
+        if filename:
+            if not self.api:
+                # initialize particle editor
+                self.mainWindow.launchParticleEditor()
+
+            self.lastProjectDir = os.path.dirname(filename)
+            self.api.loadProject(filename)
+            self.projectPath = filename
+            self.luaModelChanged()
+
     @QtCore.Slot(bool)
     def onReverseDraw(self, flag):
         self.api.setReverseDrawOrder(flag)
+
+    @QtCore.Slot()
+    def onSaveProject(self):
+        if not self.api:
+            return
+
+        if self.projectPath:
+            self.api.saveProject(self.projectPath)
+        else:
+            self.onSaveProjectAs()
+
+    @QtCore.Slot()
+    def onSaveProjectAs(self):
+        if not self.api:
+            return
+
+        filename, filt = QtGui.QFileDialog.getSaveFileName(self, "Save project as", self.lastProjectDir or "~", "Project files (*.mpp)")
+        if filename:
+            self.lastProjectDir = os.path.dirname(filename)
+            self.projectPath = filename
+            self.api.saveProject(filename)
 
     @QtCore.Slot()
     def onStateClick(self):

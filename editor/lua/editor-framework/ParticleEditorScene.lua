@@ -26,6 +26,11 @@ function ParticleEditorScene:init(params)
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+function ParticleEditorScene:getBgColor()
+    return self.color:getColor()
+end
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:getSystem()
     return self.system
 end

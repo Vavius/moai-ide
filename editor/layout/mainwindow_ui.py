@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Aug  9 15:09:51 2015
+# Created: Mon Aug 10 21:07:34 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -47,11 +47,8 @@ class Ui_MainWindow(object):
         self.actionReload_Project.setObjectName("actionReload_Project")
         self.actionParicle_Editor = QtGui.QAction(MainWindow)
         self.actionParicle_Editor.setObjectName("actionParicle_Editor")
-        self.menuFile.addAction(self.actionNew_project)
         self.menuFile.addAction(self.actionOpen_project)
         self.menuFile.addSeparator()
-        self.menuFile.addAction(self.actionSave_project)
-        self.menuFile.addAction(self.actionParicle_Editor)
         self.menuEdit.addAction(self.actionCopy)
         self.menuEdit.addAction(self.actionPaste)
         self.menuEdit.addSeparator()
