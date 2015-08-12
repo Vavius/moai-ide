@@ -135,6 +135,19 @@ class MainWindow(QMainWindow):
         self.menuBar().insertMenu(ui.menuHelp.menuAction(), self.viewMenu)
         self.viewMenu.addAction(QtGui.QAction('&Fullscreen', self, statusTip="Enter Fullscreen", shortcut="Meta+Ctrl+F", triggered=self.toggleFullscreen))
 
+        defaultSkin = QtGui.QAction('Default', self, statusTip="Bright interface skin", triggered=self.setDefaultSkin)
+        nightSkin = QtGui.QAction('Night', self, statusTip="Dark interface skin", triggered=self.setNightSkin)
+        defaultSkin.setCheckable(True)
+        nightSkin.setCheckable(True)
+
+        self.actionGroupSkin = QtGui.QActionGroup(self)
+        self.actionGroupSkin.addAction(defaultSkin)
+        self.actionGroupSkin.addAction(nightSkin)
+
+        self.viewMenu.addSeparator().setText("Skin")
+        self.viewMenu.addAction(defaultSkin)
+        self.viewMenu.addAction(nightSkin)
+
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
 
@@ -172,9 +185,13 @@ class MainWindow(QMainWindow):
     def readSettings(self):
         settings = QSettings()
 
+        self.useDarkSkin = settings.value("main/darkskin", False)
+        if self.useDarkSkin:
+            self.setNightSkin()
+
         self.restoreGeometry(settings.value("main/geometry"))
         self.restoreState(settings.value("main/windowState"))
-        
+
         self.environmentDock.readSettings()
         self.debugDock.readSettings()
         self.particleEditorDock.readSettings()
@@ -192,6 +209,7 @@ class MainWindow(QMainWindow):
     def writeSettings(self):
         settings = QSettings()
 
+        settings.setValue("main/darkskin", self.useDarkSkin)
         settings.setValue("main/geometry", self.saveGeometry())
         settings.setValue("main/windowState", self.saveState())
         settings.setValue("main/currentFile", self.runningFile)
@@ -199,6 +217,16 @@ class MainWindow(QMainWindow):
         self.environmentDock.writeSettings()
         self.debugDock.writeSettings()
         self.particleEditorDock.writeSettings()
+
+    @QtCore.Slot()
+    def setDefaultSkin(self):
+        self.setStyleSheet("")
+        self.useDarkSkin = False
+
+    @QtCore.Slot()
+    def setNightSkin(self):
+        self.setStyleSheet(qdarkstyle.load_stylesheet())
+        self.useDarkSkin = True
 
     @QtCore.Slot()
     def showOpenFileDialog(self):
@@ -299,7 +327,6 @@ if __name__ == '__main__':
     colorPrintEnabled = not args.nocolor
 
     mainWindow = MainWindow(script = args.script)
-    mainWindow.setStyleSheet(qdarkstyle.load_stylesheet())
 
     # all output except traceback and user prints is DIM
     if colorPrintEnabled:

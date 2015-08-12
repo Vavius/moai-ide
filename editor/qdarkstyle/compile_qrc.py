@@ -35,11 +35,19 @@ manually after running this script.
 """
 import os
 
+def gen_qss():
+    # colorinf = 
+    # qss = 
+    pass
 
 def compile_all():
     """
     Compile style.qrc using rcc, pyside-rcc and pyrcc4
     """
+
+    # parse color scheme and generate qss
+    gen_qss()
+
     # print("Compiling for Qt: style.qrc -> style.rcc")
     # os.system("rcc style.qrc -o style.rcc")
     print("Compiling for PyQt4: style.qrc -> pyqt_style_rc.py")
