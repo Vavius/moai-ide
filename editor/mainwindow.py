@@ -26,6 +26,7 @@ from statsdock import StatsDock
 from particleeditordock import ParticleEditorDock
 from particleparamsdock import ParticleParamsDock
 
+import qdarkstyle
 from colorama import Fore, Back, Style
 from time import strftime
 
@@ -76,7 +77,7 @@ class MainWindow(QMainWindow):
         self.ui =  ui
         self.ui.setupUi(self)
 
-        # self.setDockNestingEnabled(True)
+        self.setDockNestingEnabled(True)
 
         self.moaiWidget = MOAIWidget()
 
@@ -130,10 +131,9 @@ class MainWindow(QMainWindow):
         ui.menuWindow.addSeparator()
         ui.menuWindow.addAction(QtGui.QAction('&Console', self, statusTip="Open console window", shortcut="Shift+Ctrl+C", triggered=self.showConsole))
 
-        self.viewMenu = self.menuBar().addMenu('&View')
-        self.viewMenu.addAction(QtGui.QAction('&Fullscreen on', self, statusTip="Enter Fullscreen", shortcut="Shift+Ctrl+F", triggered=self.fullscreen))
-        self.viewMenu.addSeparator()
-        self.viewMenu.addAction(QtGui.QAction('&Fullscreen off', self, statusTip="Exit Fullscreen", shortcut="Alt+Ctrl+F", triggered=self.normal))
+        self.viewMenu = QtGui.QMenu('&View')
+        self.menuBar().insertMenu(ui.menuHelp.menuAction(), self.viewMenu)
+        self.viewMenu.addAction(QtGui.QAction('&Fullscreen', self, statusTip="Enter Fullscreen", shortcut="Meta+Ctrl+F", triggered=self.toggleFullscreen))
 
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
@@ -142,17 +142,22 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.updateLiveReload)
         self.timer.start(1000)
 
+        # disable focus border for all child widgets
+        widgets = self.findChildren(QtGui.QWidget)
+        for w in widgets:
+            w.setAttribute(QtCore.Qt.WA_MacShowFocusRect, False)
+
         self.runningFile = script
         self.workingDir = ""
         self.readSettings()
         if script:
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
 
-    def fullscreen(self):
-        self.setWindowState(QtCore.Qt.WindowFullScreen)
+    def toggleFullscreen(self):
+        state = self.windowState()
 
-    def normal(self):
-        self.setWindowState(QtCore.Qt.WindowNoState)
+        # xor to toggle
+        self.setWindowState(state ^ QtCore.Qt.WindowFullScreen)
 
     def showConsole(self):
         self.consoleDialog.show()
@@ -294,6 +299,7 @@ if __name__ == '__main__':
     colorPrintEnabled = not args.nocolor
 
     mainWindow = MainWindow(script = args.script)
+    mainWindow.setStyleSheet(qdarkstyle.load_stylesheet())
 
     # all output except traceback and user prints is DIM
     if colorPrintEnabled:

@@ -32,12 +32,12 @@ class StatsDock(QDockWidget):
             local fps = MOAISim.getPerformance()
             local drawcalls = MOAIGfxDevice.getFrameBuffer():getPerformanceDrawCount()
             local luaCount = MOAISim.getLuaObjectCount()
-            local mem = MOAISim.getMemoryUsage()
+            local lua, texture = MOAISim.getMemoryUsagePlain()
             local node = STATS and STATS.nodeMgr or 0
             local action = STATS and STATS.actionTree or 0
             local sim = STATS and STATS.simTime or 0
             local render = STATS and STATS.renderTime or 0
-            return math.round(fps, 0.1), drawcalls, luaCount, mem.lua, mem.texture, 
+            return math.round(fps, 0.1), drawcalls, luaCount, lua, texture, 
                     math.round(node, 0.01), math.round(action, 0.01), math.round(sim, 0.01), math.round(render, 0.01)
         end""")
 

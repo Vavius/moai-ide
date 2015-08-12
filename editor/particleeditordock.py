@@ -50,8 +50,9 @@ class ParticleEditorDock(QDockWidget):
 
         self.propertyModel.itemDataChanged.connect(self.onModelParamChange)
 
-        self.editorMenu = self.mainWindow.menuBar().addMenu('Particle Editor')
-
+        self.editorMenu = QtGui.QMenu('Particle Editor')
+        self.mainWindow.menuBar().insertMenu(self.mainWindow.ui.menuEdit.menuAction(), self.editorMenu)
+        
         actionNew = QtGui.QAction('New project', self, triggered=self.onNewProject)
         actionOpen = QtGui.QAction('Open project...', self, triggered=self.onOpenProject)
         actionSave = QtGui.QAction('Save project', self, shortcut = "Ctrl+S", triggered=self.onSaveProject)

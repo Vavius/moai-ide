@@ -18,11 +18,15 @@ class ComboDelegate(QtGui.QStyledItemDelegate):
             # add validation for spinbox widgets
             validRange = index.data(ComboDelegate.ValidatorRole)
             widget = super(ComboDelegate, self).createEditor(parent, option, index)
+
             if validRange:
                 if hasattr(widget, 'setMinimum') and 'min' in validRange:
                     widget.setMinimum(validRange['min'])
                 if hasattr(widget, 'setMaximum') and 'max' in validRange:
                     widget.setMaximum(validRange['max'])
+
+            # remove blue focus border
+            widget.setAttribute(QtCore.Qt.WA_MacShowFocusRect, False)
             return widget
 
         data = index.data(Qt.EditRole)
@@ -45,7 +49,13 @@ class ComboDelegate(QtGui.QStyledItemDelegate):
             return super(ComboDelegate, self).setModelData(editor, model, index)
 
         model.setData(index, editor.currentIndex())
-        
+    
+    def updateEditorGeometry(self, editor, option, index):
+        minHeight = 20
+        rect = option.rect
+        offset = 0.5 * (minHeight - rect.height())
+        editor.setGeometry(rect.left(), rect.top() - offset, rect.width(), minHeight)
+
     @QtCore.Slot()
     def currentIndexChanged(self):
         self.commitData.emit(self.sender())

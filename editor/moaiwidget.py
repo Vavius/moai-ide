@@ -30,10 +30,8 @@ class MOAIWidget(QtOpenGL.QGLWidget):
 
         self.refreshContext()
 
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.updateGL)
-        timer.timeout.connect(self.simStep)
-        timer.start(1000 * AKUGetSimStep())
+        timer = QtCore.QBasicTimer()
+        timer.start(1000 * AKUGetSimStep(), self)
         self.timer = timer
 
 
@@ -57,9 +55,10 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         elif self.glReady:
             glClear(GL_COLOR_BUFFER_BIT)
 
-    def simStep(self):
+    def timerEvent(self, event):
         if self.windowReady:
             AKUModulesUpdate()
+            self.updateGL()
 
     # Input
     def wheelEvent(self, event):
@@ -208,11 +207,12 @@ class MOAIWidget(QtOpenGL.QGLWidget):
     def finalize(self):
         self.windowReady = False
         self.glReady = False
+        self.timer.stop()
         AKUModulesAppFinalize()
         AKUAppFinalize()
 
     def setSimStep(self, step):
-        timer.setInterval(step * 1000)
+        self.timer.start(step * 1000, self)
 
     def setWorkingDirectory(self, path):
         AKUSetWorkingDirectory(path)
