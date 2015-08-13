@@ -516,8 +516,10 @@ QTextEdit
 
 QPlainTextEdit
 {
-    background-color: #201F1F;;
-    color: silver;
+    background-color: #201F1F;
+    selection-color: white;
+    selection-background-color: #565648;
+    color: white;
     border-radius: 2px;
     border: 1px solid #3A3939;
 }

@@ -12,5 +12,6 @@ pyside-uic -o profilerdock_ui.py profilerdock.ui
 pyside-uic -o statsdock_ui.py statsdock.ui
 pyside-uic -o particleparams_ui.py particleparams.ui
 pyside-uic -o particleeditor_ui.py particleeditor.ui
+pyside-uic -o particlescriptdialog_ui.py particlescriptdialog.ui
 
 cd ..

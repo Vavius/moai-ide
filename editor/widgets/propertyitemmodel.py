@@ -361,7 +361,11 @@ class PropertyItemModel(QtCore.QAbstractItemModel):
         result = item.setData(index.column(), value)
 
         if result:
-            self.dataChanged.emit(index, index)
+            # SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+            # QtCore.QObject.emit(self, QtCore.SIGNAL("dataChanged(const QModelIndex&, const QModelIndex&)"), index, index)
+            # self.dataChanged.emit(index)
+            # self.emit(QtCore.SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+            # self.dataChanged.emit(index, index)
             self.itemDataChanged.emit(item.getId(), item.getValue())
 
         return result

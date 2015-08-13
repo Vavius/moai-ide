@@ -6,8 +6,9 @@ from PySide import QtCore, QtGui
 from PySide.QtGui import QDockWidget, QColor, QColorDialog, QPixmap
 
 from layout.particleeditor_ui import Ui_particleEditor as Ui
-import moaipy
 
+from particlescriptdialog import ParticleScriptDialog
+import moaipy
 import luainterface
 
 def luaTableToDict(t):
@@ -53,16 +54,20 @@ class ParticleEditorDock(QDockWidget):
         self.editorMenu = QtGui.QMenu('Particle Editor')
         self.mainWindow.menuBar().insertMenu(self.mainWindow.ui.menuEdit.menuAction(), self.editorMenu)
         
+        self.scriptEditor = ParticleScriptDialog(self)
+        
         actionNew = QtGui.QAction('New project', self, triggered=self.onNewProject)
         actionOpen = QtGui.QAction('Open project...', self, triggered=self.onOpenProject)
         actionSave = QtGui.QAction('Save project', self, shortcut = "Ctrl+S", triggered=self.onSaveProject)
         actionSaveAs = QtGui.QAction('Save project as...', self, shortcut = "Ctrl+Shift+S", triggered=self.onSaveProjectAs)
+        actionScriptEditor = QtGui.QAction('Script editor', self, triggered=self.onOpenScriptEditor)
 
         self.editorMenu.addAction(actionNew)
         self.editorMenu.addAction(actionOpen)
         self.editorMenu.addAction(actionSave)
         self.editorMenu.addAction(actionSaveAs)
-
+        self.editorMenu.addAction(actionScriptEditor)
+        
 
     def readSettings(self):
         settings = QtCore.QSettings()
@@ -295,6 +300,11 @@ class ParticleEditorDock(QDockWidget):
             self.projectPath = filename
             self.luaModelChanged()
 
+    @QtCore.Slot()
+    def onOpenScriptEditor(self):
+        self.scriptEditor.show()
+        self.scriptEditor.activateWindow()
+
     @QtCore.Slot(bool)
     def onReverseDraw(self, flag):
         self.api.setReverseDrawOrder(flag)
@@ -326,7 +336,7 @@ class ParticleEditorDock(QDockWidget):
 
     @QtCore.Slot(QtCore.QPoint)
     def stateListContextMenu(self, point): 
-        self.stateListMenu = QtGui.QMenu()
+        self.stateListMenu = QtGui.QMenu(self)
         itemAdd = self.stateListMenu.addAction("New state")
         itemRemove = self.stateListMenu.addAction("Remove")
         itemDuplicate = self.stateListMenu.addAction("Duplicate")
