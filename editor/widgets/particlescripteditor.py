@@ -4,23 +4,30 @@ from PySide import QtCore, QtGui
 from PySide.QtCore import Qt
 from PySide.QtGui import QPlainTextEdit
 
-keywords = [
-    # functions
-    "time", "rand", "step", "randVec", "norm", "vecAngle", "angleVec", "cycle", 
-    "wrap", "ease", "easeDelta", "sprite", "abs", "cos", "sin", "tan",
+keywords = {
+    "functions" : [
+        "time", "rand", "step", "randVec", "norm", "vecAngle", "angleVec", "cycle", 
+        "wrap", "ease", "easeDelta", "sprite", "abs", "cos", "sin", "tan"
+    ],
 
-    # sprite & particles registers
-    "p.x", "p.y", "p.dx", "p.dy", "sp.x", "sp.y", "sp.sx", "sp.sy", 
-    "sp.r", "sp.g", "sp.b", "sp.glow", "sp.idx", "sp.opacity", "sp.rot",
+    "particle" : [
+        "p.x", "p.y", "p.dx", "p.dy"
+    ],
+
+    "sprite" : [
+        "sp.x", "sp.y", "sp.sx", "sp.sy", "sp.r", "sp.g", "sp.b", "sp.glow", "sp.idx", "sp.opacity", "sp.rot"
+    ],
 
     # EaseTypes 
-    "EaseType.EASE_IN", "EaseType.EASE_OUT", "EaseType.FLAT", "EaseType.LINEAR", "EaseType.SHARP_EASE_IN", 
-    "EaseType.SHARP_EASE_OUT", "EaseType.EXTRA_SHARP_EASE_IN", "EaseType.EXTRA_SHARP_EASE_OUT", "EaseType.SHARP_SMOOTH", 
-    "EaseType.SMOOTH", "EaseType.SOFT_EASE_IN", "EaseType.SOFT_EASE_OUT", "EaseType.SOFT_SMOOTH", "EaseType.SINE_EASE_IN", 
-    "EaseType.SINE_EASE_OUT", "EaseType.SINE_SMOOTH", "EaseType.CIRC_EASE_IN", "EaseType.CIRC_EASE_OUT", "EaseType.CIRC_SMOOTH", 
-    "EaseType.BOUNCE_IN", "EaseType.BOUNCE_OUT", "EaseType.BOUNCE_SMOOTH", "EaseType.ELASTIC_IN", "EaseType.ELASTIC_OUT", 
-    "EaseType.ELASTIC_SMOOTH", "EaseType.BACK_EASE_IN", "EaseType.BACK_EASE_OUT", "EaseType.BACK_SMOOTH",
-]
+    "easetypes" : [
+        "EaseType.EASE_IN", "EaseType.EASE_OUT", "EaseType.FLAT", "EaseType.LINEAR", "EaseType.SHARP_EASE_IN", 
+        "EaseType.SHARP_EASE_OUT", "EaseType.EXTRA_SHARP_EASE_IN", "EaseType.EXTRA_SHARP_EASE_OUT", "EaseType.SHARP_SMOOTH", 
+        "EaseType.SMOOTH", "EaseType.SOFT_EASE_IN", "EaseType.SOFT_EASE_OUT", "EaseType.SOFT_SMOOTH", "EaseType.SINE_EASE_IN", 
+        "EaseType.SINE_EASE_OUT", "EaseType.SINE_SMOOTH", "EaseType.CIRC_EASE_IN", "EaseType.CIRC_EASE_OUT", "EaseType.CIRC_SMOOTH", 
+        "EaseType.BOUNCE_IN", "EaseType.BOUNCE_OUT", "EaseType.BOUNCE_SMOOTH", "EaseType.ELASTIC_IN", "EaseType.ELASTIC_OUT", 
+        "EaseType.ELASTIC_SMOOTH", "EaseType.BACK_EASE_IN", "EaseType.BACK_EASE_OUT", "EaseType.BACK_SMOOTH"
+    ]
+}
 
 class Highlighter(QtGui.QSyntaxHighlighter):
     monokai = {
@@ -51,64 +58,15 @@ class Highlighter(QtGui.QSyntaxHighlighter):
         builtinRegFormat = QtGui.QTextCharFormat()
         builtinRegFormat.setForeground(QtGui.QColor(self.monokai['orange']))
 
-        keywordPatterns = [ 
-            "\\btime\\b", "\\brand\\b", "\\bstep\\b", 
-            "\\brandVec\\b", "\\bnorm\\b", "\\bvecAngle\\b", 
-            "\\bangleVec\\b", "\\bcycle\\b", "\\bwrap\\b", 
-            "\\bease\\b", "\\beaseDelta\\b", "\\bsprite\\b", 
-            "\\babs\\b", "\\bcos\\b", "\\bsin\\b", "\\btan\\b"
-        ]
+        keywordPatterns = ["\\b%s\\b" % x for x in keywords['functions']]
+        constantsPatterns = ["\\b%s\\b" % x for x in keywords['easetypes']]
+        # numbers (int, float, hex)
+        constantsPatterns.append("\\b(0x[a-fA-F\d]+|\d+(\.\d+)?([eE]-?\d+)?)\\b")
+        constantsPatterns.append("\\bEaseType\\b")
 
-        constantsPatterns = [
-            "\\b(0x[a-fA-F\d]+|\d+(\.\d+)?([eE]-?\d+)?)\\b", # numbers (int, float, hex)
-            "\\bEaseType.EASE_IN\\b",
-            "\\bEaseType.EASE_OUT\\b",
-            "\\bEaseType.FLAT\\b",
-            "\\bEaseType.LINEAR\\b",
-            "\\bEaseType.SHARP_EASE_IN\\b",
-            "\\bEaseType.SHARP_EASE_OUT\\b",
-            "\\bEaseType.EXTRA_SHARP_EASE_IN\\b",
-            "\\bEaseType.EXTRA_SHARP_EASE_OUT\\b",
-            "\\bEaseType.SHARP_SMOOTH\\b",
-            "\\bEaseType.SMOOTH\\b",
-            "\\bEaseType.SOFT_EASE_IN\\b",
-            "\\bEaseType.SOFT_EASE_OUT\\b",
-            "\\bEaseType.SOFT_SMOOTH\\b",
-            "\\bEaseType.SINE_EASE_IN\\b",
-            "\\bEaseType.SINE_EASE_OUT\\b",
-            "\\bEaseType.SINE_SMOOTH\\b",
-            "\\bEaseType.CIRC_EASE_IN\\b",
-            "\\bEaseType.CIRC_EASE_OUT\\b",
-            "\\bEaseType.CIRC_SMOOTH\\b",
-            "\\bEaseType.BOUNCE_IN\\b",
-            "\\bEaseType.BOUNCE_OUT\\b",
-            "\\bEaseType.BOUNCE_SMOOTH\\b",
-            "\\bEaseType.ELASTIC_IN\\b",
-            "\\bEaseType.ELASTIC_OUT\\b",
-            "\\bEaseType.ELASTIC_SMOOTH\\b",
-            "\\bEaseType.BACK_EASE_IN\\b",
-            "\\bEaseType.BACK_EASE_OUT\\b",
-            "\\bEaseType.BACK_SMOOTH\\b",
-        ]
-
-        builtinRegPatters = ["\\bp\\b", "\\bsp\\b",
-            "\\bp.x\\b",
-            "\\bp.y\\b",
-            "\\bp.dx\\b",
-            "\\bp.dy\\b",
-
-            "\\bsp.x\\b",
-            "\\bsp.y\\b",
-            "\\bsp.sx\\b",
-            "\\bsp.sy\\b",
-            "\\bsp.r\\b",
-            "\\bsp.g\\b",
-            "\\bsp.b\\b",
-            "\\bsp.glow\\b",
-            "\\bsp.idx\\b",
-            "\\bsp.opacity\\b",
-            "\\bsp.rot\\b",
-        ]
+        builtinRegPatters = ["\\b%s\\b" % x for x in keywords['particle']]
+        builtinRegPatters.extend(["\\b%s\\b" % x for x in keywords['sprite']])
+        builtinRegPatters.extend(('\\bp\\b', '\\bsp\\b'))
 
         self.highlightingRules = []
         self.highlightingRules.extend( [(QtCore.QRegExp(pattern), keywordFormat) for pattern in keywordPatterns] )
@@ -137,74 +95,140 @@ class Highlighter(QtGui.QSyntaxHighlighter):
                 index = expression.indexIn(text, index + length)
 
 
+class ParticleScriptCompleter(QtGui.QCompleter):
+    currentModel = None
+
+    def __init__(self, parent=None):
+        super(ParticleScriptCompleter, self).__init__(parent = parent)
+
+        default = list(keywords['functions'])
+        default.append('EaseType')
+
+        self.defaultModel = QtGui.QStringListModel(default)
+        self.particleModel = QtGui.QStringListModel(keywords['particle'])
+        self.spriteModel = QtGui.QStringListModel(keywords['sprite'])
+        self.easeModel = QtGui.QStringListModel(keywords['easetypes'])
+
+        self.setModel(self.defaultModel)
+
+    def setCompletionPrefix(self, prefix):
+        lower = prefix.lower()
+        
+        if lower.startswith("sp."):
+            self.setCurrentModel(self.spriteModel)
+        elif lower.startswith("p."):
+            self.setCurrentModel(self.particleModel)
+        elif lower.startswith("easetype."):
+            self.setCurrentModel(self.easeModel)
+        else:
+            self.setCurrentModel(self.defaultModel)
+
+        super(ParticleScriptCompleter, self).setCompletionPrefix(prefix)
+
+
+    def setCurrentModel(self, model):
+        if self.currentModel != model:
+            self.currentModel = model
+            self.setModel(model)
+
+
 class ParticleScriptEditor (QPlainTextEdit):
+    completer = None
+
     def __init__(self, parent=None):
         super(ParticleScriptEditor, self).__init__(parent)
-        
+
         self.highlighter = Highlighter(self.document())
+        self.setCompleter(ParticleScriptCompleter(self))
 
-        #Autocompleter
-        # global keywords
-        # self.completer = QtGui.QCompleter(keywords, self)
-        # self.completer.setCaseSensitivity(Qt.CaseInsensitive)
-        # self.completer.setWidget(self)
-        # self.autocompleteStart = None
+    def setCompleter(self, completer):
+        if self.completer:
+            self.completer.activated.disconnect(self.insertCompletion)
+        if not completer:
+            return
 
-        #Connect signals
-        # self.completer.activated.connect(self.onAutoComplete)
-        # self.connect(self.completer, QtCore.SIGNAL("activated(QString)"), self.onAutoComplete)
+        completer.setWidget(self)
+        completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        self.completer = completer
+        self.completer.activated.connect(self.insertCompletion)
 
-    # @QtCore.Slot(str)
-    # def onAutoComplete(self, text):
-    #     print("complete")
+    def insertCompletion(self, completion):
+        tc = self.textCursor()
 
-    #     # Select the text from autocompleteStart until the current cursor
-    #     cursor = self.textCursor()
-    #     cursor.setPosition(self.autocompleteStart, cursor.KeepAnchor)
-    #     # Replace it with the selected text 
-    #     cursor.insertText(text)
-    #     self.autocompleteStart = None
+        # replace prefix completion wariant (this is to fix case)
+        prefix = self.completer.completionPrefix()
+        tc.movePosition(QtGui.QTextCursor.PreviousCharacter, QtGui.QTextCursor.KeepAnchor, len(prefix))
+        tc.removeSelectedText()
+        tc.insertText(completion)
+        self.setTextCursor(tc)
 
-    # def keyPressEvent(self,event):
-    #     key = event.key()
-    #     if key == Qt.Key_Tab:
-    #         if self.autocompleteStart is not None:
-    #             #Let the completer handle this one!
-    #             event.ignore()
-    #             return
+    def textUnderCursor(self):
+        tc = self.textCursor()
+        pos = tc.position()
+        tc.select(QtGui.QTextCursor.WordUnderCursor)
 
-    #     # Allowed keys that do not close the autocompleteList:
-    #     # alphanumeric and _
-    #     # Backspace (until start of autocomplete word)
+        # Don't treat dot (.) as word separator. It should be included into the completer prefix (sp. p. EaseType.)
+        # Hacky way: select previous character, and if it is dot then add one more word to selection
+        start = tc.selectionStart()
+        end = tc.selectionEnd()
 
-    #     if self.autocompleteStart is not None and not event.text().isalnum() and event.text != '_' and \
-    #         not ((key == Qt.Key_Backspace) and self.textCursor().position() > self.autocompleteStart):
-    #         self.completer.popup().hide()
-    #         self.autocompleteStart = None
+        if start > 0:
+            tc.setPosition(end, QtGui.QTextCursor.MoveAnchor)
+            tc.setPosition(start - 1, QtGui.QTextCursor.KeepAnchor)
+
+        selection = tc.selectedText()
+        if selection and selection[0] == '.':
+            tc.movePosition(QtGui.QTextCursor.PreviousWord, QtGui.QTextCursor.KeepAnchor)
+        else:
+            tc.movePosition(QtGui.QTextCursor.NextCharacter, QtGui.QTextCursor.KeepAnchor)
         
-    #     # Apply the key
-    #     QtGui.QPlainTextEdit.keyPressEvent(self, event)
-        
-    #     if event.text()=='.':
-    #         # Pop-up the autocompleteList
-    #         rect = self.cursorRect(self.textCursor())
-    #         rect.setSize(QtCore.QSize(100, 150))
-    #         self.autocompleteStart = self.textCursor().position()
-    #         self.completer.complete(rect) # The popup is positioned in the next if block
-        
-    #     if self.autocompleteStart:
-    #         prefix = self.toPlainText()[ self.autocompleteStart : self.textCursor().position() ]
-            
-    #         # While we type, the start of the autocompletion may move due to line wrapping
-    #         # Find the start of the autocompletion and move the completer popup there
-    #         cur = self.textCursor()
-    #         cur.setPosition(self.autocompleteStart)
-    #         position = self.cursorRect(cur).bottomLeft() + self.geometry().topLeft() + self.viewport().pos()
-    #         # self.completer.popup().move(position)
+        return tc.selectedText()
 
-    #         print("prefix", prefix)
-    #         print("pos", position)
+    def focusInEvent(self, event):
+        if self.completer:
+            self.completer.setWidget(self);
+        super(ParticleScriptEditor, self).focusInEvent(event)
 
-    #         self.completer.setCompletionPrefix(prefix)
-    #         # Select the first one of the matches
-    #         self.completer.popup().setCurrentIndex(self.completer.completionModel().index(0, 0));
+    def keyPressEvent(self, event):
+        if self.completer and self.completer.popup().isVisible():
+            if event.key() in (
+            QtCore.Qt.Key_Enter,
+            QtCore.Qt.Key_Return,
+            QtCore.Qt.Key_Escape,
+            QtCore.Qt.Key_Tab,
+            QtCore.Qt.Key_Backtab):
+                event.ignore()
+                return
+
+        # has ctrl-E been pressed??
+        isShortcut = event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_E
+        if not self.completer or not isShortcut:
+            super(ParticleScriptEditor, self).keyPressEvent(event)
+
+        # ctrl or shift key on it's own??
+        ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
+        if ctrlOrShift and not event.text():
+            return
+
+        hasModifier = (event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift
+        completionPrefix = self.textUnderCursor()
+
+        eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-=" #end of word
+        endOfWord = not event.text() or event.text()[-1] in eow
+        lowLetterCount = len(completionPrefix) < 1
+
+        if not isShortcut and (hasModifier or endOfWord or lowLetterCount):
+            self.completer.popup().hide()
+            return
+
+        if completionPrefix != self.completer.completionPrefix():
+            self.completer.setCompletionPrefix(completionPrefix)
+            popup = self.completer.popup()
+            popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
+
+        cr = self.cursorRect()
+        cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
+        self.completer.complete(cr) ## popup it up!
+
+
