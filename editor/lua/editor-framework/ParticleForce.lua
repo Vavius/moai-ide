@@ -27,14 +27,14 @@ local SHAPE_DATA = {
     [A_ATTRACTOR] = {
         { type = "float",   name = "Loc X", value = 0, access = "LocX" },
         { type = "float",   name = "Loc Y", value = 0, access = "LocY" },
-        { type = "float",   name = "Radius", value = 0, access = "Radius", range = {min = 0.01} },
+        { type = "float",   name = "Radius", value = 0.01, access = "Radius", range = {min = 0.01} },
         { type = "float",   name = "Magnitude", value = 0, access = "Magnitude" },
     },
 
     [A_BASIN] = {
         { type = "float",   name = "Loc X", value = 0, access = "LocX" },
         { type = "float",   name = "Loc Y", value = 0, access = "LocY" },
-        { type = "float",   name = "Radius", value = 0, access = "Radius", range = {min = 0.01} },
+        { type = "float",   name = "Radius", value = 0.01, access = "Radius", range = {min = 0.01} },
         { type = "float",   name = "Magnitude", value = 0, access = "Magnitude" },
     },
 

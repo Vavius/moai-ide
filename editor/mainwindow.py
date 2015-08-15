@@ -77,6 +77,8 @@ class MainWindow(QMainWindow):
         self.ui =  ui
         self.ui.setupUi(self)
 
+        QtCore.QCoreApplication.instance().mainWindow = self
+
         self.setDockNestingEnabled(True)
 
         self.moaiWidget = MOAIWidget()
@@ -220,13 +222,13 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot()
     def setDefaultSkin(self):
-        self.setStyleSheet("")
         self.useDarkSkin = False
+        self.setStyleSheet("")
 
     @QtCore.Slot()
     def setNightSkin(self):
-        self.setStyleSheet(qdarkstyle.load_stylesheet())
         self.useDarkSkin = True
+        self.setStyleSheet(qdarkstyle.load_stylesheet())
 
     @QtCore.Slot()
     def showOpenFileDialog(self):
@@ -334,6 +336,7 @@ if __name__ == '__main__':
     
     # mainWindow.show()
     mainWindow.showNormal()
+
 
     app.exec_()
     if colorPrintEnabled:

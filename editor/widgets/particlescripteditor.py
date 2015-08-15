@@ -30,33 +30,35 @@ keywords = {
 }
 
 class Highlighter(QtGui.QSyntaxHighlighter):
-    monokai = {
+    dark = {
         "light-gray":   "#CCC",
         "gray":         "#888",
         "dark-gray":    "#282828",
         "yellow":       "#E6DB74",
         "blue":         "#66D9EF",
-        "pink":         "#F92672",
+        "red":          "#F92672",
         "purple":       "#AE81FF",
         "orange":       "#FD971F",
         "green":        "#A6E22E",
-        "sea-green":    "#529B2F",
     }
     bright = {
-
+        "blue":     "#0000bb",
+        "purple":   "#9128b1",
+        "orange":   "#0066cc",
+        "red":      "#af1212",
+        "yellow":   "#007700",
+        "gray":     "#AAB",
     }
 
     def __init__(self, *args):
         super(Highlighter, self).__init__(*args)
 
-        keywordFormat = QtGui.QTextCharFormat()
-        keywordFormat.setForeground(QtGui.QColor(self.monokai['blue']))
-
-        constantsFormat = QtGui.QTextCharFormat()
-        constantsFormat.setForeground(QtGui.QColor(self.monokai['purple']))
-
-        builtinRegFormat = QtGui.QTextCharFormat()
-        builtinRegFormat.setForeground(QtGui.QColor(self.monokai['orange']))
+        self.keywordFormat = QtGui.QTextCharFormat()
+        self.constantsFormat = QtGui.QTextCharFormat()
+        self.builtinRegFormat = QtGui.QTextCharFormat()
+        self.commentFormat = QtGui.QTextCharFormat()
+        self.operatorFormat = QtGui.QTextCharFormat()
+        self.quotationFormat = QtGui.QTextCharFormat()
 
         keywordPatterns = ["\\b%s\\b" % x for x in keywords['functions']]
         constantsPatterns = ["\\b%s\\b" % x for x in keywords['easetypes']]
@@ -69,21 +71,26 @@ class Highlighter(QtGui.QSyntaxHighlighter):
         builtinRegPatters.extend(('\\bp\\b', '\\bsp\\b'))
 
         self.highlightingRules = []
-        self.highlightingRules.extend( [(QtCore.QRegExp(pattern), keywordFormat) for pattern in keywordPatterns] )
-        self.highlightingRules.extend( [(QtCore.QRegExp(pattern), constantsFormat) for pattern in constantsPatterns] )
-        self.highlightingRules.extend( [(QtCore.QRegExp(pattern), builtinRegFormat) for pattern in builtinRegPatters] )
+        self.highlightingRules.extend( [(QtCore.QRegExp(pattern), self.keywordFormat) for pattern in keywordPatterns] )
+        self.highlightingRules.extend( [(QtCore.QRegExp(pattern), self.constantsFormat) for pattern in constantsPatterns] )
+        self.highlightingRules.extend( [(QtCore.QRegExp(pattern), self.builtinRegFormat) for pattern in builtinRegPatters] )
 
-        commentFormat = QtGui.QTextCharFormat()
-        commentFormat.setForeground(QtGui.QColor(self.monokai['gray']))
-        self.highlightingRules.append((QtCore.QRegExp("--[^\n]*"), commentFormat))
+        self.highlightingRules.append((QtCore.QRegExp("[\\+\\-\\*/=]"), self.operatorFormat))
+        self.highlightingRules.append((QtCore.QRegExp("\".*\""), self.quotationFormat))
+        self.highlightingRules.append((QtCore.QRegExp("--[^\n]*"), self.commentFormat))
 
-        operatorFormat = QtGui.QTextCharFormat()
-        operatorFormat.setForeground(QtGui.QColor(self.monokai['pink']))
-        self.highlightingRules.append((QtCore.QRegExp("[\\+\\-\\*/=]"), operatorFormat))
+        self.applyDarkTheme(False)
 
-        quotationFormat = QtGui.QTextCharFormat()
-        quotationFormat.setForeground(QtGui.QColor(self.monokai['yellow']))
-        self.highlightingRules.append((QtCore.QRegExp("\".*\""), quotationFormat))
+    def applyDarkTheme(self, dark):
+        theme = self.dark if dark else self.bright 
+        self.keywordFormat.setForeground ( QtGui.QColor(theme['blue']) )
+        self.commentFormat.setForeground ( QtGui.QColor(theme['gray']) )
+        self.operatorFormat.setForeground ( QtGui.QColor(theme['red']) )
+        self.constantsFormat.setForeground ( QtGui.QColor(theme['purple']) )
+        self.quotationFormat.setForeground ( QtGui.QColor(theme['yellow']) )
+        self.builtinRegFormat.setForeground ( QtGui.QColor(theme['orange']) )
+
+        self.rehighlight()
 
     def highlightBlock(self, text):
         for pattern, format in self.highlightingRules:
@@ -185,10 +192,24 @@ class ParticleScriptEditor (QPlainTextEdit):
         
         return tc.selectedText()
 
+    def isCursorAtWordEnd(self):
+        tc = self.textCursor()
+        pos = tc.position()
+        tc.select(QtGui.QTextCursor.WordUnderCursor)
+        return tc.selectionEnd() == pos
+
     def focusInEvent(self, event):
         if self.completer:
             self.completer.setWidget(self);
         super(ParticleScriptEditor, self).focusInEvent(event)
+
+    def changeEvent(self, event):
+        if event.type() == QtCore.QEvent.StyleChange:
+            wnd = QtCore.QCoreApplication.instance().mainWindow
+            self.completer.popup().setStyleSheet(wnd.styleSheet())
+            self.highlighter.applyDarkTheme(wnd.useDarkSkin)
+            
+        super(ParticleScriptEditor, self).changeEvent(event)
 
     def keyPressEvent(self, event):
         if self.completer and self.completer.popup().isVisible():
@@ -218,7 +239,7 @@ class ParticleScriptEditor (QPlainTextEdit):
         endOfWord = not event.text() or event.text()[-1] in eow
         lowLetterCount = len(completionPrefix) < 1
 
-        if not isShortcut and (hasModifier or endOfWord or lowLetterCount):
+        if not isShortcut and (not self.isCursorAtWordEnd() or hasModifier or endOfWord or lowLetterCount):
             self.completer.popup().hide()
             return
 
