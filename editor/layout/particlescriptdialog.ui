@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>731</width>
-    <height>664</height>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabInit">
       <attribute name="title">
@@ -72,24 +72,31 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="3">
+      <widget class="QPushButton" name="btnSave">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
-      <widget class="QPushButton" name="btnLoad">
+      <widget class="QPushButton" name="btnLoadState">
        <property name="text">
         <string>Load from state</string>
        </property>
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QPushButton" name="btnLoadState">
+      <widget class="QPushButton" name="btnSaveAs">
        <property name="text">
-        <string>Load custom script</string>
+        <string>Save as</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QPushButton" name="btnSaveAs">
+      <widget class="QPushButton" name="btnLoad">
        <property name="text">
-        <string>Save as</string>
+        <string>Load custom script</string>
        </property>
       </widget>
      </item>
@@ -105,5 +112,76 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnLoadState</sender>
+   <signal>clicked()</signal>
+   <receiver>ParticleScriptDialog</receiver>
+   <slot>onLoadFromState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>616</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnLoad</sender>
+   <signal>clicked()</signal>
+   <receiver>ParticleScriptDialog</receiver>
+   <slot>onLoadCustom()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>616</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnSave</sender>
+   <signal>clicked()</signal>
+   <receiver>ParticleScriptDialog</receiver>
+   <slot>onSave()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>638</x>
+     <y>616</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnSaveAs</sender>
+   <signal>clicked()</signal>
+   <receiver>ParticleScriptDialog</receiver>
+   <slot>onSaveAs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>616</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onLoadFromState()</slot>
+  <slot>onSaveAs()</slot>
+  <slot>onLoadCustom()</slot>
+  <slot>onSave()</slot>
+ </slots>
 </ui>

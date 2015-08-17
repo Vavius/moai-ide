@@ -19,6 +19,7 @@ local DATA = {
     { type = "float", name = "Lifetime min", value = 1, access = "TermMin", range = {min = 0} },
     { type = "float", name = "Lifetime max", value = 1, access = "TermMax", range = {min = 0} },
     { type = "list",  name = "Next", value = 0, access = "Next", choices = {} },
+    { type = "bool",  name = "Use custom script", value = 0, access = "UserScript" },
 }
 
 local counter = 1
@@ -133,6 +134,21 @@ function ParticleState:getModelData()
     return data
 end
 
+function ParticleState:getInitScript()
+    return self.initScript
+end
+
+function ParticleState:getRenderScript()
+    return self.renderScript
+end
+
+function ParticleState:getUserInitScript()
+    return self.userInitScript
+end
+
+function ParticleState:getUserRenderScript()
+    return self.userRenderScript
+end
 
 function ParticleState:getParam(paramId)
     local getter = self['get' .. paramId]
@@ -158,6 +174,9 @@ function ParticleState:init()
     self.components = {}
     self.mass = {0, 0}
     self.term = {0, 0}
+
+    self.userInitScript = ""
+    self.userRenderScript = ""
 
     for _, default in ipairs(DATA) do
         local setter = 'set' .. default.access
@@ -268,6 +287,16 @@ function ParticleState:setComponentParam(paramId, value)
     end
 end
 
+function ParticleState:setUserInitScript(script)
+    self.userInitScript = script
+    self:updateScripts()
+end
+
+function ParticleState:setUserRenderScript(script)
+    self.userRenderScript = script
+    self:updateScripts()
+end
+
 function ParticleState:setParam(paramId, value)
     if string.sub(paramId, 1, #'force') == 'force' then
         return self:setForceParam(paramId, value)
@@ -296,21 +325,10 @@ function ParticleState:syncComponents()
         table.insert(sprite, comp:getSpriteScript() or nil)
     end
 
-    local initStr = table.concat(init, '\n')
-    local renderStr = table.concat(sim, '\n') .. '\nsprite()\n' .. table.concat(sprite, '\n')
+    self.initScript = table.concat(init, '\n')
+    self.renderScript = table.concat(sim, '\n') .. '\nsprite()\n' .. table.concat(sprite, '\n')
 
-    local initFunc = loadstring(initStr)
-    local renderFunc = loadstring(renderStr)
-
-    -- log.debug("Compiling init script:\n" .. initStr)
-    -- log.debug("Compiling render script:\n" .. renderStr)
-
-    local initScript = ParticleHelper.makeParticleScript(initFunc, reg)
-    local renderScript = ParticleHelper.makeParticleScript(renderFunc, reg)
-
-    self.state:setInitScript(initScript)
-    self.state:setRenderScript(renderScript)
-    
+    self:updateScripts()
     require('ParticleEditor').updateRegCount()
 end
 
@@ -320,6 +338,52 @@ function ParticleState:syncForces()
     for _, f in ipairs(self.forces) do
         self.state:pushForce(f.force)
     end
+end
+
+function ParticleState:updateScripts()
+    local initScript
+    local renderScript
+
+    if self.userScript == 0 then
+        initScript = self.initScript
+        renderScript = self.renderScript
+    else
+        initScript = self.userInitScript
+        renderScript = self.userRenderScript
+    end
+
+    local initFunc, err = loadstring(initScript)
+    if not initFunc then 
+        log.error('Error loading init script: ', err)
+        return
+    end
+
+    local renderFunc, err = loadstring(renderScript)
+    if not renderFunc then
+        log.error('Error loading render script: ', err)
+        return
+    end
+
+    local reg = {}
+    
+    local res, init = pcall( ParticleHelper.makeParticleScript, initFunc, reg )
+    if not res then
+        log.error('Error compiling init script: ', init)
+        return
+    end
+    local res, render = pcall( ParticleHelper.makeParticleScript, renderFunc, reg )
+    if not res then
+        log.error('Error compiling render script: ', render)
+        return
+    end
+    log.info(init, render)
+
+    self.state:setInitScript(init)
+    self.state:setRenderScript(render)
+
+    log.info(initScript)
+    log.info(renderScript)
+    log.info(table.pretty(reg))
 end
 
 
@@ -358,6 +422,10 @@ function ParticleState:getTermMin()
     return self.term[1]
 end
 
+function ParticleState:getUserScript()
+    return self.userScript
+end
+
 function ParticleState:setDamping(damp)
     self.damping = damp
     self.state:setDamping(damp)
@@ -393,6 +461,9 @@ function ParticleState:setTermMin(term)
     self.state:setTerm(unpack(self.term))
 end
 
+function ParticleState:setUserScript(flag)
+    self.userScript = flag
+end
 
 
 return ParticleState

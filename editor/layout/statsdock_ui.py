@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'statsdock.ui'
 #
-# Created: Thu Aug 13 17:28:02 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.1
+# Created: Mon Aug 17 17:22:11 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 

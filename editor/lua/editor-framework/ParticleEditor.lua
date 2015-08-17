@@ -182,6 +182,34 @@ function ParticleEditor.getWrapSprites()
 	return wrapSprites
 end
 
+function ParticleEditor.getInitScript(stateId)
+	local state = states[stateId]
+	if state then
+		return state:getInitScript()
+	end
+end
+
+function ParticleEditor.getRenderScript(stateId)
+	local state = states[stateId]
+	if state then
+		return state:getRenderScript()
+	end
+end
+
+function ParticleEditor.getUserInitScript(stateId)
+	local state = states[stateId]
+	if state then
+		return state:getUserInitScript()
+	end
+end
+
+function ParticleEditor.getUserRenderScript(stateId)
+	local state = states[stateId]
+	if state then
+		return state:getUserRenderScript()
+	end
+end
+
 
 function ParticleEditor.getStateParam(stateId, paramId)
 	return states[stateId]:getParam(paramId)
@@ -347,7 +375,6 @@ function ParticleEditor.setEmitterParam(emitterId, paramId, value)
 	return emitters[emitterId]:setParam(paramId, value)
 end
 
-
 function ParticleEditor.setStateParam(stateId, paramId, value)
 	return states[stateId]:setParam(paramId, value)
 end
@@ -381,6 +408,21 @@ function ParticleEditor.setWrapSprites(flag)
 	wrapSprites = flag
 	system:capSprites(not flag)
 end
+
+function ParticleEditor.setUserInitScript(stateId, script)
+	local state = states[stateId]
+	if state then
+		state:setUserInitScript(script)
+	end
+end
+
+function ParticleEditor.setUserRenderScript(stateId, script)
+	local state = states[stateId]
+	if state then
+		state:setUserRenderScript(script)
+	end
+end
+
 
 function ParticleEditor.updateRegCount()
 	local regCount = 0

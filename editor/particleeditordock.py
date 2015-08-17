@@ -100,6 +100,7 @@ class ParticleEditorDock(QDockWidget):
         self.populateComponentList()
         self.ui.editParticleLimit.setText('128')
         self.ui.editSpriteLimit.setText('128')
+        self.scriptEditor.setApi(self.api)
 
     def luaModelChanged(self):
         ui = self.ui
@@ -265,7 +266,7 @@ class ParticleEditorDock(QDockWidget):
         if idx < 0: return
         component = self.ui.cmbComponent.currentText()
         self.api.addComponent(idx, component)
-        self.onStateClick()
+        self.showCurrentState()
 
     @QtCore.Slot()
     def onNewEmitter(self):
@@ -333,6 +334,9 @@ class ParticleEditorDock(QDockWidget):
     @QtCore.Slot()
     def onStateClick(self):
         self.showCurrentState()
+
+        index = self.stateList.currentRow() + 1
+        self.scriptEditor.onStateSelected(index)
 
     @QtCore.Slot(QtCore.QPoint)
     def stateListContextMenu(self, point): 
