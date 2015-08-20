@@ -227,6 +227,16 @@ class ParticleEditorDock(QDockWidget):
         self.showCurrentEmitter()
 
     @QtCore.Slot()
+    def onEmitterStart(self):
+        emitterId = self.emitterList.currentRow() + 1
+        self.api.startEmitter(emitterId)
+
+    @QtCore.Slot()
+    def onEmitterStop(self):
+        emitterId = self.emitterList.currentRow() + 1
+        self.api.stopEmitter(emitterId)
+
+    @QtCore.Slot()
     def onLoadImage(self):
         filename, filt = QtGui.QFileDialog.getOpenFileName(self, "Load image", self.lastTextureDir or "~", "Image files (*.png *.jpg)")
         if filename:

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particleeditor.ui'
 #
-# Created: Mon Aug 17 17:22:11 2015
+# Created: Thu Aug 20 12:59:56 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -83,6 +83,12 @@ class Ui_particleEditor(object):
         self.listEmitter.setSelectionRectVisible(True)
         self.listEmitter.setObjectName("listEmitter")
         self.gridLayout.addWidget(self.listEmitter, 0, 0, 1, 2)
+        self.btnEmitterStart = QtGui.QPushButton(self.groupBox)
+        self.btnEmitterStart.setObjectName("btnEmitterStart")
+        self.gridLayout.addWidget(self.btnEmitterStart, 2, 1, 1, 1)
+        self.btnEmitterStop = QtGui.QPushButton(self.groupBox)
+        self.btnEmitterStop.setObjectName("btnEmitterStop")
+        self.gridLayout.addWidget(self.btnEmitterStop, 2, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtGui.QGroupBox(self.dockWidgetContents)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -138,6 +144,8 @@ class Ui_particleEditor(object):
         QtCore.QObject.connect(self.btnBgColor, QtCore.SIGNAL("clicked()"), particleEditor.onBgColorClick)
         QtCore.QObject.connect(self.btnRemoveComponent, QtCore.SIGNAL("clicked()"), particleEditor.onDeleteComponent)
         QtCore.QObject.connect(self.btnLoadImage, QtCore.SIGNAL("clicked()"), particleEditor.onLoadImage)
+        QtCore.QObject.connect(self.btnEmitterStart, QtCore.SIGNAL("clicked()"), particleEditor.onEmitterStart)
+        QtCore.QObject.connect(self.btnEmitterStop, QtCore.SIGNAL("clicked()"), particleEditor.onEmitterStop)
         QtCore.QMetaObject.connectSlotsByName(particleEditor)
 
     def retranslateUi(self, particleEditor):
@@ -154,6 +162,8 @@ class Ui_particleEditor(object):
         self.groupBox.setTitle(QtGui.QApplication.translate("particleEditor", "Emitters", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddEmitter.setText(QtGui.QApplication.translate("particleEditor", "Add emitter", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDeleteEmitter.setText(QtGui.QApplication.translate("particleEditor", "Remove emitter", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnEmitterStart.setText(QtGui.QApplication.translate("particleEditor", "Start", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnEmitterStop.setText(QtGui.QApplication.translate("particleEditor", "Stop", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("particleEditor", "Particle States", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddState.setText(QtGui.QApplication.translate("particleEditor", "Add state", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAddComponent.setText(QtGui.QApplication.translate("particleEditor", "Add component", None, QtGui.QApplication.UnicodeUTF8))

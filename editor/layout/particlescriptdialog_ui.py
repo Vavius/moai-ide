@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'particlescriptdialog.ui'
 #
-# Created: Mon Aug 17 17:22:11 2015
+# Created: Thu Aug 20 12:59:56 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -47,35 +47,35 @@ class Ui_ParticleScriptDialog(object):
         self.verticalLayout.addWidget(self.tabWidget)
         self.gridLayout = QtGui.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
-        self.btnSave = QtGui.QPushButton(ParticleScriptDialog)
-        self.btnSave.setObjectName("btnSave")
-        self.gridLayout.addWidget(self.btnSave, 0, 3, 1, 1)
-        self.btnLoadState = QtGui.QPushButton(ParticleScriptDialog)
-        self.btnLoadState.setObjectName("btnLoadState")
-        self.gridLayout.addWidget(self.btnLoadState, 0, 0, 1, 1)
-        self.btnSaveAs = QtGui.QPushButton(ParticleScriptDialog)
+        self.btnOpen = QtGui.QToolButton(ParticleScriptDialog)
+        self.btnOpen.setObjectName("btnOpen")
+        self.gridLayout.addWidget(self.btnOpen, 0, 1, 1, 1)
+        self.btnSaveAs = QtGui.QToolButton(ParticleScriptDialog)
         self.btnSaveAs.setObjectName("btnSaveAs")
-        self.gridLayout.addWidget(self.btnSaveAs, 0, 2, 1, 1)
-        self.btnLoad = QtGui.QPushButton(ParticleScriptDialog)
-        self.btnLoad.setObjectName("btnLoad")
-        self.gridLayout.addWidget(self.btnLoad, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.btnSaveAs, 1, 2, 1, 1)
+        self.btnSave = QtGui.QToolButton(ParticleScriptDialog)
+        self.btnSave.setObjectName("btnSave")
+        self.gridLayout.addWidget(self.btnSave, 0, 2, 1, 1)
+        self.btnLoadFromState = QtGui.QToolButton(ParticleScriptDialog)
+        self.btnLoadFromState.setObjectName("btnLoadFromState")
+        self.gridLayout.addWidget(self.btnLoadFromState, 0, 0, 1, 1)
+        self.btnLoadCustom = QtGui.QToolButton(ParticleScriptDialog)
+        self.btnLoadCustom.setObjectName("btnLoadCustom")
+        self.gridLayout.addWidget(self.btnLoadCustom, 1, 0, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
 
         self.retranslateUi(ParticleScriptDialog)
         self.tabWidget.setCurrentIndex(0)
-        QtCore.QObject.connect(self.btnLoadState, QtCore.SIGNAL("clicked()"), ParticleScriptDialog.onLoadFromState)
-        QtCore.QObject.connect(self.btnLoad, QtCore.SIGNAL("clicked()"), ParticleScriptDialog.onLoadCustom)
-        QtCore.QObject.connect(self.btnSave, QtCore.SIGNAL("clicked()"), ParticleScriptDialog.onSave)
-        QtCore.QObject.connect(self.btnSaveAs, QtCore.SIGNAL("clicked()"), ParticleScriptDialog.onSaveAs)
         QtCore.QMetaObject.connectSlotsByName(ParticleScriptDialog)
 
     def retranslateUi(self, ParticleScriptDialog):
         ParticleScriptDialog.setWindowTitle(QtGui.QApplication.translate("ParticleScriptDialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabInit), QtGui.QApplication.translate("ParticleScriptDialog", "Init script", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabRender), QtGui.QApplication.translate("ParticleScriptDialog", "Render script", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnSave.setText(QtGui.QApplication.translate("ParticleScriptDialog", "Save", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnLoadState.setText(QtGui.QApplication.translate("ParticleScriptDialog", "Load from state", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnSaveAs.setText(QtGui.QApplication.translate("ParticleScriptDialog", "Save as", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnLoad.setText(QtGui.QApplication.translate("ParticleScriptDialog", "Load custom script", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnOpen.setText(QtGui.QApplication.translate("ParticleScriptDialog", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnSaveAs.setText(QtGui.QApplication.translate("ParticleScriptDialog", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnSave.setText(QtGui.QApplication.translate("ParticleScriptDialog", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnLoadFromState.setText(QtGui.QApplication.translate("ParticleScriptDialog", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnLoadCustom.setText(QtGui.QApplication.translate("ParticleScriptDialog", "...", None, QtGui.QApplication.UnicodeUTF8))
 
 from widgets.particlescripteditor import ParticleScriptEditor

@@ -19,7 +19,7 @@ local DATA = {
     { type = "float", name = "Lifetime min", value = 1, access = "TermMin", range = {min = 0} },
     { type = "float", name = "Lifetime max", value = 1, access = "TermMax", range = {min = 0} },
     { type = "list",  name = "Next", value = 0, access = "Next", choices = {} },
-    { type = "bool",  name = "Use custom script", value = 0, access = "UserScript" },
+    { type = "bool",  name = "User script", value = 0, access = "UserScript" },
 }
 
 local counter = 1
@@ -143,11 +143,11 @@ function ParticleState:getRenderScript()
 end
 
 function ParticleState:getUserInitScript()
-    return self.userInitScript
+    return self.userInitScript or ''
 end
 
 function ParticleState:getUserRenderScript()
-    return self.userRenderScript
+    return self.userRenderScript or ''
 end
 
 function ParticleState:getParam(paramId)
@@ -161,6 +161,10 @@ function ParticleState:getParam(paramId)
 end
 
 function ParticleState:getRegisterCount()
+    if self.userScript ~= 0 then
+        return self.registerCount or 0
+    end
+
     local regCount = 0
     for _, comp in pairs(self.components) do
         regCount = regCount + comp:getRegisterCount()
@@ -244,6 +248,9 @@ function ParticleState:serializeIn(serializer, data)
         local comp = serializer:getObjectById(compId)
         table.insert(self.components, comp)
     end
+
+    self:setUserInitScript(data.initScript or '')
+    self:setUserRenderScript(data.renderScript or '')
 end
 
 function ParticleState:serializeOut(serializer, out)
@@ -263,6 +270,9 @@ function ParticleState:serializeOut(serializer, out)
     for _, comp in pairs(self.components) do
         table.insert(out.components, serializer:affirmObjectId(comp))
     end
+
+    out.initScript = self:getUserInitScript()
+    out.renderScript = self:getUserRenderScript()
 end
 
 function ParticleState:setForceParam(paramId, value)
@@ -329,7 +339,6 @@ function ParticleState:syncComponents()
     self.renderScript = table.concat(sim, '\n') .. '\nsprite()\n' .. table.concat(sprite, '\n')
 
     self:updateScripts()
-    require('ParticleEditor').updateRegCount()
 end
 
 
@@ -384,6 +393,16 @@ function ParticleState:updateScripts()
     log.info(initScript)
     log.info(renderScript)
     log.info(table.pretty(reg))
+
+    if self.userScript ~= 0 then
+        local c = 0
+        for k, v in pairs(reg.named) do
+            c = c + 1
+        end
+        self.registerCount = c
+    end
+
+    require('ParticleEditor').updateRegCount()
 end
 
 

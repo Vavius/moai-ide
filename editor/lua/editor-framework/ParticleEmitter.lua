@@ -29,6 +29,7 @@ local COMMON = {
     { type = "float",   name = "Angle max", value = 0, access = "AngleMax" },
     { type = "float",   name = "Velocity min", value = 0, access = "MagnitudeMin" },
     { type = "float",   name = "Velocity max", value = 0, access = "MagnitudeMax" },
+    { type = "float",   name = "Duration", value = 0, access = "Duration" },
     { type = "list",    name = "Shape", value = SHAPE_RECT, choices = {'Rect', 'Circle'}, access = "Shape" },
 }
 
@@ -108,8 +109,14 @@ end
 
 function ParticleEmitter:init()
     local emitter = MOAIParticleTimedEmitter.new()
-    emitter:start()
     self.emitter = emitter
+
+    local timer = MOAITimer.new()
+    emitter:attach(timer)
+    timer:setSpan(1)
+    timer:setMode(MOAITimer.LOOP)
+    timer:start()
+    self.timer = timer
 
     self.angle = {0, 0}
     self.loc = {0, 0}
@@ -165,7 +172,7 @@ function ParticleEmitter:initGizmos()
 end
 
 function ParticleEmitter:destroy()
-    self.emitter:stop()
+    self.timer:stop()
     self.emitter:setSystem()
 
     self.gizmoCircleMin.prop:setLayer()
@@ -237,6 +244,14 @@ function ParticleEmitter:setParticleSystem(system)
     self.emitter:setSystem(system)
 end
 
+function ParticleEmitter:start()
+    self.timer:start()
+end
+
+function ParticleEmitter:stop()
+    self.timer:stop()
+end
+
 
 --============================================================================--
 -- Attribute accessors
@@ -260,6 +275,10 @@ end
 
 function ParticleEmitter:getEmissionMin()
     return self.emission[1]
+end
+
+function ParticleEmitter:getDuration()
+    return self.duration
 end
 
 function ParticleEmitter:getFrequencyMax()
@@ -339,6 +358,17 @@ function ParticleEmitter:setBottom(value)
     if self.shape == SHAPE_RECT then
         self.emitter:setRect(unpack(self.rect))
         self:showGizmos()
+    end
+end
+
+function ParticleEmitter:setDuration(value)
+    self.duration = value
+    if value <= 0 then
+        self.timer:setSpan(1)
+        self.timer:setMode(MOAITimer.LOOP)
+    else
+        self.timer:setSpan(value)
+        self.timer:setMode(MOAITimer.NORMAL)
     end
 end
 

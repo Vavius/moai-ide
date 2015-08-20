@@ -423,6 +423,20 @@ function ParticleEditor.setUserRenderScript(stateId, script)
 	end
 end
 
+function ParticleEditor.startEmitter(emitterId)
+	local emitter = emitters[emitterId]
+	if emitter then
+		emitter:start()
+	end
+end
+
+function ParticleEditor.stopEmitter(emitterId)
+	local emitter = emitters[emitterId]
+	if emitter then
+		emitter:stop()
+	end
+end
+
 
 function ParticleEditor.updateRegCount()
 	local regCount = 0
@@ -430,6 +444,7 @@ function ParticleEditor.updateRegCount()
 		regCount = math.max(regCount, s:getRegisterCount())
 	end
 
+	log.info("REGISTERS", regCount)
 	if regCount ~= regMax then
 		regMax = regCount
 		ParticleEditor.setParticleLimit(particleLimit)
