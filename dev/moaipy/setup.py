@@ -99,6 +99,7 @@ lib_nojit = [
     'lib/libfmod.dylib'
 ]
 
+
 particle_presets_src = ["/Users/vavius/moai/projects/digger/cpp/ParticlePresets.cpp"]
 particle_presets_includes = ["/Users/vavius/moai/projects/digger/cpp/"]
 
@@ -131,7 +132,7 @@ setup(
             include_dirs=[
             # '/Users/vavius/moai/moai-new/3rdparty/LuaJIT-2.0.3/src/',
             '/Users/vavius/moai/moai-dev/src/',
-            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.3/src/',
+            '/Users/vavius/moai/moai-dev/3rdparty/lua-5.1.5/src/',
             '/Users/vavius/moai/projects/digger/cpp/'
             ])
     ]

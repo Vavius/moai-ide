@@ -95,13 +95,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="lblNodeMgr">
-      <property name="text">
-       <string>Node Mgr time:</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="1">
      <widget class="QLabel" name="valueActionTree">
       <property name="text">
@@ -109,8 +102,43 @@
       </property>
      </widget>
     </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="lblNodeMgr">
+      <property name="text">
+       <string>Node Mgr time:</string>
+      </property>
+     </widget>
+    </item>
     <item row="6" column="1">
      <widget class="QLabel" name="valueNodeMgr">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="lblSimTime">
+      <property name="text">
+       <string>Sim time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLabel" name="valueSim">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="lblRenderTime">
+      <property name="text">
+       <string>Render time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QLabel" name="valueRender">
       <property name="text">
        <string>TextLabel</string>
       </property>

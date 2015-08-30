@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'environmentdock.ui'
 #
-# Created: Mon Apr 13 14:03:31 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.1
+# Created: Thu Aug 20 12:59:55 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 

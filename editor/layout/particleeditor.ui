@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>particleEditor</class>
+ <widget class="QDockWidget" name="particleEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>364</width>
+    <height>796</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Particle Editor</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Particle System</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblMaxParticles">
+         <property name="text">
+          <string>Particle limit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="editParticleLimit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblMaxSprites">
+         <property name="text">
+          <string>Sprite limit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="editSpriteLimit"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="chkReverseDraw">
+         <property name="text">
+          <string>Reverse draw order</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="chkWrapSprites">
+         <property name="text">
+          <string>Wrap sprites</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="chkWrapParticles">
+         <property name="text">
+          <string>Wrap particles</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QPushButton" name="btnTexture">
+         <property name="text">
+          <string>Load texture atlas</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="btnLoadImage">
+         <property name="text">
+          <string>Load image</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QToolButton" name="btnBgColor">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="lblColor">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Background color</string>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="buddy">
+          <cstring>btnBgColor</cstring>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Emitters</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="btnAddEmitter">
+         <property name="text">
+          <string>Add emitter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="btnDeleteEmitter">
+         <property name="text">
+          <string>Remove emitter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QListWidget" name="listEmitter">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="resizeMode">
+          <enum>QListView::Adjust</enum>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="btnEmitterStart">
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="btnEmitterStop">
+         <property name="text">
+          <string>Stop</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Particle States</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="btnAddState">
+         <property name="text">
+          <string>Add state</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QComboBox" name="cmbComponent"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="btnAddComponent">
+         <property name="text">
+          <string>Add component</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="btnDeleteState">
+         <property name="text">
+          <string>Remove state</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QListWidget" name="listState">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="resizeMode">
+          <enum>QListView::Adjust</enum>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="btnRemoveComponent">
+         <property name="text">
+          <string>Remove component</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnAddComponent</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onNewComponent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>728</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAddEmitter</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onNewEmitter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>446</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAddState</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onNewState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>694</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeleteEmitter</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onDeleteEmitter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>446</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnDeleteState</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onDeleteState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>694</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnTexture</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onLoadAtlas()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkReverseDraw</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onReverseDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkWrapParticles</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onWrapParticles(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkWrapSprites</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onWrapSprites(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>145</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editParticleLimit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEditParticleLimit(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editSpriteLimit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEditSpriteLimit(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listEmitter</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEmitterClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>336</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listState</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onStateClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnBgColor</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onBgColorClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>232</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnRemoveComponent</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onDeleteComponent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>744</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnLoadImage</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onLoadImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnEmitterStart</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEmitterStart()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>490</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnEmitterStop</sender>
+   <signal>clicked()</signal>
+   <receiver>particleEditor</receiver>
+   <slot>onEmitterStop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>490</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onNewComponent()</slot>
+  <slot>onNewState()</slot>
+  <slot>onNewEmitter()</slot>
+  <slot>onDeleteEmitter()</slot>
+  <slot>onDeleteState()</slot>
+  <slot>onLoadAtlas()</slot>
+  <slot>onReverseDraw(bool)</slot>
+  <slot>onWrapParticles(bool)</slot>
+  <slot>onWrapSprites(bool)</slot>
+  <slot>onEditParticleLimit(QString)</slot>
+  <slot>onEditSpriteLimit(QString)</slot>
+  <slot>onEmitterClick()</slot>
+  <slot>onStateClick()</slot>
+  <slot>onBgColorClick()</slot>
+  <slot>onDeleteComponent()</slot>
+  <slot>onLoadImage()</slot>
+  <slot>onEmitterStart()</slot>
+  <slot>onEmitterStop()</slot>
+ </slots>
+</ui>

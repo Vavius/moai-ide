@@ -42,10 +42,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_project"/>
     <addaction name="actionOpen_project"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_project"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -119,6 +117,11 @@
     <string>Ctrl+R</string>
    </property>
   </action>
+  <action name="actionParicle_Editor">
+   <property name="text">
+    <string>Paricle Editor</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../resources.qrc"/>
@@ -156,6 +159,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionParicle_Editor</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>launchParticleEditor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>415</x>
+     <y>393</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showOpenFileDialog()</slot>
@@ -165,5 +184,6 @@
   <slot>setAutoreloadFull(bool)</slot>
   <slot>updateDeviceList()</slot>
   <slot>setCurrentDevice(int)</slot>
+  <slot>launchParticleEditor()</slot>
  </slots>
 </ui>

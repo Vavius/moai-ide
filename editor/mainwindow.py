@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys
 
@@ -23,7 +23,10 @@ from environmentdock import EnvironmentDock
 from debugdock import DebugDock
 from profilerdock import ProfilerDock
 from statsdock import StatsDock
+from particleeditordock import ParticleEditorDock
+from particleparamsdock import ParticleParamsDock
 
+import qdarkstyle
 from colorama import Fore, Back, Style
 from time import strftime
 
@@ -31,6 +34,8 @@ import luainterface
 import locale
 
 colorPrintEnabled = True
+
+rootPath = os.path.dirname(os.path.abspath(__file__))
 
 def tracebackFunc(trace):
     if colorPrintEnabled:
@@ -72,6 +77,10 @@ class MainWindow(QMainWindow):
         self.ui =  ui
         self.ui.setupUi(self)
 
+        QtCore.QCoreApplication.instance().mainWindow = self
+
+        self.setDockNestingEnabled(True)
+
         self.moaiWidget = MOAIWidget()
 
         self.scrollArea = QtGui.QScrollArea()
@@ -86,6 +95,8 @@ class MainWindow(QMainWindow):
         self.profilerDock = ProfilerDock(self)
         self.environmentDock = EnvironmentDock(self)
         self.statsDock = StatsDock(self)
+        self.particleParamsDock = ParticleParamsDock(self)
+        self.particleEditorDock = ParticleEditorDock(self)
 
         # self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.consoleDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.outlinerDock)
@@ -93,31 +104,51 @@ class MainWindow(QMainWindow):
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.debugDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.profilerDock)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.statsDock)
+        self.tabifyDockWidget(self.environmentDock, self.particleEditorDock)
+        self.tabifyDockWidget(self.debugDock, self.particleParamsDock)
 
         actionOutliner = self.outlinerDock.toggleViewAction()
         actionEnvironment = self.environmentDock.toggleViewAction()
         actionDebug = self.debugDock.toggleViewAction()
         actionProfiler = self.profilerDock.toggleViewAction()
         actionStats = self.statsDock.toggleViewAction()
+        actionParticleEditor = self.particleEditorDock.toggleViewAction()
+        actionParticleParams = self.particleParamsDock.toggleViewAction()
 
         self.outlinerDock.hide()
         self.consoleDialog.hide()
         self.debugDock.hide()
         self.profilerDock.hide()
         self.statsDock.hide()
+        self.particleEditorDock.hide()
+        self.particleParamsDock.hide()
 
         ui.menuWindow.addAction(actionOutliner)
         ui.menuWindow.addAction(actionEnvironment)
         ui.menuWindow.addAction(actionDebug)
         ui.menuWindow.addAction(actionProfiler)
         ui.menuWindow.addAction(actionStats)
+        ui.menuWindow.addAction(actionParticleEditor)
+        ui.menuWindow.addAction(actionParticleParams)
         ui.menuWindow.addSeparator()
         ui.menuWindow.addAction(QtGui.QAction('&Console', self, statusTip="Open console window", shortcut="Shift+Ctrl+C", triggered=self.showConsole))
 
-        self.viewMenu = self.menuBar().addMenu('&View')
-        self.viewMenu.addAction(QtGui.QAction('&Fullscreen on', self, statusTip="Enter Fullscreen", shortcut="Shift+Ctrl+F", triggered=self.fullscreen))
-        self.viewMenu.addSeparator()
-        self.viewMenu.addAction(QtGui.QAction('&Fullscreen off', self, statusTip="Exit Fullscreen", shortcut="Alt+Ctrl+F", triggered=self.normal))
+        self.viewMenu = QtGui.QMenu('&View')
+        self.menuBar().insertMenu(ui.menuHelp.menuAction(), self.viewMenu)
+        self.viewMenu.addAction(QtGui.QAction('&Fullscreen', self, statusTip="Enter Fullscreen", shortcut="Meta+Ctrl+F", triggered=self.toggleFullscreen))
+
+        defaultSkin = QtGui.QAction('Default', self, statusTip="Bright interface skin", triggered=self.setDefaultSkin)
+        nightSkin = QtGui.QAction('Night', self, statusTip="Dark interface skin", triggered=self.setNightSkin)
+        defaultSkin.setCheckable(True)
+        nightSkin.setCheckable(True)
+
+        self.actionGroupSkin = QtGui.QActionGroup(self)
+        self.actionGroupSkin.addAction(defaultSkin)
+        self.actionGroupSkin.addAction(nightSkin)
+
+        self.viewMenu.addSeparator().setText("Skin")
+        self.viewMenu.addAction(defaultSkin)
+        self.viewMenu.addAction(nightSkin)
 
         self.livereload = LiveReload()
         self.livereload.fullReloadFunc = self.reloadMoai
@@ -126,17 +157,22 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.updateLiveReload)
         self.timer.start(1000)
 
+        # disable focus border for all child widgets
+        widgets = self.findChildren(QtGui.QWidget)
+        for w in widgets:
+            w.setAttribute(QtCore.Qt.WA_MacShowFocusRect, False)
+
         self.runningFile = script
         self.workingDir = ""
         self.readSettings()
         if script:
             QtCore.QTimer.singleShot(0, self, QtCore.SLOT("reloadMoai()"))
 
-    def fullscreen(self):
-        self.setWindowState(QtCore.Qt.WindowFullScreen)
+    def toggleFullscreen(self):
+        state = self.windowState()
 
-    def normal(self):
-        self.setWindowState(QtCore.Qt.WindowNoState)
+        # xor to toggle
+        self.setWindowState(state ^ QtCore.Qt.WindowFullScreen)
 
     def showConsole(self):
         self.consoleDialog.show()
@@ -151,11 +187,16 @@ class MainWindow(QMainWindow):
     def readSettings(self):
         settings = QSettings()
 
+        self.useDarkSkin = settings.value("main/darkskin", False)
+        if self.useDarkSkin:
+            self.setNightSkin()
+
         self.restoreGeometry(settings.value("main/geometry"))
         self.restoreState(settings.value("main/windowState"))
-        
+
         self.environmentDock.readSettings()
         self.debugDock.readSettings()
+        self.particleEditorDock.readSettings()
 
         self.runAttempts = settings.value("main/openProjectAttempts", 0) + 1
         settings.setValue("main/openProjectAttempts", self.runAttempts)
@@ -170,16 +211,28 @@ class MainWindow(QMainWindow):
     def writeSettings(self):
         settings = QSettings()
 
+        settings.setValue("main/darkskin", self.useDarkSkin)
         settings.setValue("main/geometry", self.saveGeometry())
         settings.setValue("main/windowState", self.saveState())
         settings.setValue("main/currentFile", self.runningFile)
         settings.setValue("main/workingDir", self.workingDir)
         self.environmentDock.writeSettings()
         self.debugDock.writeSettings()
+        self.particleEditorDock.writeSettings()
+
+    @QtCore.Slot()
+    def setDefaultSkin(self):
+        self.useDarkSkin = False
+        self.setStyleSheet("")
+
+    @QtCore.Slot()
+    def setNightSkin(self):
+        self.useDarkSkin = True
+        self.setStyleSheet(qdarkstyle.load_stylesheet())
 
     @QtCore.Slot()
     def showOpenFileDialog(self):
-        fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", "~", "Lua source (*.lua )")
+        fileName, filt = QtGui.QFileDialog.getOpenFileName(self, "Run Script", self.workingDir or "~", "Lua source (*.lua )")
         if fileName:
             workingDir = os.path.dirname(fileName)
             luaFile = os.path.basename(fileName)
@@ -203,6 +256,15 @@ class MainWindow(QMainWindow):
     @QtCore.Slot(str)
     def onMessage(self, message):
         pass
+
+    @QtCore.Slot()
+    def launchParticleEditor(self):
+        fileName = os.path.join(rootPath, "lua/editor-framework/main.lua")
+        luaFile = os.path.basename(fileName)
+        workingDir = os.path.dirname(fileName)
+
+        self.openFile(luaFile, workingDir)
+        self.particleEditorDock.loadEditorScene(self.moaiWidget.lua)
 
     def resizeMoaiView(self, width, height):
         self.moaiWidget.resize(width, height)
@@ -274,6 +336,7 @@ if __name__ == '__main__':
     
     # mainWindow.show()
     mainWindow.showNormal()
+
 
     app.exec_()
     if colorPrintEnabled:

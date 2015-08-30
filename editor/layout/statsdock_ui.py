@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'statsdock.ui'
 #
-# Created: Mon Apr 13 14:03:31 2015
-#      by: pyside-uic 0.2.15 running on PySide 1.2.1
+# Created: Thu Aug 20 12:59:55 2015
+#      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -51,15 +51,27 @@ class Ui_statsdock(object):
         self.lblActionTree = QtGui.QLabel(self.dockWidgetContents)
         self.lblActionTree.setObjectName("lblActionTree")
         self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.lblActionTree)
-        self.lblNodeMgr = QtGui.QLabel(self.dockWidgetContents)
-        self.lblNodeMgr.setObjectName("lblNodeMgr")
-        self.formLayout.setWidget(6, QtGui.QFormLayout.LabelRole, self.lblNodeMgr)
         self.valueActionTree = QtGui.QLabel(self.dockWidgetContents)
         self.valueActionTree.setObjectName("valueActionTree")
         self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.valueActionTree)
+        self.lblNodeMgr = QtGui.QLabel(self.dockWidgetContents)
+        self.lblNodeMgr.setObjectName("lblNodeMgr")
+        self.formLayout.setWidget(6, QtGui.QFormLayout.LabelRole, self.lblNodeMgr)
         self.valueNodeMgr = QtGui.QLabel(self.dockWidgetContents)
         self.valueNodeMgr.setObjectName("valueNodeMgr")
         self.formLayout.setWidget(6, QtGui.QFormLayout.FieldRole, self.valueNodeMgr)
+        self.lblSimTime = QtGui.QLabel(self.dockWidgetContents)
+        self.lblSimTime.setObjectName("lblSimTime")
+        self.formLayout.setWidget(7, QtGui.QFormLayout.LabelRole, self.lblSimTime)
+        self.valueSim = QtGui.QLabel(self.dockWidgetContents)
+        self.valueSim.setObjectName("valueSim")
+        self.formLayout.setWidget(7, QtGui.QFormLayout.FieldRole, self.valueSim)
+        self.lblRenderTime = QtGui.QLabel(self.dockWidgetContents)
+        self.lblRenderTime.setObjectName("lblRenderTime")
+        self.formLayout.setWidget(8, QtGui.QFormLayout.LabelRole, self.lblRenderTime)
+        self.valueRender = QtGui.QLabel(self.dockWidgetContents)
+        self.valueRender.setObjectName("valueRender")
+        self.formLayout.setWidget(8, QtGui.QFormLayout.FieldRole, self.valueRender)
         statsdock.setWidget(self.dockWidgetContents)
 
         self.retranslateUi(statsdock)
@@ -78,7 +90,11 @@ class Ui_statsdock(object):
         self.lblTextureMemory.setText(QtGui.QApplication.translate("statsdock", "Texture Memory:", None, QtGui.QApplication.UnicodeUTF8))
         self.valeuTextureMemory.setText(QtGui.QApplication.translate("statsdock", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
         self.lblActionTree.setText(QtGui.QApplication.translate("statsdock", "Action Tree time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblNodeMgr.setText(QtGui.QApplication.translate("statsdock", "Node Mgr time:", None, QtGui.QApplication.UnicodeUTF8))
         self.valueActionTree.setText(QtGui.QApplication.translate("statsdock", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblNodeMgr.setText(QtGui.QApplication.translate("statsdock", "Node Mgr time:", None, QtGui.QApplication.UnicodeUTF8))
         self.valueNodeMgr.setText(QtGui.QApplication.translate("statsdock", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblSimTime.setText(QtGui.QApplication.translate("statsdock", "Sim time:", None, QtGui.QApplication.UnicodeUTF8))
+        self.valueSim.setText(QtGui.QApplication.translate("statsdock", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblRenderTime.setText(QtGui.QApplication.translate("statsdock", "Render time:", None, QtGui.QApplication.UnicodeUTF8))
+        self.valueRender.setText(QtGui.QApplication.translate("statsdock", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
 
