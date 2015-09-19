@@ -150,7 +150,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         self.windowReady = False
 
     def loadEditorFramework(self):
-        luaEditorFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/editor-framework/?.lua")        
+        luaEditorFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/editor-framework/?.lua")
         self.runString("package.path = '%s;' .. package.path" % luaEditorFrameworkPath)
         self.runString("""
             MOAIApp = MOAIApp or require ('MOAIApp')
@@ -158,7 +158,7 @@ class MOAIWidget(QtOpenGL.QGLWidget):
         """)
 
     def loadLuaFramework(self):
-        luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/src/?.lua")
+        luaFrameworkPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lua/moai-framework/mini/?.lua")
         self.runString("package.path = '%s;' .. package.path" % luaFrameworkPath)
         self.runString("""  require ('include')""" )
         self.coloredlog = ColoredLog(self.lua)

@@ -4,9 +4,9 @@
 --
 --------------------------------------------------------------------------------
 
-local Scene = require("core.Scene")
+local App = require("core.App")
 
-local ParticleEditorScene = class(Scene)
+local ParticleEditorScene = class()
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:addGizmo(gizmo)
@@ -15,13 +15,6 @@ end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:init(params)
-    Scene.init(self, params)
-
-    self:addEventListener(Event.ENTER, self.onEnter, self)
-    self:addEventListener(Event.EXIT, self.onExit, self)
-    self:addEventListener(Event.DID_EXIT, self.onDidExit, self)
-    self:addEventListener(Event.WILL_ENTER, self.onWillEnter, self)
-
     self:createLayer()
 end
 
@@ -36,43 +29,27 @@ function ParticleEditorScene:getSystem()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
--- called before transition
-function ParticleEditorScene:onWillEnter(event)
+function ParticleEditorScene:start()
+    RenderMgr:addChild(self.layer)
     self.system:start()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
--- called after transition
-function ParticleEditorScene:onEnter()
-
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
--- called before transition
-function ParticleEditorScene:onExit()
-
-end
-
--- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
--- called after transition
-function ParticleEditorScene:onDidExit()
+function ParticleEditorScene:stop()
     self.system:stop()
 end
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 function ParticleEditorScene:createLayer()
-    local layer = Display.Layer()
-
-    layer:setTouchEnabled(true)
-    self.layer = layer
-    self:addLayer(layer)
+    self.layer = MOAILayer.new()
+    self.layer:setViewport(App.viewport)
 
     self.color = MOAIColor.new()
     self.color:setColor(0, 0, 0, 1)
-    layer:setClearColor(self.color)
+    self.layer:setClearColor(self.color)
 
     local system = MOAIParticleSystem.new()
-    system:setLayer(layer)
+    system:setLayer(self.layer)
     self.system = system
 end
 
@@ -80,7 +57,6 @@ end
 function ParticleEditorScene:setBgColor(r, g, b, a)
     self.color:setColor(r, g, b, a)
 end
-
 
 
 return ParticleEditorScene

@@ -78,7 +78,7 @@ end
 function ParticleEditor.createScene()
 	scene = ParticleEditorScene()
 	system = scene:getSystem()
-	SceneMgr:pushScene(scene)
+	scene:start()
 end
 
 function ParticleEditor.duplicateState(idx)

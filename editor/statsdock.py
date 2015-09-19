@@ -29,6 +29,8 @@ class StatsDock(QDockWidget):
 
     def setLuaState(self, lua):
         self.statsFunc = lua.eval("""function()
+            local round = function(x, snap) return snap * math.floor(x / snap + 0.5) end
+
             local fps = MOAISim.getPerformance()
             local drawcalls = MOAIGfxDevice.getFrameBuffer():getPerformanceDrawCount()
             local luaCount = MOAISim.getLuaObjectCount()
@@ -38,8 +40,8 @@ class StatsDock(QDockWidget):
             local action = STATS and STATS.actionTree or 0
             local sim = STATS and STATS.simTime or 0
             local render = STATS and STATS.renderTime or 0
-            return math.round(fps, 0.1), drawcalls, luaCount, lua, texture, 
-                    math.round(node, 0.01), math.round(action, 0.01), math.round(sim, 0.01), math.round(render, 0.01)
+            return round(fps, 0.1), drawcalls, luaCount, lua, texture, 
+                    round(node, 0.01), round(action, 0.01), round(sim, 0.01), round(render, 0.01)
         end""")
 
         self.startFunc = lua.eval("""function()
